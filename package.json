@@ -1,0 +1,42 @@
+{
+  "name": "beatkcal",
+  "version": "1.0.0",
+  "description": "Social network with diets, trainings etc",
+  "author": "Mateusz Skibicki",
+  "engines": {
+    "node": "8.9.4"
+  },
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "babel-eslint": "^8.2.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
+    "express": "^4.16.3",
+    "gravatar": "^1.6.0",
+    "jsonwebtoken": "^8.2.0",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.0.12",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^9.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.9.1",
+    "nodemon": "^1.17.3",
+    "prettier": "^1.13.5"
+  }
+}
