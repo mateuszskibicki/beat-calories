@@ -11,6 +11,10 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
+	avatar: {
+		type: String,
+		default: 'http://riverfoxrealty.com/wp-content/uploads/2018/02/User-Default.jpg'
+	},
 	email: {
 		type: String,
 		required: true
@@ -19,13 +23,18 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
-	avatar: {
-		type: String
-	},
 	date: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	posts: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'posts'
+	}],
+	diets: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'diets'
+	}]
 });
 
 module.exports = User = mongoose.model('users', UserSchema);

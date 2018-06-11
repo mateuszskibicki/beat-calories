@@ -3,14 +3,6 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const DietSchema = new Schema({
-	userID: {
-		type: String,
-		required: true
-	},
-	userNickname: {
-		type: String,
-		required: true
-	},
 	title: {
 		type: String,
 		required: true
@@ -23,9 +15,23 @@ const DietSchema = new Schema({
 		type: String,
 		required: true
 	},
+	description: {
+		type: String,
+		required: true
+	},
+	tags: [{
+		type: String
+	}],
+	likes: [{
+		type: String
+	}],
 	date: {
 		type: Date,
 		default: Date.now
+	},
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'users'
 	}
 });
 
