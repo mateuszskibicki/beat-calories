@@ -15,8 +15,25 @@ router.get(
 	'/',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		Diet.find()
-			.then(diets => res.json(diets))
+		// find all and populate with user
+		// return just id, avatar, name and nickname of user
+		Diet.find().populate('user')
+			.then(diets => {
+				let allDiets = []; // empty array
+				diets.map(diet => { // map through array
+					let dietWithUser = {
+						...diet._doc,
+						user: {
+							_id: diet.user._id,
+							avatar: diet.user.avatar,
+							name: diet.user.name,
+							nickname: diet.user.nickname
+						}
+					};
+					allDiets.unshift(dietWithUser);
+				});
+				res.json(allDiets);
+			})
 			.catch(e => res.json(e));
 	});
 
@@ -41,6 +58,103 @@ router.get(
 					}
 				};
 				res.json(dietWithUser);
+			})
+			.catch(e => res.json(e));
+	});
+
+// @route   GET api/diets/tags/:tag
+// @desc    GET diet by tag
+// @access  Private
+router.get(
+	'/tags/:tag',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		// find all and populate with user
+		// return just id, avatar, name and nickname of user
+		// check if tags contain tag
+		Diet.find().populate('user')
+			.then(diets => {
+				let dietsByTags = []; // empty array
+				diets.map(diet => { // map through array
+					diet.tags.map((tag) => { // check if tags contains tag(req.params.tag)
+						if(tag === req.params.tag) { // return diet with user
+							let dietWithTagAndUser = {
+								...diet._doc,
+								user: {
+									_id: diet.user._id,
+									avatar: diet.user.avatar,
+									name: diet.user.name,
+									nickname: diet.user.nickname
+								}
+							};
+							dietsByTags.unshift(dietWithTagAndUser);
+						}
+					});
+				});
+				res.json(dietsByTags);
+			})
+			.catch(e => res.json(e));
+	});
+
+// @route   GET api/diets/kcal/:min/:max
+// @desc    GET diet by kcal min -> max
+// @access  Private
+router.get(
+	'/kcal/:min/:max',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		// find all and populate with user
+		// return just id, avatar, name and nickname of user
+		// check if kcal between min and max
+		Diet.find().populate('user')
+			.then(diets => {
+				let dietsByKcal = []; // empty array
+				diets.map(diet => { // map through array
+					parseInt(diet.kcal) >= parseInt(req.params.min) &&
+					parseInt(diet.kcal) <= parseInt(req.params.max) ?
+						dietsByKcal.unshift({
+							...diet._doc,
+							user: {
+								_id: diet.user._id,
+								avatar: diet.user.avatar,
+								name: diet.user.name,
+								nickname: diet.user.nickname
+							}
+						})
+						: null;
+				});
+				res.json(dietsByKcal);
+			})
+			.catch(e => res.json(e));
+	});
+
+// @route   GET api/diets/type/:type
+// @desc    GET diet by type
+// @access  Private
+router.get(
+	'/type/:type',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		// find all and populate with user
+		// return just id, avatar, name and nickname of user
+		// check if type is equal req.params.type
+		Diet.find().populate('user')
+			.then(diets => {
+				let dietsByTags = []; // empty array
+				diets.map(diet => { // map through array
+					diet.type === req.params.type ?
+						dietsByTags.unshift({
+							...diet._doc,
+							user: {
+								_id: diet.user._id,
+								avatar: diet.user.avatar,
+								name: diet.user.name,
+								nickname: diet.user.nickname
+							}
+						})
+						: null;
+				});
+				res.json(dietsByTags);
 			})
 			.catch(e => res.json(e));
 	});
@@ -93,6 +207,7 @@ router.post(
 
 		if(!_.isEmpty(req.body.tags)) {
 			dietTags = req.body.tags.trim().split(',');
+			dietTags = dietTags.map(diet => {return diet.trim();});
 		}
 
 		

@@ -1,3 +1,10 @@
+#######
+TODO :
+Update diet
+User model : populate with diets, social media, bio, private part with kg, age, address etc
+Change user and diet POST, main object on top and add properties to keys or check errors and than create object, same solution
+#######
+
 # BeatKcal **MERN** FullStack APP
 
 ## Mateusz Skibicki - 2018
@@ -33,6 +40,9 @@ Changes in my project:
 
 - / - GET all diets
 - /:id - GET one diet by ID
+- /tags/:tag - GET diets by tag
+- /kcal/:min/:max - GET diets by kcal min and max
+- /type/:type - GET diet by type
 - / - POST add diet and populate with user
 - /:id - DELETE diet by ID
 
@@ -58,6 +68,10 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
+	avatar: {
+		type: String,
+		default: 'http://riverfoxrealty.com/wp-content/uploads/2018/02/User-Default.jpg'
+	},
 	email: {
 		type: String,
 		required: true
@@ -66,13 +80,18 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
-	avatar: {
-		type: String
-	},
 	date: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	posts: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'posts'
+	}],
+	diets: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'diets'
+	}]
 });
 
 module.exports = User = mongoose.model('users', UserSchema);
