@@ -7,6 +7,7 @@ const validator = require('validator');
 
 // Post model
 const Diet = require('../../models/Diet');
+const User = require('../../models/User');
 
 // @route   GET api/diets
 // @desc    GET all diets
@@ -215,17 +216,108 @@ router.post(
 		if(!_.isEmpty(errors)) {
 			res.json(errors);
 		} else {
-			dietFields.userID = req.user._id;
-			dietFields.userNickname = req.user.nickname;
-			dietFields.userAvatar = req.user.avatar;
 			dietFields.title = req.body.title;
 			dietFields.kcal = req.body.kcal;
 			dietFields.type = req.body.type;
 			dietFields.description = req.body.description;
 			dietFields.user = req.user._id;
 			dietTags.length > 0 ? dietFields.tags = dietTags : '';
-			new Diet(dietFields).save().then(diet => res.json(diet));
+			new Diet(dietFields).save().then(diet => {
+				res.json(diet);
+				User.findById(req.user._id).then(user => {
+					let userWithDiet = user.diets.unshift(diet._id);
+					User.findByIdAndUpdate(
+						{_id: req.user._id},
+						{$set: user},
+						{new: true})
+						.then(res => console.log('Diet added'));
+				});
+			});
 		}
+	});
+
+
+// @route   POST update api/diets
+// @desc    Update diet
+// @access  Private
+router.post(
+	'/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		// required: title, kalories, type, description
+		// if tags >> comma separated values >> array
+		Diet.findOne({_id: req.params.id})
+			.then(diet => {
+				if (diet) {
+					if(diet.user.toString() === req.user._id.toString()){ // check if this is diet owner
+						let dietFields = {};
+						let dietTags = [];
+						let errors = {};
+				
+						if(_.isEmpty(req.body.title)) {
+							errors.title = 'Title is required.';
+						} else if (
+							req.body.title.trim().length < 5 || 
+							req.body.title.trim().length > 50) 
+						{
+							errors.title = 'Title length between 5 and 50 characters.';
+						}
+				
+						if(_.isEmpty(req.body.kcal)) {
+							errors.kcal = 'Kalories are required.';
+						} else if(!validator.isNumeric(req.body.kcal)){
+							errors.kcal = 'Fill with correct data.';
+						} else if (
+							Number(req.body.kcal) < 1000 || 
+						Number(req.body.kcal) > 10000) 
+						{
+							errors.kcal = 'Diets lower than 1000kcal or bigger than 10000kcal are unhelthy.';
+						}
+				
+						if(_.isEmpty(req.body.type)) {
+							errors.type = 'Type of diet is required.';
+						}
+			
+						if(_.isEmpty(req.body.description)) {
+							errors.description = 'Description is required.';
+						} else if (
+							req.body.description.trim().length < 50 ||
+						req.body.description.trim().length > 2000 
+						) {
+							errors.description = 'Description between 50 and 2000 characters.';
+						}
+			
+						if(!_.isEmpty(req.body.tags)) {
+							dietTags = req.body.tags.trim().split(',');
+							dietTags = dietTags.map(diet => {return diet.trim();});
+						}
+			
+					
+				
+						if(!_.isEmpty(errors)) {
+							res.json(errors);
+						} else {
+							dietFields.title = req.body.title;
+							dietFields.kcal = req.body.kcal;
+							dietFields.type = req.body.type;
+							dietFields.description = req.body.description;
+							dietFields.user = req.user._id;
+							dietTags.length > 0 ? dietFields.tags = dietTags : '';
+							Diet.findOneAndUpdate(
+								{_id: req.params.id},
+								{$set: dietFields},
+								{new: true}
+							)
+								.then(updatedDiet => res.json(updatedDiet));
+						}
+					} else {
+						res.status(400).json({auth: 'This is not your diet'});
+					}
+				} else {
+					res.status(404).json({success: false});
+				}
+			})
+			.catch(e => res.json({success: false}));
 	});
 
 // @route   DELETE api/diets/:id
@@ -236,13 +328,13 @@ router.delete(
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
 
-		let userID = req.user._id;
-
 		Diet.findById(req.params.id)
 			.then(diet => {
 				// if true this is your diet and you can delete this
-				if(userID.toString() === diet.userID.toString()) {
-					diet.remove().then(() => res.json({success: true}));
+				if(req.user._id.toString() === diet.user.toString()) {
+					diet.remove().then(() => {
+						res.json({success: true});
+					});
 				} else {
 					res.status(400).json({success: false});
 				}

@@ -11,10 +11,6 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
-	avatar: {
-		type: String,
-		default: 'http://riverfoxrealty.com/wp-content/uploads/2018/02/User-Default.jpg'
-	},
 	email: {
 		type: String,
 		required: true
@@ -22,6 +18,30 @@ const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: true
+	},
+	avatar: {
+		type: String,
+		default: 'http://riverfoxrealty.com/wp-content/uploads/2018/02/User-Default.jpg'
+	},
+	bio: {
+		type: String
+	},
+	social: {
+		facebook: {
+			type: String
+		},
+		twitter: {
+			type: String
+		},
+		instagram: {
+			type: String
+		},
+		linkedin: {
+			type: String
+		},
+		website: {
+			type: String
+		}
 	},
 	date: {
 		type: Date,
@@ -34,6 +54,10 @@ const UserSchema = new Schema({
 	diets: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'diets'
+	}],
+	recipes: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'recipes'
 	}]
 });
 

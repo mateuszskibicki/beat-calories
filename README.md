@@ -1,8 +1,7 @@
 #######
 TODO :
-Update diet
-User model : populate with diets, social media, bio, private part with kg, age, address etc
-Change user and diet POST, main object on top and add properties to keys or check errors and than create object, same solution
+work on avatar default
+User model or diffrent model maybe privateProfile part with kg, age, address etc
 #######
 
 # BeatKcal **MERN** FullStack APP
@@ -44,6 +43,7 @@ Changes in my project:
 - /kcal/:min/:max - GET diets by kcal min and max
 - /type/:type - GET diet by type
 - / - POST add diet and populate with user
+- /:id - POST update diet
 - /:id - DELETE diet by ID
 
 ## **/api/recipies**

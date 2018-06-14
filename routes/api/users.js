@@ -10,6 +10,7 @@ const validator = require('validator');
 
 // Load User model
 const User = require('../../models/User');
+const Recipe = require('../../models/Recipe');
 
 // @route   GET api/users/test
 // @desc    Tests users route
@@ -76,6 +77,38 @@ router.post('/register', (req, res) => {
 		// Validated
 		newUser.password2 = req.body.password2.trim();
 	}
+
+	let social = {};
+	req.body.facebook ? social.facebook = req.body.facebook.trim() : null;
+	req.body.twitter ? social.twitter = req.body.twitter.trim() : null;
+	req.body.instagram ? social.instagram = req.body.instagram.trim() : null;
+	req.body.linkedin ? social.linkedin = req.body.linkedin.trim() : null;
+	req.body.website ? social.website = req.body.website.trim() : null;
+
+	if(social.facebook) {
+		!validator.isURL(social.facebook) ? errors.facebook = 'Facebook URL is not valid.' : null; 
+	}
+
+	if(social.twitter) {
+		!validator.isURL(social.twitter) ? errors.twitter = 'Twitter URL is not valid.' : null; 
+	}
+
+	if(social.instagram) {
+		!validator.isURL(social.instagram) ? errors.instagram = 'Instagram URL is not valid.' : null; 
+	}
+
+	if(social.linkedin) {
+		!validator.isURL(social.linkedin) ? errors.linkedin = 'Facebook URL is not valid.' : null; 
+	}
+
+	if(social.website) {
+		!validator.isURL(social.website) ? errors.website = 'Website URL is not valid.' : null; 
+	}
+
+	let bio = '';
+	if(!_.isEmpty(req.body.bio)) {
+		bio = req.body.bio.trim();
+	}
 	
 	if (!_.isEmpty(errors)) {
 		return res.status(400).json(errors);
@@ -104,7 +137,9 @@ router.post('/register', (req, res) => {
 							nickname: newUser.nickname,
 							email: newUser.email,
 							password: newUser.password,
-							avatar: avatar
+							avatar: avatar,
+							social: social,
+							bio: bio
 						});
 		
 						//console.log(userData);
@@ -127,9 +162,6 @@ router.post('/register', (req, res) => {
 			}
 		});
 	}
-	
-
-
 });
 
 // @route   GET api/users/login
@@ -187,64 +219,30 @@ router.get(
 	'/current',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		res.json({
-			id: req.user.id,
-			name: req.user.name,
-			avatar: req.user.avatar,
-			nickname: req.user.nickname,
-		});
+		User.findById(req.user.id)
+			.populate('recipes')
+			.populate('diets')
+			.then(user => {
+				const userData = {
+					_id : user._id,
+					name: user.name,
+					nickname: user.nickname,
+					social: user.social,
+					avatar: user.avatar,
+					bio: user.bio,
+					date: user.date,
+					diets: user.diets,
+					numberOfDiets: user.diets.length,
+					posts: user.posts,
+					numberOfPosts: user.posts.length,
+					recipes: user.recipes,
+					numberOfRecipies: user.recipes.length
+				};
+
+				res.json(userData);
+			});
 	}
 );
-
-
-// @route   GET api/users/:id
-// @desc    Find user by ID
-// @access  Private
-router.get(
-	'/id/:id',
-	passport.authenticate('jwt', { session: false }),
-	(req, res) => {
-		User.findById(req.params.id).then(user => {
-			let errors = {};
-			if(user) {
-				const userToDisplay = {
-					name: user.name,
-					nickname: user.nickname,
-					avatar: user.avatar,
-					date: user.date,
-				};
-				res.json(userToDisplay);
-			} else {
-				res.status(404).json(errors.user = 'User not found.');
-			}
-		}
-		);
-	});
-
-
-// @route   GET api/users/:nickname
-// @desc    Find user by nickname
-// @access  Private
-router.get(
-	'nickname/:nickname',
-	passport.authenticate('jwt', { session: false }),
-	(req, res) => {
-		User.findOne({ nickname: req.params.nickname }).then(user => {
-			let errors = {};
-			if(user) {
-				const userToDisplay = {
-					name: user.name,
-					nickname: user.nickname,
-					avatar: user.avatar,
-					date: user.date,
-				};
-				res.json(userToDisplay);
-			} else {
-				res.status(404).json(errors.user = 'User not found.');
-			}
-		}
-		);
-	});
 
 // @route   GET api/users/all
 // @desc    Find all users
@@ -261,10 +259,84 @@ router.get(
 						name: user.name,
 						nickname: user.nickname,
 						avatar: user.avatar,
-						date: user.date,
+						date: user.date
 					});
 				});
 				res.json(usersToDisplay);
+			}
+			);
+	});
+
+
+// @route   GET api/users/:id
+// @desc    Find user by ID
+// @access  Private
+router.get(
+	'/id/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		User.findById(req.params.id)
+			.populate('diets')
+			.populate('recipes')
+			.then(user => {
+				let errors = {};
+				if(user) {
+					const userToDisplay = {
+						_id : user._id,
+						name: user.name,
+						nickname: user.nickname,
+						social: user.social,
+						avatar: user.avatar,
+						bio: user.bio,
+						date: user.date,
+						diets: user.diets,
+						numberOfDiets: user.diets.length,
+						posts: user.posts,
+						numberOfPosts: user.posts.length,
+						recipes: user.recipes,
+						numberOfRecipies: user.recipes.length
+					};
+					res.json(userToDisplay);
+				} else {
+					res.status(404).json(errors.user = 'User not found.');
+				}
+			}
+			);
+	});
+
+
+// @route   GET api/users/:nickname
+// @desc    Find user by nickname
+// @access  Private
+router.get(
+	'/:nickname',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		User.findOne({ nickname: req.params.nickname })
+			.populate('diets')
+			.populate('recipes')
+			.then(user => {
+				let errors = {};
+				if(user) {
+					const userToDisplay = {
+						_id : user._id,
+						name: user.name,
+						nickname: user.nickname,
+						social: user.social,
+						avatar: user.avatar,
+						bio: user.bio,
+						date: user.date,
+						diets: user.diets,
+						numberOfDiets: user.diets.length,
+						posts: user.posts,
+						numberOfPosts: user.posts.length,
+						recipes: user.recipes,
+						numberOfRecipies: user.recipes.length
+					};
+					res.json(userToDisplay);
+				} else {
+					res.status(404).json(errors.user = 'User not found.');
+				}
 			}
 			);
 	});
