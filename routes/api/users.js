@@ -10,13 +10,13 @@ const validator = require('validator');
 
 // Load User model
 const User = require('../../models/User');
-const Recipe = require('../../models/Recipe');
+const avatarDefault = 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
 
 // @route   GET api/users/test
 // @desc    Tests users route
 // @access  Public
-router.get('/test', (req, res) => {
-	res.json( res );
+router.post('/test', (req, res) => {
+	console.log(req.body);
 });
 
 // @route   POST api/users/register
@@ -45,7 +45,7 @@ router.post('/register', (req, res) => {
 	if(_.isEmpty(req.body.nickname)) {
 		errors.nickname = 'Nickname is required.';
 	} else if(req.body.nickname.trim().length < 6 || req.body.nickname.trim().length > 30) {
-		errors.name = 'Length between 6 and 30 characters.';
+		errors.nickname = 'Length between 6 and 30 characters.';
 	} else {
 		// Validated
 		newUser.nickname = req.body.nickname.trim();
@@ -109,6 +109,11 @@ router.post('/register', (req, res) => {
 	if(!_.isEmpty(req.body.bio)) {
 		bio = req.body.bio.trim();
 	}
+
+	// avatar
+	// if(!_.isEmpty(req.body.avatar)) {
+	// 	console.log(req.body.avatar);
+	// } 
 	
 	if (!_.isEmpty(errors)) {
 		return res.status(400).json(errors);
@@ -137,7 +142,7 @@ router.post('/register', (req, res) => {
 							nickname: newUser.nickname,
 							email: newUser.email,
 							password: newUser.password,
-							avatar: avatar,
+							avatar: avatarDefault,
 							social: social,
 							bio: bio
 						});
@@ -222,6 +227,7 @@ router.get(
 		User.findById(req.user.id)
 			.populate('recipes')
 			.populate('diets')
+			.populate('likedDiets')
 			.then(user => {
 				const userData = {
 					_id : user._id,
@@ -236,7 +242,8 @@ router.get(
 					posts: user.posts,
 					numberOfPosts: user.posts.length,
 					recipes: user.recipes,
-					numberOfRecipies: user.recipes.length
+					numberOfRecipies: user.recipes.length,
+					likedDiets: user.likedDiets
 				};
 
 				res.json(userData);

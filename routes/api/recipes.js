@@ -25,10 +25,40 @@ router.get(
 					let recipeWithUser = {
 						...recipe._doc,
 						user: {
-							_id: diet.user._id,
-							avatar: diet.user.avatar,
-							name: diet.user.name,
-							nickname: diet.user.nickname
+							_id: recipe.user._id,
+							avatar: recipe.user.avatar,
+							name: recipe.user.name,
+							nickname: recipe.user.nickname
+						}
+					};
+					allRecipes.unshift(recipeWithUser);
+				});
+				res.json(allRecipes);
+			})
+			.catch(e => res.json(e));
+	});
+
+
+// @route   GET api/recipes/:id
+// @desc    GET recipie by ID
+// @access  Private
+router.get(
+	'/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		// find all and populate with user
+		// return just id, avatar, name and nickname of user
+		Recipe.findById(req.params.id).populate('user')
+			.then(recipes => {
+				let allRecipes = []; // empty array
+				recipes.map(recipe => { // map through array
+					let recipeWithUser = {
+						...recipe._doc,
+						user: {
+							_id: recipe.user._id,
+							avatar: recipe.user.avatar,
+							name: recipe.user.name,
+							nickname: recipe.user.nickname
 						}
 					};
 					allRecipes.unshift(recipeWithUser);
@@ -154,23 +184,6 @@ router.post(
 					res.json({success: true});
 				});
 			}).catch(e => res.json(e));
-			// dietFields.title = req.body.title;
-			// dietFields.kcal = req.body.kcal;
-			// dietFields.type = req.body.type;
-			// dietFields.description = req.body.description;
-			// dietFields.user = req.user._id;
-			// dietTags.length > 0 ? dietFields.tags = dietTags : '';
-			// new Diet(dietFields).save().then(diet => {
-			// 	res.json(diet);
-			// 	User.findById(req.user._id).then(user => {
-			// 		let userWithDiet = user.diets.unshift(diet._id);
-			// 		User.findByIdAndUpdate(
-			// 			{_id: req.user._id},
-			// 			{$set: user},
-			// 			{new: true})
-			// 			.then(res => console.log('Diet added'));
-			// 	});
-			// });
 		}
 	});
 

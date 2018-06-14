@@ -47,7 +47,8 @@ router.get(
 	(req, res) => {
 		// find by ID and populate with user collection
 		// return just id, avatar, name and nickname of user
-		Diet.findById(req.params.id).populate('user')
+		Diet.findById(req.params.id)
+			.populate('user')
 			.then(diet => {
 				const dietWithUser = {
 					...diet._doc,
@@ -226,11 +227,7 @@ router.post(
 				res.json(diet);
 				User.findById(req.user._id).then(user => {
 					let userWithDiet = user.diets.unshift(diet._id);
-					User.findByIdAndUpdate(
-						{_id: req.user._id},
-						{$set: user},
-						{new: true})
-						.then(res => console.log('Diet added'));
+					user.save(userWithDiet);
 				});
 			});
 		}
@@ -320,6 +317,67 @@ router.post(
 			.catch(e => res.json({success: false}));
 	});
 
+// @route   POST api/diets/likes/:id
+// @desc    POST Like diet by ID
+// @access  Private
+router.post(
+	'/likes/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+
+		Diet.findById(req.params.id).then(diet => {
+			if(diet.likes.indexOf(req.user.id.toString()) === -1){
+				diet.likes.unshift(req.user.id.toString());
+				diet.save(() => console.log('liked')); //liked
+				User.findById(req.user.id).then(user => {
+					user.likedDiets.unshift(diet._id);
+					user.save();
+				});
+			} else {
+				diet.likes.splice(diet.likes.indexOf(req.user.id.toString()), 1);
+				diet.save(() => res.json({like: false})); //unliked
+			}
+		})
+			.catch(e => res.json(e));
+	});
+
+// @route   POST api/diets/comment/:id
+// @desc    POST Add comment to diet by ID
+// @access  Private
+router.post(
+	'/comments/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		let errors = {};
+
+		if(_.isEmpty(req.body.comment)) {
+			errors.comment = 'Comment body is required, 10-200 characters';
+		} else if (
+			req.body.comment.trim().length < 10 ||
+			req.body.comment.trim().length > 200 
+		) {
+			errors.comment = 'Length between 10 and 200 characters.';
+		}
+
+		if (!_.isEmpty(errors)) {
+			return res.json(errors);
+		}
+
+		Diet.findById(req.params.id).then(diet => {
+			let newComment = {
+				user : req.user._id,
+				body: req.body.comment,
+				nickname: req.user.nickname
+			};
+			diet.comments.unshift(newComment);
+
+			diet.save().then((diet) => res.json(diet));
+		})
+			.catch(e => res.json(e));
+	});
+
+
+
 // @route   DELETE api/diets/:id
 // @desc    DELETE diet by id
 // @access  Private
@@ -328,17 +386,22 @@ router.delete(
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
 
-		Diet.findById(req.params.id)
-			.then(diet => {
-				// if true this is your diet and you can delete this
-				if(req.user._id.toString() === diet.user.toString()) {
-					diet.remove().then(() => {
-						res.json({success: true});
+		Diet.findById(req.params.id).then(diet => {
+			// if true this is your diet and you can delete this
+			if(req.user._id.toString() === diet.user.toString()) {
+				diet.remove().then(() => {
+					res.json({success: true});
+					User.findById(req.user.id).then(user => {
+						let newUser = user;
+						let index = newUser.diets.indexOf(diet._id);
+						newUser.diets.splice(index, 1);
+						user.save(newUser);
 					});
-				} else {
-					res.status(400).json({success: false});
-				}
-			})
+				});
+			} else {
+				res.status(400).json({success: false});
+			}
+		})
 			.catch(e => res.json(e));
 	});
 

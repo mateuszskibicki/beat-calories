@@ -25,6 +25,24 @@ const DietSchema = new Schema({
 	likes: [{
 		type: String
 	}],
+	comments: [
+		{
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'users'
+			},
+			nickname: {
+				type: String
+			},
+			body: {
+				type: String
+			},
+			date: {
+				type: Date,
+				default: Date.now
+			}
+		}
+	],
 	date: {
 		type: Date,
 		default: Date.now

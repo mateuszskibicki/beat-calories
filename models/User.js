@@ -21,7 +21,7 @@ const UserSchema = new Schema({
 	},
 	avatar: {
 		type: String,
-		default: 'http://riverfoxrealty.com/wp-content/uploads/2018/02/User-Default.jpg'
+		required: true
 	},
 	bio: {
 		type: String
@@ -58,7 +58,11 @@ const UserSchema = new Schema({
 	recipes: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'recipes'
-	}]
+	}],
+	likedDiets: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'diets'
+	}],
 });
 
 module.exports = User = mongoose.model('users', UserSchema);

@@ -1,6 +1,12 @@
 #######
 TODO :
 work on avatar default
+likes diets*done and comments*done /
+
+likes recipies /
+
+likes inside profile\* done and populate, now change way how to send request with current user
+
 User model or diffrent model maybe privateProfile part with kg, age, address etc
 #######
 
@@ -29,7 +35,7 @@ Changes in my project:
 - /:nickname - GET user by nickname
 - /register - POST register user
 - /login - POST login user
-- /current - GET ID / name / nickname / avatar of current logged in user
+- /current - GET current logged user
 - /all - GET all users
 - /delete - Delete user req.user.\_id
 
@@ -45,8 +51,13 @@ Changes in my project:
 - / - POST add diet and populate with user
 - /:id - POST update diet
 - /:id - DELETE diet by ID
+- /comments/:id - POST create comment, diet :id
+- /likes/:id - POST like on unlike diet
 
 ## **/api/recipies**
+
+- / - GET all recipes
+- / - POST add recipe
 
 ## **/api/trainings**
 
