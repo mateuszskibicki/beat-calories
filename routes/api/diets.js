@@ -328,14 +328,19 @@ router.post(
 		Diet.findById(req.params.id).then(diet => {
 			if(diet.likes.indexOf(req.user.id.toString()) === -1){
 				diet.likes.unshift(req.user.id.toString());
-				diet.save(() => console.log('liked')); //liked
+				diet.save(() => res.json({success: true})); //liked
 				User.findById(req.user.id).then(user => {
 					user.likedDiets.unshift(diet._id);
 					user.save();
 				});
 			} else {
 				diet.likes.splice(diet.likes.indexOf(req.user.id.toString()), 1);
-				diet.save(() => res.json({like: false})); //unliked
+				diet.save(() => res.json({success: false})); //unliked
+				User.findById(req.user.id).then(user => {
+					let dietIndex = user.likedDiets.indexOf(req.params.id);
+					dietIndex !== -1 ? user.likedDiets.splice(dietIndex, 1) : null;
+					user.save();
+				});
 			}
 		})
 			.catch(e => res.json(e));

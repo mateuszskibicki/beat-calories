@@ -51,7 +51,15 @@ const UserSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'posts'
 	}],
+	likedPosts: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'posts'
+	}],
 	diets: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'diets'
+	}],
+	likedDiets: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'diets'
 	}],
@@ -59,10 +67,18 @@ const UserSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'recipes'
 	}],
-	likedDiets: [{
+	likedRecipes: [{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'diets'
+		ref: 'recipes'
 	}],
+	trainings: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'trainings'
+	}],
+	likedTrainings: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'trainings'
+	}]
 });
 
 module.exports = User = mongoose.model('users', UserSchema);

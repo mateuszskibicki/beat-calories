@@ -48,16 +48,28 @@ Changes in my project:
 - /tags/:tag - GET diets by tag
 - /kcal/:min/:max - GET diets by kcal min and max
 - /type/:type - GET diet by type
-- / - POST add diet and populate with user
+- / - POST add diet
 - /:id - POST update diet
 - /:id - DELETE diet by ID
 - /comments/:id - POST create comment, diet :id
+
+\*\* delete diet !!!!
+
 - /likes/:id - POST like on unlike diet
 
 ## **/api/recipies**
 
 - / - GET all recipes
+- /:id - GET by ID
+- /tags/:tag - GET by 1 tag
+- /price/:price - GET by price
+- /lifestyle/:lifestyle - GET by lifestyle
 - / - POST add recipe
+- /:id - POST update recipe
+- /:id - DELETE recipe by ID
+- /comments/:id - POST create comment, recipe :id
+- /comments/:recipeID/:commentID - DELETE delete comment
+- /likes/:id - POST like on unlike recipe
 
 ## **/api/trainings**
 

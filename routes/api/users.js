@@ -228,6 +228,8 @@ router.get(
 			.populate('recipes')
 			.populate('diets')
 			.populate('likedDiets')
+			.populate({path: 'likedDiets', populate: {path: 'user'}})
+			.populate('likedRecipes')
 			.then(user => {
 				const userData = {
 					_id : user._id,
@@ -243,7 +245,10 @@ router.get(
 					numberOfPosts: user.posts.length,
 					recipes: user.recipes,
 					numberOfRecipies: user.recipes.length,
-					likedDiets: user.likedDiets
+					likedDiets: user.likedDiets,
+					likedPosts: user.likedPosts,
+					likedRecipes: user.likedRecipes,
+					likedTrainings: user.likedTrainings
 				};
 
 				res.json(userData);

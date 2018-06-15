@@ -60,17 +60,35 @@ const RecipeSchema = new Schema({
 	ingradients: [{
 		type: String
 	}],
-	likes: [{
-		type: String
-	}],
 	date: {
 		type: Date,
 		default: Date.now
 	},
+	likes: [{
+		type: String
+	}],
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'users'
-	}
+	},
+	comments: [
+		{
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'users'
+			},
+			nickname: {
+				type: String
+			},
+			body: {
+				type: String
+			},
+			date: {
+				type: Date,
+				default: Date.now
+			}
+		}
+	]
 });
 
 module.exports = Recipe = mongoose.model('recipes', RecipeSchema);
