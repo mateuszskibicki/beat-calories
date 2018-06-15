@@ -381,6 +381,43 @@ router.post(
 			.catch(e => res.json(e));
 	});
 
+// @route   DELETE api/diets/comments/:dietID/:commentID
+// @desc    DELETE comment in diet with diet id and comment id
+// @access  Private
+router.delete(
+	'/comments/:dietID/:commentID',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Diet.findById(req.params.dietID)
+			.then(diet => {
+				let commentToDelete = diet.comments.map(
+					comment => comment._id.toString() === req.params.commentID.toString() ?
+						diet.comments.indexOf(comment) :
+						null
+				);
+
+				commentToDelete.map(commentIndex => {
+					if (commentIndex !== null && commentIndex > -1) {
+						if (
+							diet.comments[commentIndex].user.toString() === req.user._id.toString()
+						) { // user id === comment.user.id
+							diet.comments.splice(commentIndex, 1);
+							diet.save().then(() => res.json({success: true}));
+						} else { // auth false
+							res.json({success: false});
+						}
+					} else {
+						res.json({
+							errors: 'There is no comment with this ID'
+						});
+					}
+				});
+				
+				
+			})
+			.catch(e => res.json(e));
+	});
+
 
 
 // @route   DELETE api/diets/:id

@@ -52,12 +52,10 @@ Changes in my project:
 - /:id - POST update diet
 - /:id - DELETE diet by ID
 - /comments/:id - POST create comment, diet :id
-
-\*\* delete diet !!!!
-
+- /comments/:dietID/:commentID - DELETE delete comment
 - /likes/:id - POST like on unlike diet
 
-## **/api/recipies**
+## **/api/recipes**
 
 - / - GET all recipes
 - /:id - GET by ID
@@ -91,10 +89,6 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
-	avatar: {
-		type: String,
-		default: 'http://riverfoxrealty.com/wp-content/uploads/2018/02/User-Default.jpg'
-	},
 	email: {
 		type: String,
 		required: true
@@ -102,6 +96,30 @@ const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: true
+	},
+	avatar: {
+		type: String,
+		required: true
+	},
+	bio: {
+		type: String
+	},
+	social: {
+		facebook: {
+			type: String
+		},
+		twitter: {
+			type: String
+		},
+		instagram: {
+			type: String
+		},
+		linkedin: {
+			type: String
+		},
+		website: {
+			type: String
+		}
 	},
 	date: {
 		type: Date,
@@ -111,12 +129,37 @@ const UserSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'posts'
 	}],
+	likedPosts: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'posts'
+	}],
 	diets: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'diets'
+	}],
+	likedDiets: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'diets'
+	}],
+	recipes: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'recipes'
+	}],
+	likedRecipes: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'recipes'
+	}],
+	trainings: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'trainings'
+	}],
+	likedTrainings: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'trainings'
 	}]
 });
 
 module.exports = User = mongoose.model('users', UserSchema);
+
 });
 ```

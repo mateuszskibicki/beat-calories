@@ -504,8 +504,8 @@ router.post(
 			.catch(e => res.json(e));
 	});
 
-// @route   POST api/diets/comment/:id
-// @desc    POST Add comment to diet by ID
+// @route   DELETE api/diets/comments/:recipeID/:commentID
+// @desc    DELETE comment in diet by recipe id and comment id
 // @access  Private
 router.delete(
 	'/comments/:recipeID/:commentID',
