@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 
 const InputForm = ({
-	label,
 	type,
 	placeholder,
 	name,
@@ -14,7 +13,6 @@ const InputForm = ({
 }) => {
 	return (
 		<div className="form-group">
-			<label>{icon && icon}{label}</label>
 			<input 
 				type={type} 
 				className="form-control" 

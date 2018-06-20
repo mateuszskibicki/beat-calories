@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import RightSideHeader from '../common/RightSideHeader';
-import DashboardContent from './DashboardContent';
 
 
 class Dashboard extends Component {
@@ -60,10 +58,8 @@ class Dashboard extends Component {
 		// }
 
 		return (
-			<div id="right-panel" className="right-panel">
-				<RightSideHeader />
-				<DashboardContent />
-				<p className="display-3">{user.name}</p>
+			<div id="dashboard">
+				this is dashboard
 			</div>
 		);
 	}

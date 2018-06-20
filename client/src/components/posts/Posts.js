@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import RightSideHeader from '../common/RightSideHeader';
-import PostsContent from './PostsContent';
 
 
 class Posts extends Component {
@@ -60,9 +58,8 @@ class Posts extends Component {
 		// }
 
 		return (
-			<div id="right-panel" className="right-panel">
-				<RightSideHeader />
-				<PostsContent />
+			<div id="posts">
+				posts
 			</div>
 		);
 	}

@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import RightSideHeader from '../common/RightSideHeader';
-import DietsContent from './DietsContent';
 //actions
 import {getDiets} from '../../actions/dietActions';
+import DietForm from './DietForm';
 
 
 class Diets extends Component {
@@ -33,10 +32,15 @@ class Diets extends Component {
 		const { diets, loading } = this.props.diet;
 
 		return (
-			<div id="right-panel" className="right-panel">
-				<RightSideHeader />
-				{this.state.diets}
-				<DietsContent />
+			<div id="diets" className="mt-5">
+				<div className="container-fluid">
+					<div className="row">
+						<div className="col-12 m-auto">
+							<DietForm />
+						</div>
+					</div>
+				</div>
+				
 			</div>
 		);
 	}

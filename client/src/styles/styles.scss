@@ -1,2 +1,7 @@
-@import './left-side/__left-side.scss';
-@import './right-side/__right-side.scss';
+@import './main/__variables.scss';
+@import './main/__main.scss';
+@import './pages/__login.scss';
+//components
+@import './components/__left-navbar.scss';
+@import './components/__top-navbar.scss';
+@import './components/__form.scss';

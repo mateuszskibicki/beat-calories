@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 
 const TextAreaForm = ({
-	label,
 	type,
 	placeholder,
 	name,
@@ -14,7 +13,6 @@ const TextAreaForm = ({
 }) => {
 	return (
 		<div className="form-group">
-			<label>{icon && icon}{label}</label>
 			<textarea 
 				type={type} 
 				className="form-control" 

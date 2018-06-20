@@ -1,0 +1,36 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* width */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  background: rgba($blue, .4);
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  background: $blue;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: darken($blue, 15%);
+}
+
+body {
+  background-color: $white-smoke;
+  font-family: $font-roboto;
+  width: 100%;
+  overflow-x: hidden;
+}

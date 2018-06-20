@@ -1,0 +1,171 @@
+.login-bg {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background: linear-gradient(51deg, $blue, $green-spring);
+  background-size: 400% 400%;
+  -webkit-animation: AnimationName 20s ease infinite;
+  -moz-animation: AnimationName 20s ease infinite;
+  animation: AnimationName 20s ease infinite;
+  @-webkit-keyframes AnimationName {
+    0% {
+      background-position: 0% 97%
+    }
+    50% {
+      background-position: 100% 4%
+    }
+    100% {
+      background-position: 0% 97%
+    }
+  }
+  @-moz-keyframes AnimationName {
+    0% {
+      background-position: 0% 97%
+    }
+    50% {
+      background-position: 100% 4%
+    }
+    100% {
+      background-position: 0% 97%
+    }
+  }
+  @keyframes AnimationName {
+    0% {
+      background-position: 0% 97%
+    }
+    50% {
+      background-position: 100% 4%
+    }
+    100% {
+      background-position: 0% 97%
+    }
+  }
+}
+
+button {
+  background-color: $green-spring;
+}
+
+.login-page {
+  max-width: 500px;
+  width: auto;
+  padding: 5% 0 0;
+  margin: auto;
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+  background: $white-smoke;
+  margin: 0 auto;
+  text-align: center;
+  padding: 45px;
+  box-shadow: $shadow-small;
+}
+
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: $white-smoke;
+  width: 100%;
+  border: 0;
+  margin: 0 0 0px;
+  padding: 15px;
+  font-size: 18px;
+  transition: .2s;
+  border-bottom: 3px $gray solid;
+  &:focus {
+    background: lighten($green-spring, 30%);
+    outline: none;
+    border-color: none;
+    box-shadow: none;
+    border-bottom: 3px $green-spring solid;
+  }
+}
+
+.form textarea {
+  background: $white-smoke;
+  &:focus {
+    background: lighten($green-spring, 30%);
+    outline: none;
+    border-color: none;
+    box-shadow: none;
+  }
+}
+
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+.form button:hover,
+.form button:active,
+.form button:focus {
+  background: #43A047;
+}
+
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.form .register-form {
+  display: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.container:before,
+.container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.container .info span .fa {
+  color: #EF3B3A;
+}

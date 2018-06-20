@@ -61,133 +61,129 @@ class Register extends Component {
 	render() {
 		const { errors } = this.state;
 
+
+
 		return (
-			<div className="container-fluid">
-				<div className="sufee-login d-flex align-content-center flex-wrap">
-					<div className="container">
-						<div className="login-content">
-							<div className="login-form">
-								<h1 className="display-4 text-center mb-4">Register</h1>
-								<p className="display-6 text-muted">* - required</p>
-								<form onSubmit={this.onSubmit}>
-									<InputForm
-										label = "		USER NAME *"
-										type = "text"
-										placeholder = "Full Name"
-										name = "name"
-										value = {this.state.name}
-										onChange = {this.onChange}
-										error = {errors.name}
-										icon = {<i className="fa fa-user-circle" aria-hidden="true"></i>}
-									/>
-									<InputForm
-										label = "NICKNAME *"
-										type = "text"
-										placeholder = "Your nickname"
-										name = "nickname"
-										value = {this.state.nickname}
-										onChange = {this.onChange}
-										error = {errors.nickname}
-									/>
-									<InputForm
-										label = "EMAIL ADDRESS *"
-										type = "email"
-										placeholder = "Email"
-										name = "email"
-										value = {this.state.email}
-										onChange = {this.onChange}
-										error = {errors.email}
-									/>
-									<InputForm
-										label = "PASSWORD *"
-										type = "password"
-										placeholder = "Password"
-										name = "password"
-										value = {this.state.password}
-										onChange = {this.onChange}
-										error = {errors.password}
-									/>
-									<InputForm
-										label = "CONFIRM PASSWORD *"
-										type = "password"
-										placeholder = "Confirm Password"
-										name = "password2"
-										value = {this.state.password2}
-										onChange = {this.onChange}
-										error = {errors.password2}	
-									/>
-									<InputForm
-										label = "		FACEBOOK"
-										type = "text"
-										placeholder = "Link to your Facebook account"
-										name = "facebook"
-										value = {this.state.facebook}
-										onChange = {this.onChange}
-										error = {errors.facebook}
-										icon = {<i className="fa fa-facebook-official" aria-hidden="true"></i>}
-									/>
-									<InputForm
-										label = "		INSTAGRAM"
-										type = "text"
-										placeholder = "Link to your Instagram account"
-										name = "instagram"
-										value = {this.state.instagram}
-										onChange = {this.onChange}
-										error = {errors.instagram}
-										icon = {<i className="fa fa-instagram" aria-hidden="true"></i>}
-									/>
-									<InputForm
-										label = "		TWITTER"
-										type = "text"
-										placeholder = "Link to your Twitter account"
-										name = "twitter"
-										value = {this.state.twitter}
-										onChange = {this.onChange}
-										error = {errors.twitter}
-										icon = {<i className="fa fa-twitter-square" aria-hidden="true"></i>}
-									/>
-									<InputForm
-										label = "		LINKEDIN"
-										type = "text"
-										placeholder = "Link to your LinkedIn account"
-										name = "linkedin"
-										value = {this.state.linkedin}
-										onChange = {this.onChange}
-										error = {errors.linkedin}
-										icon = {<i className="fa fa-linkedin-square" aria-hidden="true"></i>}
-									/>
-									<InputForm
-										label = "		DO YOU HAVE WEBSITE?"
-										type = "text"
-										placeholder = "Link to your website"
-										name = "website"
-										value = {this.state.website}
-										onChange = {this.onChange}
-										error = {errors.website}
-										icon = {<i className="fa fa-external-link" aria-hidden="true"></i>}
-									/>
-									<TextAreaForm
-										label = "		SAY SOMETHING ABOUT YOU"
-										type = "text"
-										placeholder = "Short bio"
-										name = "bio"
-										value = {this.state.bio}
-										onChange = {this.onChange}
-										error = {errors.bio}
-										icon = {<i className="fas fa-user-alt"></i>}
-									/>
-									
-									<button type="submit" className="btn btn-primary btn-flat m-b-30 m-t-30">Register</button>
-									<div className="register-link m-t-15 text-center">
-										<p>Already have account ? <Link to="/login"> Sign in</Link></p>
-									</div>
-								</form>
-							</div>
-						</div>
+			<div className="login-bg">
+				<div className="login-page mb-5">
+					<div className="form">
+						<form className="login-form" onSubmit={this.onSubmit} autoComplete="off">
+							<h4 className="display-3">Register</h4>
+							<p className="lead">* - required</p>
+							<hr />
+							<InputForm
+								type = "text"
+								placeholder = "Full Name *"
+								name = "name"
+								value = {this.state.name}
+								onChange = {this.onChange}
+								error = {errors.name}
+								icon = {<i className="fa fa-user-circle" aria-hidden="true"></i>}
+							/>
+							<InputForm
+								type = "text"
+								placeholder = "Your nickname *"
+								name = "nickname"
+								value = {this.state.nickname}
+								onChange = {this.onChange}
+								error = {errors.nickname}
+							/>
+							<InputForm
+								type = "email"
+								placeholder = "Email *"
+								name = "email"
+								value = {this.state.email}
+								onChange = {this.onChange}
+								error = {errors.email}
+							/>
+							<InputForm
+								type = "password"
+								placeholder = "Password *"
+								name = "password"
+								value = {this.state.password}
+								onChange = {this.onChange}
+								error = {errors.password}
+							/>
+							<InputForm
+								type = "password"
+								placeholder = "Confirm Password *"
+								name = "password2"
+								value = {this.state.password2}
+								onChange = {this.onChange}
+								error = {errors.password2}	
+							/>
+							<hr />
+							<p className="lead">This part is not required but I recommend to paste some info about you :)</p>
+							<hr />
+							<p>
+								<i className="fab fa-facebook-square mr-2 fa-lg"></i>
+								<i className="fab fa-instagram mr-2 fa-lg"></i>
+								<i className="fab fa-twitter-square mr-2 fa-lg"></i>
+								<i className="fab fa-linkedin mr-2 fa-lg"></i>
+								<i className="fas fa-paperclip mr-2 fa-lg"></i>
+								<i className="fas fa-user-circle mr-2 fa-lg"></i>
+
+							</p>
+							<InputForm
+								type = "text"
+								placeholder = "Link to your Facebook account"
+								name = "facebook"
+								value = {this.state.facebook}
+								onChange = {this.onChange}
+								error = {errors.facebook}
+							/>
+							<InputForm
+								type = "text"
+								placeholder = "Link to your Instagram account"
+								name = "instagram"
+								value = {this.state.instagram}
+								onChange = {this.onChange}
+								error = {errors.instagram}
+							/>
+							<InputForm
+								type = "text"
+								placeholder = "Link to your Twitter account"
+								name = "twitter"
+								value = {this.state.twitter}
+								onChange = {this.onChange}
+								error = {errors.twitter}
+							/>
+							<InputForm
+								type = "text"
+								placeholder = "Link to your LinkedIn account"
+								name = "linkedin"
+								value = {this.state.linkedin}
+								onChange = {this.onChange}
+								error = {errors.linkedin}
+							/>
+							<InputForm					
+								type = "text"
+								placeholder = "Link to your website"
+								name = "website"
+								value = {this.state.website}
+								onChange = {this.onChange}
+								error = {errors.website}
+							/>
+							<TextAreaForm	
+								type = "text"
+								placeholder = "Short bio"
+								name = "bio"
+								value = {this.state.bio}
+								onChange = {this.onChange}
+								error = {errors.bio}
+							/>
+							{!_.isEmpty(errors) ? (
+								<div className="alert alert-danger" role="alert">
+									Something went wrong, check your data.
+								</div>
+							) : null}
+							<button>register</button>
+							<p className="message">Already have account ? <Link to="/login">Sign in</Link></p>
+						</form>
 					</div>
 				</div>
 			</div>
-    
+
 		);
 	}
 }

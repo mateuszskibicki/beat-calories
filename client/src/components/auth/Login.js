@@ -14,6 +14,7 @@ class Login extends Component {
 			email: '',
 			password: '',
 			errors: {}
+			
 		};
 
 		this.onChange = this.onChange.bind(this);
@@ -54,45 +55,45 @@ class Login extends Component {
 	render() {
 		const { errors } = this.state;
 
+
 		return (
-			<div className="container-fluid">
-				<div className="sufee-login d-flex align-content-center flex-wrap">
-					<div className="container">
-						<div className="login-content">
-							<div className="login-form">
-								<h1 className="display-4 text-center mb-4">Login</h1>
-								<form onSubmit={this.onSubmit}>
-									<InputForm
-										label="Email Address"
-										type="email"
-										placeholder="Email"
-										name = "email"
-										value = {this.state.email}
-										onChange = {this.onChange}
-										error = {errors.email}
-									/>
-									<InputForm
-										label="Password"
-										type="password"
-										placeholder="Password"
-										name = "password"
-										value = {this.state.password}
-										onChange = {this.onChange}
-										error = {errors.password}
-									/>
-									<button type="submit" className="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
-									<div className="register-link m-t-15 text-center">
-										<p>Don't have account ? <Link to="/register"> Sign Up Here</Link></p>
-									</div>
-								</form>
-							</div>
-						</div>
+			<div className="login-bg">
+				<div className="login-page mb-5">
+					<div className="form">
+						<form className="login-form" onSubmit={this.onSubmit} autoComplete="off">
+							<h4 className="display-3">Login</h4>
+							<p className="lead">* - required</p>
+							<hr />
+							<InputForm
+								type="email"
+								placeholder="Email *"
+								name = "email"
+								value = {this.state.email}
+								onChange = {this.onChange}
+								error = {errors.email}
+								icon = {<i class="fab fa-facebook-square"></i>}
+							/>
+							<InputForm
+								type="password"
+								placeholder="Password *"
+								name = "password"
+								value = {this.state.password}
+								onChange = {this.onChange}
+								error = {errors.password}
+							/>
+							{!_.isEmpty(errors) ? (
+								<div className="alert alert-danger" role="alert">
+									Something went wrong, check your data.
+								</div>
+							) : null}
+							<button>login</button>
+							<p className="message">Not registered? <Link to="/register">Create an account</Link></p>
+						</form>
 					</div>
 				</div>
 			</div>
-		
-		
 		);
+
 	}
 }
 
@@ -108,3 +109,40 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {loginUser})(Login);
+
+
+// const component = (			<div className="container-fluid">
+// 	<div className="sufee-login d-flex align-content-center flex-wrap">
+// 		<div className="container">
+// 			<div className="login-content">
+// 				<div className="login-form">
+// 					<h1 className="display-4 text-center mb-4">Login</h1>
+// 					<form onSubmit={this.onSubmit}>
+// 						<InputForm
+// 							label="Email Address"
+// 							type="email"
+// 							placeholder="Email"
+// 							name = "email"
+// 							value = {this.state.email}
+// 							onChange = {this.onChange}
+// 							error = {errors.email}
+// 						/>
+// 						<InputForm
+// 							label="Password"
+// 							type="password"
+// 							placeholder="Password"
+// 							name = "password"
+// 							value = {this.state.password}
+// 							onChange = {this.onChange}
+// 							error = {errors.password}
+// 						/>
+// 						<button type="submit" className="btn btn-success btn-flat btn-block m-b-30 m-t-30">Sign in</button>
+// 						<div className="register-link m-t-15 text-center">
+// 							<p>Don't have account ? <Link to="/register"> Sign Up Here</Link></p>
+// 						</div>
+// 					</form>
+// 				</div>
+// 			</div>
+// 		</div>
+// 	</div>
+// </div>);

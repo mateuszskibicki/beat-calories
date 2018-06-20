@@ -9,30 +9,16 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import PrivateRoute from './components/common/PrivateRoute';
-// import Navbar from './components/layout/Navbar';
-// import Footer from './components/layout/Footer';
+//public routes
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import LeftSide from './components/leftSide/LeftSide';
+//private routes
+import LeftNavbar from './components/navbar/LeftNavbar';
+import TopNavbar from './components/navbar/TopNavbar';
 import Dashboard from './components/dashboard/Dashboard';
 import Posts from './components/posts/Posts';
 import Diets from './components/diets/Diets';
 import DietForm from './components/diets/DietForm';
-// import CreateProfile from './components/create-profile/CreateProfile';
-// import EditProfile from './components/edit-profile/EditProfile';
-// import AddExperience from './components/add-credentials/AddExperience';
-// import AddEducation from './components/add-credentials/AddEducation';
-// import Profiles from './components/profiles/Profiles';
-// import Profile from './components/profile/Profile';
-// import Posts from './components/posts/Posts';
-// import Post from './components/post/Post';
-// import NotFound from './components/not-found/NotFound';
-
-//assets template
-import './assets/css/normalize.css';
-import './assets/css/font-awesome.min.css';
-import './assets/css/style.css';
-import './assets/js/main';
 
 
 //Check for token
@@ -63,37 +49,60 @@ class App extends Component {
 			<Provider store={store}>
 				<Router>
 					<div className="App">
-						<Route exact path="/login" component={Login} />
-						<Route exact path="/register" component={Register} />	
-						<Switch>
-							<PrivateRoute path="/" component={LeftSide} />
-						</Switch>
-						<Switch>
-							<PrivateRoute exact path="/" component={Dashboard} />
-						</Switch>
-						<Switch>
-							<PrivateRoute exact path="/profile" component={Dashboard} />
-						</Switch>
-						<Switch>
-							<PrivateRoute exact path="/posts" component={Posts} />
-						</Switch>
+
 						{
-							// DIETS
+							// Public routes
 						}
-						<Switch>
-							<PrivateRoute exact path="/diets" component={Diets} />
-						</Switch>
-						<Switch>
-							<PrivateRoute exact path="/diets/add" component={DietForm} />
-						</Switch>
+
+						<Route exact path="/login" component={Login} />
+						<Route exact path="/register" component={Register} />
+
+						{
+							// Private routes
+						}
+						<div className="container-fluid p-0">
+							<div className="row">
+								<div className="col-12">
+									<Switch>
+										<PrivateRoute path="/" component={TopNavbar} />
+									</Switch>
+								</div>
+								<div className="col-12 col-sm-3 col-xl-2">
+									<Switch>
+										<PrivateRoute path="/" component={LeftNavbar} />
+									</Switch>
+								</div>
+								<div className="col-12 col-sm-9 col-xl-10">
+									<Switch>
+										<PrivateRoute exact path="/" component={Dashboard} />
+									</Switch>
+									<Switch>
+										<PrivateRoute exact path="/profile" component={Dashboard} />
+									</Switch>
+									<Switch>
+										<PrivateRoute exact path="/posts" component={Posts} />
+									</Switch>
+									{
+										// DIETS
+									}
+									<Switch>
+										<PrivateRoute exact path="/diets" component={Diets} />
+									</Switch>
+									<Switch>
+										<PrivateRoute exact path="/diets/add" component={DietForm} />
+									</Switch>
 
 
-						<Switch>
-							<PrivateRoute exact path="/recipes" component={Dashboard} />
-						</Switch>
-						<Switch>
-							<PrivateRoute exact path="/trainings" component={Dashboard} />
-						</Switch>
+									<Switch>
+										<PrivateRoute exact path="/recipes" component={Dashboard} />
+									</Switch>
+									<Switch>
+										<PrivateRoute exact path="/trainings" component={Dashboard} />
+									</Switch>
+								</div>
+							</div>
+
+						</div>
 					</div>
 				</Router>
 			</Provider>
