@@ -163,3 +163,28 @@ module.exports = User = mongoose.model('users', UserSchema);
 
 });
 ```
+
+# Front-End - **React / Redux / Axios** - dev on port 3000
+
+Main file client/src/App.js but render in index.js.
+
+##React
+
+##Redux
+Create store in **store.js**
+Get reducers from **reducers/index.js** (reducers change state in our redux app by actions)
+Actions in **actions** / redux-thunk (dispatch) -> async with axios
+Action returns props like this.props.errors etc
+
+##Template
+Always authenticated user >> redirect to :/ and visible component LeftSide (navbar)
+
+On rightSide :
+RightSideHeader
+Breadcrumbs
+
+```html
+<div className="content mt-3">
+	{content}
+</div>
+```

@@ -1,51 +1,82 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import PostForm from "./PostForm";
-import PostFeed from "./PostFeed";
-import Spinner from "../common/Spinner";
-import { getPosts } from "../../actions/postActions";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import RightSideHeader from '../common/RightSideHeader';
+import PostsContent from './PostsContent';
+
 
 class Posts extends Component {
-  componentDidMount() {
-    this.props.getPosts();
-  }
+	// componentDidMount() {
+	// 	this.props.getCurrentProfile();
+	// }
 
-  render() {
-    const { posts, loading } = this.props.post;
-    let postContent;
+	// onDeleteClick(e) {
+	// 	this.props.deleteAccount();
+	// }
 
-    if (posts === null || loading) {
-      postContent = <Spinner />;
-    } else {
-      postContent = <PostFeed posts={posts} />;
-    }
+	render() {
+		const { user } = this.props.auth;
+		// const { profile, loading } = this.props.profile;
 
-    return (
-      <div className="container">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <PostForm />
-              {postContent}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+		// let dashboardContent;
+
+		// if (profile === null || loading) {
+		// 	dashboardContent = <Spinner />;
+		// } else {
+		// 	// Check if logged in user has profile data
+		// 	if (Object.keys(profile).length > 0) {
+		// 		dashboardContent = (
+		// 			<div>
+		// 				<p className="lead text-muted">
+		//           Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+		// 				</p>
+		// 				<ProfileActions />
+		// 				<Experience experience={profile.experience} />
+		// 				<Education education={profile.education} />
+
+		// 				<div className="mb-5">
+		// 					<button
+		// 						onClick={this.onDeleteClick.bind(this)}
+		// 						className="btn btn-danger"
+		// 					>
+		//             Delete my account
+		// 					</button>
+		// 				</div>
+		// 			</div>
+		// 		);
+		// 	} else {
+		// 		// User is logged in but has no profile
+		// 		dashboardContent = (
+		// 			<div>
+		// 				<p className="lead text-muted">Welcome {user.name}</p>
+		// 				<p>You have not yet setup a profile, please add some info</p>
+		// 				<Link to="/create-profile" className="btn btn-lg btn-info">
+		//           Create Profile
+		// 				</Link>
+		// 			</div>
+		// 		);
+		// 	}
+		// }
+
+		return (
+			<div id="right-panel" className="right-panel">
+				<RightSideHeader />
+				<PostsContent />
+			</div>
+		);
+	}
 }
 
-Posts.propTypes = {
-  post: PropTypes.object.isRequired,
-  getPosts: PropTypes.func.isRequired
-};
+// Dashboard.propTypes = {
+// 	getCurrentProfile: PropTypes.func.isRequired,
+// 	deleteAccount: PropTypes.func.isRequired,
+// 	auth: PropTypes.object.isRequired,
+// 	profile: PropTypes.object.isRequired
+// };
 
 const mapStateToProps = state => ({
-  post: state.post
+	auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { getPosts }
-)(Posts);
+export default connect(mapStateToProps)(Posts);

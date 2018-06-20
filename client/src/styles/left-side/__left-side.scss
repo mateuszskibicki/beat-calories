@@ -1,0 +1,30 @@
+#left-panel {
+  width: 200px;
+  background-color: tomato;
+  .navbar {
+    background-color: tomato;
+  }
+  @media only screen and (max-width: 576px) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media only screen and (min-width: 576px) and (max-width: 768px) {
+    width: 70px;
+    padding: 0 5px;
+    .menu-text {
+      font-size: 9px;
+      display: flex;
+      justify-content: center;
+      justify-content: center;
+      flex-direction: column;
+      margin: auto;
+      text-align: center;
+      i {
+        font-size: 2.1rem;
+        text-align: center;
+        margin: auto;
+      }
+    }
+  }
+}
