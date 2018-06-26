@@ -50,9 +50,14 @@
     }
   }
   .nav-footer {
-    color: $white-smoke;
+    color: $dark;
     font-weight: 300;
     font-size: 13px;
     text-align: center;
+    a {
+      color: $white-smoke;
+      font-weight: 500;
+      background-color: $green-spring;
+    }
   }
 }

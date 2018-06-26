@@ -12,16 +12,16 @@ const initialState = {
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-	case GET_DIETS:
-		return {
-			...state,
-			loading: false,
-			diets: action.payload,	
-		};
 	case DIET_LOADING:
 		return {
 			...state,
 			loading: true
+		};
+	case GET_DIETS:
+		return {
+			...state,
+			loading: false,
+			diets: action.payload	
 		};
 	default:
 		return state;

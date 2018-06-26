@@ -183,8 +183,8 @@ On rightSide :
 RightSideHeader
 Breadcrumbs
 
-```html
-<div className="content mt-3">
-	{content}
-</div>
-```
+##Client routes
+/ - dashboard
+/posts - posts
+/diets - diets
+/recipes - recipes

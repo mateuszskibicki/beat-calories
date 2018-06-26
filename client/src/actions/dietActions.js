@@ -16,6 +16,16 @@ export const getDiets = () => dispatch => {
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
+// Add diet
+export const addDiet = (dietData) => dispatch => {
+	axios.post('/api/diets', dietData)
+		.then(() => {
+			dispatch(clearErrors());
+			dispatch(getDiets());
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
 // Diet loading
 export const dietLoading = () => {
 	return { type: DIET_LOADING };

@@ -18,7 +18,7 @@ router.get(
 	(req, res) => {
 		// find all and populate with user
 		// return just id, avatar, name and nickname of user
-		Diet.find().populate('user')
+		Diet.find().sort({date: 1}).populate('user')
 			.then(diets => {
 				let allDiets = []; // empty array
 				diets.map(diet => { // map through array
@@ -215,7 +215,7 @@ router.post(
 		
 	
 		if(!_.isEmpty(errors)) {
-			res.json(errors);
+			res.status(404).json(errors);
 		} else {
 			dietFields.title = req.body.title;
 			dietFields.kcal = req.body.kcal;
@@ -224,7 +224,7 @@ router.post(
 			dietFields.user = req.user._id;
 			dietTags.length > 0 ? dietFields.tags = dietTags : '';
 			new Diet(dietFields).save().then(diet => {
-				res.json(diet);
+				res.json({status: true});
 				User.findById(req.user._id).then(user => {
 					let userWithDiet = user.diets.unshift(diet._id);
 					user.save(userWithDiet);

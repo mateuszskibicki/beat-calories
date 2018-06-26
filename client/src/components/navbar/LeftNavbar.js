@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 class leftSide extends Component {
 
@@ -14,8 +14,8 @@ class leftSide extends Component {
 	}
 
 	addActive = (e) => {
-		document.querySelector('.active').classList.remove('active');
-		e.target.closest('.nav-link').classList.add('active');
+		// document.querySelector('.active').classList.remove('active');
+		// e.target.closest('.nav-link').classList.add('active');
 	}
 
 
@@ -26,7 +26,7 @@ class leftSide extends Component {
 				<h5 className="nav-heading">User content</h5>
 				<hr />
 
-				<Link className="nav-link pt-3 pb-3 active" to="/" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.addActive}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-columns"></i>
@@ -38,9 +38,9 @@ class leftSide extends Component {
 							<i className="fas fa-arrow-right d-none d-md-block"></i>
 						</div>
 					</div>
-				</Link>
+				</NavLink>
 
-				<Link className="nav-link pt-3 pb-3" to="/posts" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/posts" onClick={this.addActive}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="far fa-comment-alt"></i>
@@ -52,9 +52,9 @@ class leftSide extends Component {
 							<i className="fas fa-arrow-right d-none d-md-block"></i>
 						</div>
 					</div>
-				</Link>
+				</NavLink>
 
-				<Link className="nav-link pt-3 pb-3" to="/diets" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/diets" onClick={this.addActive}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-utensils"></i>
@@ -66,9 +66,9 @@ class leftSide extends Component {
 							<i className="fas fa-arrow-right d-none d-md-block"></i>
 						</div>
 					</div>
-				</Link>
+				</NavLink>
 
-				<Link className="nav-link pt-3 pb-3" to="/recipes" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/recipes" onClick={this.addActive}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="far fa-list-alt"></i>
@@ -80,9 +80,9 @@ class leftSide extends Component {
 							<i className="fas fa-arrow-right d-none d-md-block"></i>
 						</div>
 					</div>
-				</Link>
+				</NavLink>
 
-				<Link className="nav-link pt-3 pb-3" to="/trainings" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/trainings" onClick={this.addActive}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-heartbeat"></i>
@@ -94,12 +94,12 @@ class leftSide extends Component {
 							<i className="fas fa-arrow-right d-none d-md-block"></i>
 						</div>
 					</div>
-				</Link>
+				</NavLink>
 
 				<h5 className="nav-heading">Know your body</h5>
 				<hr />
 
-				<Link className="nav-link pt-3 pb-3" to="/" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.addActive}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-heartbeat"></i>
@@ -111,9 +111,9 @@ class leftSide extends Component {
 							<i className="fas fa-arrow-right d-none d-md-block"></i>
 						</div>
 					</div>
-				</Link>
+				</NavLink>
 
-				<Link className="nav-link pt-3 pb-3" to="/" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.addActive}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-heartbeat"></i>
@@ -125,13 +125,14 @@ class leftSide extends Component {
 							<i className="fas fa-arrow-right d-none d-md-block"></i>
 						</div>
 					</div>
-				</Link>
+				</NavLink>
 
 				<h5 className="nav-heading">About project</h5>
 				<hr />
 
 				<div className="nav-footer">
 					<p>2018 BeatCalories &copy; Mateusz Skibicki </p>
+					<p>Icons made by Freepik from <a href="https://www.flaticon.com" target="_blank">www.flaticon.com</a></p>
 				</div>
 
 

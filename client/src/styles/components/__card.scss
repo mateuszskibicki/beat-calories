@@ -1,0 +1,89 @@
+.card {
+  border: 0;
+  box-shadow: $shadow-small;
+}
+
+// $red-meat: #ff6347;
+// $green-vegan: #89da59;
+// $blue--vegetarian: #11998e;
+.card-diet {
+  margin: 40px 0px;
+  .card-img-top-bg {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%; // margin: auto;
+    // transform: translateY(-50%);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .card-img-top-bg-red {
+    background-color: $red-meat;
+  }
+  .card-img-top-bg-blue {
+    background-color: $blue-vegetarian;
+  }
+  .card-img-top-bg-green {
+    background-color: $green-vegan;
+  }
+  .card-img-top {
+    width: 70px;
+    height: 70px;
+  }
+  .card-body {
+    margin-top: 50px;
+  }
+  .tag {
+    color: $white-smoke;
+    font-weight: 500;
+    padding: 1px 5px;
+    margin-right: 5px;
+  }
+  .tag-red {
+    background-color: $red-meat;
+  }
+  .tag-green {
+    background-color: $green-vegan;
+  }
+  .tag-blue {
+    background-color: $blue-vegetarian;
+  }
+  button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    width: 100%;
+    margin-top: 0.7rem;
+    margin-bottom: 0.7rem;
+    border: 0;
+    padding: 14px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 900;
+    -webkit-transition: all 0.3 ease;
+    transition: 0.1s;
+    cursor: pointer;
+    &:hover {
+      outline: 0;
+      box-shadow: $shadow-small;
+      transform: scale(1.05);
+    }
+    &:active,
+    &:focus {
+      outline: 0;
+    }
+  }
+  .button-red {
+    background-color: $red-meat;
+  }
+  .button-green {
+    background-color: $green-vegan;
+  }
+  .button-blue {
+    background-color: $blue-vegetarian;
+    ;
+  }
+}

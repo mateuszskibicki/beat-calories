@@ -83,10 +83,10 @@ class Login extends Component {
 							/>
 							{!_.isEmpty(errors) ? (
 								<div className="alert alert-danger" role="alert">
-									Something went wrong, check your data.
+									Something went wrong, check your details.
 								</div>
 							) : null}
-							<button>login</button>
+							<button className="button-green">login</button>
 							<p className="message">Not registered? <Link to="/register">Create an account</Link></p>
 						</form>
 					</div>
