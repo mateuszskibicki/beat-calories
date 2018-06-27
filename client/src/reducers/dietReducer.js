@@ -1,6 +1,7 @@
 import {
 	GET_DIET,
 	GET_DIETS,
+	GET_DIET_BY_ID,
 	DIET_LOADING
 } from '../actions/types';
 
@@ -22,6 +23,12 @@ export default function(state = initialState, action) {
 			...state,
 			loading: false,
 			diets: action.payload	
+		};
+	case GET_DIET_BY_ID:
+		return {
+			...state,
+			loading: false,
+			diet: action.payload	
 		};
 	default:
 		return state;

@@ -1,5 +1,9 @@
+//main
 @import './main/__variables.scss';
 @import './main/__main.scss';
+//utils
+@import './utils/__typography.scss';
+//pages
 @import './pages/__login.scss';
 //components
 @import './components/__left-navbar.scss';
@@ -8,3 +12,4 @@
 @import './components/__button.scss';
 @import './components/__card.scss';
 @import './components/__user-content.scss';
+@import './components/__add-container.scss';

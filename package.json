@@ -1,7 +1,7 @@
 {
-  "name": "beatkcal",
+  "name": "beatcalories",
   "version": "1.0.0",
-  "description": "Social network with diets, trainings etc",
+  "description": "Social network with diets, trainings,recipes, posts.",
   "author": "Mateusz Skibicki",
   "engines": {
     "node": "8.9.4"

@@ -18,7 +18,7 @@ import TopNavbar from './components/navbar/TopNavbar';
 import Dashboard from './components/dashboard/Dashboard';
 import Posts from './components/posts/Posts';
 import Diets from './components/diets/Diets';
-import DietForm from './components/diets/DietForm';
+import DietSinglePage from './components/diets/DietSinglePage';
 
 
 //Check for token
@@ -88,7 +88,7 @@ class App extends Component {
 										<PrivateRoute exact path="/diets" component={Diets} />
 									</Switch>
 									<Switch>
-										<PrivateRoute exact path="/diets/add" component={DietForm} />
+										<PrivateRoute exact path="/diets/:id" component={DietSinglePage} />
 									</Switch>
 
 

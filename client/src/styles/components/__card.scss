@@ -8,6 +8,28 @@
 // $blue--vegetarian: #11998e;
 .card-diet {
   margin: 40px 0px;
+  .buttons-update-remove-diet {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 1.2rem;
+    top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    button {
+      margin: 2px 0px;
+      padding: 0;
+      width: 35px;
+      height: 35px;
+      border-radius: 100%;
+    }
+    .button-update {
+      background-color: $blue;
+    }
+    .button-remove {
+      background-color: $red;
+    }
+  }
   .card-img-top-bg {
     width: 100px;
     height: 100px;
@@ -35,6 +57,14 @@
   }
   .card-body {
     margin-top: 50px;
+    a,
+    a:link,
+    a:focus,
+    a:hover {
+      color: #6c757d;
+      text-decoration: none;
+      font-weight: 900;
+    }
   }
   .tag {
     color: $white-smoke;

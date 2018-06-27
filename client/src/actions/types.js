@@ -15,6 +15,7 @@ export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
 
 export const GET_DIET = 'GET_DIET';
+export const GET_DIET_BY_ID = 'GET_DIET_BY_ID';
 export const GET_DIETS = 'GET_DIETS';
 export const DIET_LOADING = 'DIET_LOADING';
 export const ADD_DIET = 'DIET_LOADING';

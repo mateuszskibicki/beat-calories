@@ -10,10 +10,6 @@ import {getDiets} from '../../actions/dietActions';
 import DietForm from './DietForm';
 import Chart from 'chart.js';
 
-//photo
-import photoCardDiet from '../../images/diet-card.jpg';
-import photoMeat from '../../images/diet-meat.png';
-
 
 class Diets extends Component {
 	constructor(props) {
@@ -25,7 +21,19 @@ class Diets extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(!_.isEmpty(nextProps.diet.diets)){
+		if(this.props !== nextProps){
+			document.getElementById('charts').innerHTML = `
+				<div class="row">
+					<div class="col-12 col-md-6 text-center">
+						<small><strong>BY TYPES</strong></small>
+						<canvas id="dietsChart" width="320" height="320"></canvas>
+					</div>		  
+					<div class="col-12 col-md-6 text-center">
+						<small><strong>BY CALORIES</strong></small>
+						<canvas id="kcalChart" width="320" height="320"></canvas>
+					</div>
+				</div>
+			`;
 			const {diets} = nextProps.diet;
 			let dietsMeat = 0;
 			let dietsVegetarian = 0;
@@ -125,36 +133,25 @@ class Diets extends Component {
 				<div className="container-fluid">
 					<div className="row">			
 						<div className="col-12 col-xl-4">
-							<div className="card">
-								<img className="card-img-top" src={photoCardDiet} alt="Card image cap" />
-								<div className="card-body">
-									<h3 className="text-center">Share your diets with us!</h3>
-									<div>
-										<button type="button" className="button-add-modal" data-toggle="modal" data-target="#dietModal">
-											ADD DIET
-										</button>
-										<div className="modal fade" id="dietModal" tabIndex={-1} role="dialog" aria-labelledby="dietModalLabel" aria-hidden="true">
-											<div className="modal-dialog" role="document">
-												<div className="modal-content modal-form">
-													<DietForm />
-												</div>
-											</div>
-										</div>
+							<div className="add-container add-container-diet">
+								<button type="button" className="button-add-modal" data-toggle="modal" data-target="#dietAddModal">
+									ADD DIET
+									<div className="d-block">
+										<i className="far fa-plus-square"></i>
+									</div>
+								</button>		
+							</div>
+							<div className="modal fade" id="dietAddModal" tabIndex={-1} role="dialog" aria-labelledby="dietAddModalLabel" aria-hidden="true">
+								<div className="modal-dialog" role="document">
+									<div className="modal-content modal-form">
+										<DietForm />
 									</div>
 								</div>
 							</div>
+
 						</div>
-						<div className="col-12 col-xl-8">
-							<div className="row">
-								<div className="col-12 col-md-6 text-center">
-									<small><strong>BY TYPES</strong></small>
-									<canvas id="dietsChart" width="320" height="320"></canvas>
-								</div>		  
-								<div className="col-12 col-md-6 text-center">
-									<small><strong>BY CALORIES</strong></small>
-									<canvas id="kcalChart" width="320" height="320"></canvas>
-								</div>
-							</div>
+						<div className="col-12 col-xl-8 mt-5" id="charts">
+
 						</div>			
 					</div>
 				</div>
