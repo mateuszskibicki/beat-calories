@@ -1,0 +1,27 @@
+.jumbotron-diet-meat {
+  background-image: url('./../images/diet-single-meat-bg.jpeg');
+  background-size: cover;
+  background-position: center;
+  box-shadow: $shadow-small;
+  * {
+    font-weight: 500;
+    color: $dark;
+  }
+  a,
+  a:focus,
+  a:active,
+  a:hover,
+  a:link {
+    color: $dark;
+    text-transform: none;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 110%;
+    outline: none;
+  }
+}
+
+.diet-text {
+  word-wrap: break-word;
+  white-space: pre-line;
+}

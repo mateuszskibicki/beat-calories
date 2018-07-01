@@ -44,6 +44,36 @@ export const deleteDiet = (id) => dispatch => {
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
+// Like diet
+export const likeDiet = (id) => dispatch => {
+	axios.post(`/api/diets/likes/${id}`)
+		.then(() => {
+			dispatch(getDietByID(id));
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Add comment to diet
+export const addComment = (id, data) => dispatch => {
+	dispatch(clearErrors());
+	axios.post(`/api/diets/comments/${id}`, data)
+		.then(() => {
+			dispatch(getDietByID(id));
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Add comment to diet
+export const deleteComment = (dietId, commentId) => dispatch => {
+	axios.delete(`/api/diets/comments/${dietId}/${commentId}`)
+		.then(() => {
+			dispatch(getDietByID(dietId));
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+
+
 // Diet loading
 export const dietLoading = () => {
 	return { type: DIET_LOADING };

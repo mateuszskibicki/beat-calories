@@ -5,6 +5,7 @@
 @import './utils/__typography.scss';
 //pages
 @import './pages/__login.scss';
+@import './pages/__diet-single.scss';
 //components
 @import './components/__left-navbar.scss';
 @import './components/__top-navbar.scss';
@@ -13,3 +14,5 @@
 @import './components/__card.scss';
 @import './components/__user-content.scss';
 @import './components/__add-container.scss';
+@import './components/__comment-container.scss';
+@import './components/__comment.scss';

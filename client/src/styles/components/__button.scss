@@ -24,3 +24,85 @@
     outline: 0;
   }
 }
+
+.btn-green {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  background-color: darken($green-spring, 20%);
+  color: #fff;
+  font-weight: 900;
+  outline: 0;
+  border: 0;
+  transition: .2s;
+  &:hover {
+    outline: 0;
+    background: darken($green-spring, 25%);
+    box-shadow: $shadow-small;
+    transform: scale(1.05);
+  }
+}
+
+.btn-red {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  background-color: $red;
+  color: #fff;
+  font-weight: 900;
+  outline: 0;
+  border: 0;
+  transition: .2s;
+  &:hover {
+    outline: 0;
+    background: darken($red, 10%);
+    box-shadow: $shadow-small;
+    transform: scale(1.05);
+  }
+}
+
+.button-like {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  cursor: pointer;
+  border: none;
+  box-shadow: $shadow-small;
+  background-color: rgba($red, .1);
+  font-size: 1.5rem;
+  transition: .2s;
+  &:hover {
+    background-color: rgba($red, .6);
+  }
+  &:link,
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+
+.button-liked {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  cursor: pointer;
+  border: none;
+  box-shadow: $shadow-small;
+  background-color: rgba($red, .7);
+  font-size: 2.4rem;
+  transition: .2s;
+  &:hover {
+    background-color: rgba($red, .3);
+  }
+  &:link,
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}

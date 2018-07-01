@@ -168,7 +168,7 @@ router.post(
 	'/',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		// required: title, kalories, type, description
+		// required: title, calories, type, description
 		// if tags >> comma separated values >> array
 		let dietFields = {};
 		let dietTags = [];
@@ -184,7 +184,7 @@ router.post(
 		}
 	
 		if(_.isEmpty(req.body.kcal)) {
-			errors.kcal = 'Kalories are required.';
+			errors.kcal = 'Calories are required.';
 		} else if(!validator.isNumeric(req.body.kcal)){
 			errors.kcal = 'Fill with correct data.';
 		} else if (
@@ -210,6 +210,7 @@ router.post(
 		if(!_.isEmpty(req.body.tags)) {
 			dietTags = req.body.tags.trim().split(',');
 			dietTags = dietTags.map(diet => {return diet.trim();});
+			dietTags = _.uniq(dietTags);
 		}
 
 		
@@ -241,7 +242,7 @@ router.post(
 	'/:id',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		// required: title, kalories, type, description
+		// required: title, calories, type, description
 		// if tags >> comma separated values >> array
 		Diet.findOne({_id: req.params.id})
 			.then(diet => {
@@ -261,7 +262,7 @@ router.post(
 						}
 				
 						if(_.isEmpty(req.body.kcal)) {
-							errors.kcal = 'Kalories are required.';
+							errors.kcal = 'Calories are required.';
 						} else if(!validator.isNumeric(req.body.kcal)){
 							errors.kcal = 'Fill with correct data.';
 						} else if (
@@ -287,6 +288,7 @@ router.post(
 						if(!_.isEmpty(req.body.tags)) {
 							dietTags = req.body.tags.trim().split(',');
 							dietTags = dietTags.map(diet => {return diet.trim();});
+							dietTags = _.uniq(dietTags);
 						}
 			
 					
@@ -356,29 +358,30 @@ router.post(
 		let errors = {};
 
 		if(_.isEmpty(req.body.comment)) {
-			errors.comment = 'Comment body is required, 10-200 characters';
+			errors.comment = 'Comment body is required, 10-300 characters';
 		} else if (
 			req.body.comment.trim().length < 10 ||
-			req.body.comment.trim().length > 200 
+			req.body.comment.trim().length > 300 
 		) {
-			errors.comment = 'Length between 10 and 200 characters.';
+			errors.comment = 'Length between 10 and 300 characters.';
 		}
 
 		if (!_.isEmpty(errors)) {
-			return res.json(errors);
+			res.status(400).json(errors);
+		} else {
+			Diet.findById(req.params.id).then(diet => {
+				let newComment = {
+					user : req.user._id,
+					body: req.body.comment,
+					nickname: req.user.nickname
+				};
+				diet.comments.unshift(newComment);
+	
+				diet.save().then((diet) => res.json(diet));
+			})
+				.catch(e => res.json(e));
 		}
 
-		Diet.findById(req.params.id).then(diet => {
-			let newComment = {
-				user : req.user._id,
-				body: req.body.comment,
-				nickname: req.user.nickname
-			};
-			diet.comments.unshift(newComment);
-
-			diet.save().then((diet) => res.json(diet));
-		})
-			.catch(e => res.json(e));
 	});
 
 // @route   DELETE api/diets/comments/:dietID/:commentID
