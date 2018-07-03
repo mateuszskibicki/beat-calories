@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 
-class Dashboard extends Component {
+class Users extends Component {
 
 	render() {
 		const { user } = this.props.auth;
@@ -14,7 +14,7 @@ class Dashboard extends Component {
 				<div className="mt-5">
 					<div className="container-fluid">
 						<div className="row">
-							<p className="display-4">Section DASHBOARD in progress, come back later <strong>{user.nickname}</strong>. Thank you.</p>
+							<p className="display-4">Section USERS in progress, come back later <strong>{user.nickname}</strong>. Thank you.</p>
 						</div>
 					</div>
 				</div>
@@ -23,12 +23,15 @@ class Dashboard extends Component {
 	}
 }
 
-Dashboard.propTypes = {
-	auth: PropTypes.object.isRequired
-};
+// Dashboard.propTypes = {
+// 	getCurrentProfile: PropTypes.func.isRequired,
+// 	deleteAccount: PropTypes.func.isRequired,
+// 	auth: PropTypes.object.isRequired,
+// 	profile: PropTypes.object.isRequired
+// };
 
 const mapStateToProps = state => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(Users);

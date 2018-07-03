@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {logoutUser} from '../../actions/authActions';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 class TopNavbar extends Component {
@@ -29,14 +30,27 @@ class TopNavbar extends Component {
   				</div>
   				<div className="col-8 col-sm-9 col-xl-10 right">
   					<div className="row">
-  						<div className="col-6 navbar-top-item text-center">
+  						<div className="col-6 navbar-top-item text-center d-sm-none">
   							<div onClick={this.showMenu} className="m-auto">
   								<i className="fas fa-bars m-auto d-block d-sm-none"></i>
   							</div>
   							
   						</div>
-  						<div className="col-6 navbar-top-item">
-  							<img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" onClick={this.logoutClick} alt="User avatar"/>
+  						<div className="col-6 col-sm-12 navbar-top-item">
+  							<div className="dropleft">
+  								<img 
+  									src={this.props.auth.user.avatar} 
+  									id="dropdownTopNavbar" 
+  									data-toggle="dropdown" 
+  									aria-haspopup="true" 
+  									aria-expanded="false"
+  									alt="User avatar"
+  								/>
+  								<div className="dropdown-menu" aria-labelledby="dropdownTopNavbar">
+  									<Link to={`/profile/${this.props.auth.user.nickname}`} className="dropdown-item">My profile</Link>
+  									<a className="dropdown-item" onClick={this.logoutClick}>Logout</a>
+  								</div>
+  						</div>
   						</div>
   					</div>
   				</div>
@@ -46,9 +60,15 @@ class TopNavbar extends Component {
   }
 }
 
+TopNavbar.propTypes = {
+	auth: PropTypes.object.isRequired,
+	logoutUser: PropTypes.func.isRequired
+};
+
+
+
 const mapStateToProps = state => ({
-	auth: state.auth,
-	errors: state.errors
+	auth: state.auth
 });
 
 export default connect(mapStateToProps , {logoutUser})(TopNavbar);

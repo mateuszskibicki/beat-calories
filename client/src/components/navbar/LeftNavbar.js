@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Link, NavLink} from 'react-router-dom';
+import {logoutUser} from '../../actions/authActions';
+import {NavLink} from 'react-router-dom';
+import LeftNavbarNavLink from './LeftNavbarNavLink';
 
 class leftSide extends Component {
 
-	constructor() {
-		super();
+	componentDidMount() {
+		document.querySelector('.fa-bars').click();
 	}
 
 	logoutClick = (e) => {
@@ -25,113 +27,77 @@ class leftSide extends Component {
 				<h5 className="nav-heading">User content</h5>
 				<hr />
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.hideNavbar}>
-					<div className="row">
-						<div className="col-2 nav-item">
-							<i className="fas fa-columns"></i>
-						</div>
-						<div className="col-7 nav-item pl-0">
-							<span>Dashboard</span>
-						</div>
-						<div className="col-2 nav-item">
-							<i className="fas fa-arrow-right d-none d-md-block"></i>
-						</div>
-					</div>
-				</NavLink>
+				<LeftNavbarNavLink 
+					to="/"
+					icon="fas fa-columns"
+					name="Dashboard"
+				/>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/posts" onClick={this.hideNavbar}>
-					<div className="row">
-						<div className="col-2 nav-item">
-							<i className="far fa-comment-alt"></i>
-						</div>
-						<div className="col-7 nav-item pl-0">
-							<span>Posts</span>
-						</div>
-						<div className="col-2 nav-item">
-							<i className="fas fa-arrow-right d-none d-md-block"></i>
-						</div>
-					</div>
-				</NavLink>
+				<LeftNavbarNavLink 
+					to="/users"
+					icon="fas fa-users"
+					name="Users"
+				/>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/diets" onClick={this.hideNavbar}>
-					<div className="row">
-						<div className="col-2 nav-item">
-							<i className="fas fa-utensils"></i>
-						</div>
-						<div className="col-7 nav-item pl-0">
-							<span>Diets</span>
-						</div>
-						<div className="col-2 nav-item">
-							<i className="fas fa-arrow-right d-none d-md-block"></i>
-						</div>
-					</div>
-				</NavLink>
+				<LeftNavbarNavLink 
+					to="/posts"
+					icon="far fa-comment-alt"
+					name="Posts"
+				/>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/recipes" onClick={this.hideNavbar}>
-					<div className="row">
-						<div className="col-2 nav-item">
-							<i className="far fa-list-alt"></i>
-						</div>
-						<div className="col-7 nav-item pl-0">
-							<span>Recipes</span>
-						</div>
-						<div className="col-2 nav-item">
-							<i className="fas fa-arrow-right d-none d-md-block"></i>
-						</div>
-					</div>
-				</NavLink>
+				<LeftNavbarNavLink 
+					to="/diets"
+					icon="fas fa-utensils"
+					name="Diets"
+				/>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/trainings" onClick={this.hideNavbar}>
-					<div className="row">
-						<div className="col-2 nav-item">
-							<i className="fas fa-heartbeat"></i>
-						</div>
-						<div className="col-7 nav-item pl-0">
-							<span>Trainings</span>
-						</div>
-						<div className="col-2 nav-item">
-							<i className="fas fa-arrow-right d-none d-md-block"></i>
-						</div>
-					</div>
-				</NavLink>
+				<LeftNavbarNavLink 
+					to="/recipes"
+					icon="far fa-list-alt"
+					name="Recipes"
+				/>
+
+				<LeftNavbarNavLink 
+					to="/trainings"
+					icon="fas fa-heartbeat"
+					name="Trainings"
+				/>
 
 				<h5 className="nav-heading">Know your body</h5>
 				<hr />
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.hideNavbar}>
-					<div className="row">
-						<div className="col-2 nav-item">
-							<i className="fas fa-heartbeat"></i>
-						</div>
-						<div className="col-7 nav-item pl-0">
-							<span>Trainings</span>
-						</div>
-						<div className="col-2 nav-item">
-							<i className="fas fa-arrow-right d-none d-md-block"></i>
-						</div>
-					</div>
-				</NavLink>
+				<LeftNavbarNavLink 
+					to="/calculators"
+					icon="fas fa-calculator"
+					name="Calculators"
+				/>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.hideNavbar}>
-					<div className="row">
-						<div className="col-2 nav-item">
-							<i className="fas fa-heartbeat"></i>
-						</div>
-						<div className="col-7 nav-item pl-0">
-							<span>Trainings</span>
-						</div>
-						<div className="col-2 nav-item">
-							<i className="fas fa-arrow-right d-none d-md-block"></i>
-						</div>
-					</div>
-				</NavLink>
+				<LeftNavbarNavLink 
+					to="/burncalories"
+					icon="fab fa-gripfire"
+					name="Burn calories"
+				/>
 
 				<h5 className="nav-heading">About project</h5>
 				<hr />
 
-				<div className="nav-footer">
+				<LeftNavbarNavLink 
+					to="/about"
+					icon="fas fa-info-circle"
+					name="About"
+				/>
+
+				<hr />
+
+				<div className="nav-footer pt-2 pb-4">
 					<p>2018 BeatCalories &copy; Mateusz Skibicki </p>
 					<p>Icons made by Freepik from <a href="https://www.flaticon.com" target="_blank">www.flaticon.com</a></p>
+					<button 
+						className="btn-outline-success btn btn-sm"
+						onClick={this.logoutClick}
+					>
+						Logout <i className="fas fa-sign-out-alt"></i>
+					</button>
 				</div>
 
 
@@ -145,4 +111,4 @@ const mapStateToProps = state => ({
 	errors: state.errors
 });
 
-export default connect(mapStateToProps)(leftSide);
+export default connect(mapStateToProps, {logoutUser})(leftSide);

@@ -16,6 +16,8 @@ import Login from './components/auth/Login';
 import LeftNavbar from './components/navbar/LeftNavbar';
 import TopNavbar from './components/navbar/TopNavbar';
 import Dashboard from './components/dashboard/Dashboard';
+import Profile from './components/profile/Profile';
+import Users from './components/users/Users';
 import Posts from './components/posts/Posts';
 import Diets from './components/diets/Diets';
 import DietSinglePage from './components/diets/DietSinglePage';
@@ -76,7 +78,10 @@ class App extends Component {
 										<PrivateRoute exact path="/" component={Dashboard} />
 									</Switch>
 									<Switch>
-										<PrivateRoute exact path="/profile" component={Dashboard} />
+										<PrivateRoute exact path="/users" component={Users} />
+									</Switch>
+									<Switch>
+										<PrivateRoute exact path="/profile/:nickname" component={Profile} />
 									</Switch>
 									<Switch>
 										<PrivateRoute exact path="/posts" component={Posts} />
