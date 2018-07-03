@@ -2,11 +2,18 @@ import axios from 'axios';
 
 import {
 	GET_DIET,
+	ADD_DIET,
 	GET_DIETS,
 	GET_ERRORS,
 	CLEAR_ERRORS,
 	DIET_LOADING,
-	GET_DIET_BY_ID
+	GET_DIET_BY_ID,
+	DELETE_DIET,
+	ADD_COMMENT_DIET,
+	DELETE_COMMENT_DIET,
+	LIKE_DIET,
+	UPDATE_DIET,
+	UPDATE_DIET_SINGLE_PAGE
 } from './types';
 
 // Get diets
@@ -28,28 +35,52 @@ export const getDietByID = (id) => dispatch => {
 // Add diet
 export const addDiet = (dietData) => dispatch => {
 	axios.post('/api/diets', dietData)
-		.then(() => {
+		.then((res) => {
+			dispatch({type: ADD_DIET, payload: res.data});
 			dispatch(clearErrors());
-			dispatch(getDiets());
 		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Update diet on main /diets page
+export const updateDiet = (id ,dietData) => dispatch => {
+	dispatch(clearErrors());
+	axios.post(`/api/diets/${id}`, dietData)
+		.then((res) => {
+			dispatch({type: UPDATE_DIET, payload: res.data});
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Update diet on single page
+export const updateDietSinglePage = (id ,dietData, history) => dispatch => {
+	dispatch(clearErrors());
+	axios.post(`/api/diets/single/${id}`, dietData)
+		.then((res) => history.push('/diets'))
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
 // Delete diet
 export const deleteDiet = (id) => dispatch => {
 	axios.delete(`/api/diets/${id}`)
-		.then(() => {
-			dispatch(getDiets());
+		.then((res) => {
+			dispatch({type: DELETE_DIET, payload: res.data});
 		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+
+// Delete diet
+export const deleteDietSinglePage = (id, history) => dispatch => {
+	axios.delete(`/api/diets/${id}`)
+		.then((res) => history.push('/diets'))
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
 // Like diet
 export const likeDiet = (id) => dispatch => {
 	axios.post(`/api/diets/likes/${id}`)
-		.then(() => {
-			dispatch(getDietByID(id));
-		})
+		.then(res =>dispatch({type: LIKE_DIET, payload: res.data})		)
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
@@ -57,8 +88,9 @@ export const likeDiet = (id) => dispatch => {
 export const addComment = (id, data) => dispatch => {
 	dispatch(clearErrors());
 	axios.post(`/api/diets/comments/${id}`, data)
-		.then(() => {
-			dispatch(getDietByID(id));
+		.then(res => {
+			dispatch(clearErrors());
+			dispatch({type: ADD_COMMENT_DIET, payload: res.data});		
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
@@ -66,8 +98,8 @@ export const addComment = (id, data) => dispatch => {
 // Add comment to diet
 export const deleteComment = (dietId, commentId) => dispatch => {
 	axios.delete(`/api/diets/comments/${dietId}/${commentId}`)
-		.then(() => {
-			dispatch(getDietByID(dietId));
+		.then(res => {
+			dispatch({type: DELETE_COMMENT_DIET, payload: res.data});		
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };

@@ -202,9 +202,9 @@ router.post(
 			errors.description = 'Description is required.';
 		} else if (
 			req.body.description.trim().length < 50 ||
-			req.body.description.trim().length > 2000 
+			req.body.description.trim().length > 5000 
 		) {
-			errors.description = 'Description between 50 and 2000 characters.';
+			errors.description = 'Description between 50 and 5000 characters.';
 		}
 
 		if(!_.isEmpty(req.body.tags)) {
@@ -225,11 +225,11 @@ router.post(
 			dietFields.user = req.user._id;
 			dietTags.length > 0 ? dietFields.tags = dietTags : '';
 			new Diet(dietFields).save().then(diet => {
-				res.json({status: true});
 				User.findById(req.user._id).then(user => {
 					let userWithDiet = user.diets.unshift(diet._id);
 					user.save(userWithDiet);
 				});
+				Diet.find().sort({date: 1}).populate('user').then(dietsWithNew => res.json(dietsWithNew));
 			});
 		}
 	});
@@ -280,9 +280,9 @@ router.post(
 							errors.description = 'Description is required.';
 						} else if (
 							req.body.description.trim().length < 50 ||
-						req.body.description.trim().length > 2000 
+						req.body.description.trim().length > 5000 
 						) {
-							errors.description = 'Description between 50 and 2000 characters.';
+							errors.description = 'Description between 50 and 5000 characters.';
 						}
 			
 						if(!_.isEmpty(req.body.tags)) {
@@ -294,7 +294,7 @@ router.post(
 					
 				
 						if(!_.isEmpty(errors)) {
-							res.json(errors);
+							res.status(404).json(errors);
 						} else {
 							dietFields.title = req.body.title;
 							dietFields.kcal = req.body.kcal;
@@ -307,7 +307,97 @@ router.post(
 								{$set: dietFields},
 								{new: true}
 							)
-								.then(updatedDiet => res.json(updatedDiet));
+								.then(() => {
+									Diet.find().sort({date: 1}).populate('user').then(diets => {
+										res.json(diets);
+									});
+								});
+						}
+					} else {
+						res.status(400).json({auth: 'This is not your diet'});
+					}
+				} else {
+					res.status(404).json({success: false});
+				}
+			})
+			.catch(e => res.json({success: false}));
+	});
+
+// @route   POST update api/diets
+// @desc    Update diet
+// @access  Private
+router.post(
+	'/single/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		// required: title, calories, type, description
+		// if tags >> comma separated values >> array
+		Diet.findOne({_id: req.params.id})
+			.then(diet => {
+				if (diet) {
+					if(diet.user.toString() === req.user._id.toString()){ // check if this is diet owner
+						let dietFields = {};
+						let dietTags = [];
+						let errors = {};
+				
+						if(_.isEmpty(req.body.title)) {
+							errors.title = 'Title is required.';
+						} else if (
+							req.body.title.trim().length < 5 || 
+							req.body.title.trim().length > 50) 
+						{
+							errors.title = 'Title length between 5 and 50 characters.';
+						}
+				
+						if(_.isEmpty(req.body.kcal)) {
+							errors.kcal = 'Calories are required.';
+						} else if(!validator.isNumeric(req.body.kcal)){
+							errors.kcal = 'Fill with correct data.';
+						} else if (
+							Number(req.body.kcal) < 1000 || 
+						Number(req.body.kcal) > 10000) 
+						{
+							errors.kcal = 'Diets lower than 1000kcal or bigger than 10000kcal are unhelthy.';
+						}
+				
+						if(_.isEmpty(req.body.type)) {
+							errors.type = 'Type of diet is required.';
+						}
+			
+						if(_.isEmpty(req.body.description)) {
+							errors.description = 'Description is required.';
+						} else if (
+							req.body.description.trim().length < 50 ||
+						req.body.description.trim().length > 5000 
+						) {
+							errors.description = 'Description between 50 and 5000 characters.';
+						}
+			
+						if(!_.isEmpty(req.body.tags)) {
+							dietTags = req.body.tags.trim().split(',');
+							dietTags = dietTags.map(diet => {return diet.trim();});
+							dietTags = _.uniq(dietTags);
+						}
+			
+					
+				
+						if(!_.isEmpty(errors)) {
+							res.status(404).json(errors);
+						} else {
+							dietFields.title = req.body.title;
+							dietFields.kcal = req.body.kcal;
+							dietFields.type = req.body.type;
+							dietFields.description = req.body.description;
+							dietFields.user = req.user._id;
+							dietTags.length > 0 ? dietFields.tags = dietTags : '';
+							Diet.findOneAndUpdate(
+								{_id: req.params.id},
+								{$set: dietFields},
+								{new: true}
+							)
+								.then(() => {
+									Diet.findById(req.params.id).populate('name').then(diet => res.json(diet));
+								});
 						}
 					} else {
 						res.status(400).json({auth: 'This is not your diet'});
@@ -327,17 +417,17 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
 
-		Diet.findById(req.params.id).then(diet => {
+		Diet.findById(req.params.id).populate('user').then(diet => {
 			if(diet.likes.indexOf(req.user.id.toString()) === -1){
 				diet.likes.unshift(req.user.id.toString());
-				diet.save(() => res.json({success: true})); //liked
+				diet.save().then(newDiet => res.json(newDiet)); //liked
 				User.findById(req.user.id).then(user => {
 					user.likedDiets.unshift(diet._id);
 					user.save();
 				});
 			} else {
 				diet.likes.splice(diet.likes.indexOf(req.user.id.toString()), 1);
-				diet.save(() => res.json({success: false})); //unliked
+				diet.save().then(newDiet => res.json(newDiet)); //unliked
 				User.findById(req.user.id).then(user => {
 					let dietIndex = user.likedDiets.indexOf(req.params.id);
 					dietIndex !== -1 ? user.likedDiets.splice(dietIndex, 1) : null;
@@ -369,7 +459,7 @@ router.post(
 		if (!_.isEmpty(errors)) {
 			res.status(400).json(errors);
 		} else {
-			Diet.findById(req.params.id).then(diet => {
+			Diet.findById(req.params.id).populate('user').then(diet => {
 				let newComment = {
 					user : req.user._id,
 					body: req.body.comment,
@@ -391,7 +481,7 @@ router.delete(
 	'/comments/:dietID/:commentID',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		Diet.findById(req.params.dietID)
+		Diet.findById(req.params.dietID).populate('user')
 			.then(diet => {
 				let commentToDelete = diet.comments.map(
 					comment => comment._id.toString() === req.params.commentID.toString() ?
@@ -405,14 +495,10 @@ router.delete(
 							diet.comments[commentIndex].user.toString() === req.user._id.toString()
 						) { // user id === comment.user.id
 							diet.comments.splice(commentIndex, 1);
-							diet.save().then(() => res.json({success: true}));
+							diet.save().then(newDiet => res.json(newDiet));
 						} else { // auth false
 							res.json({success: false});
 						}
-					} else {
-						res.json({
-							errors: 'There is no comment with this ID'
-						});
 					}
 				});
 				
@@ -435,12 +521,14 @@ router.delete(
 			// if true this is your diet and you can delete this
 			if(req.user._id.toString() === diet.user.toString()) {
 				diet.remove().then(() => {
-					res.json({success: true});
 					User.findById(req.user.id).then(user => {
 						let newUser = user;
 						let index = newUser.diets.indexOf(diet._id);
 						newUser.diets.splice(index, 1);
 						user.save(newUser);
+					});
+					Diet.find().sort({date: 1}).populate('user').then(diets => {
+						res.json(diets);
 					});
 				});
 			} else {

@@ -98,6 +98,16 @@
   }
 }
 
+.form .button-blue {
+  background: $blue;
+  transition: .2s;
+  &:hover {
+    background: darken($blue, 10%);
+    box-shadow: $shadow-small;
+    transform: scale(1.05);
+  }
+}
+
 .form .message {
   margin: 15px 0 0;
   color: #b3b3b3;

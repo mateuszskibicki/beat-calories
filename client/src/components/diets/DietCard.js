@@ -3,23 +3,25 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {deleteDiet} from '../../actions/dietActions';
 import PropTypes from 'prop-types';
+import DietFormUpdate from './DietFormUpdate';
 import photoMeat from '../../images/diet-meat.png';
 import photoVegetarian from '../../images/diet-vegetarian.png';
 import photoVegan from '../../images/diet-vegan.png';
 import moment from 'moment';
 import _ from 'lodash';
 
-import Modal from 'react-modal';
-Modal.setAppElement('#root');
-
 class DietCard extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			isModalUpdateVisible: false
+		};
 	}
-
-  closeModal =() => {
-  	this.setState({isModalOpen: false});
-  }
+	
+	showUpdateForm = () => {
+		let modalVisible = this.state.isModalUpdateVisible;
+		this.setState({isModalUpdateVisible : !this.state.isModalUpdateVisible});
+	}
 
   deleteDiet = (e) => {
   	const dietId = e.target.getAttribute('data-id');
@@ -61,8 +63,19 @@ class DietCard extends Component {
   	if(this.props.auth.user.id && this.props.auth.user.id === diet.user._id) {
   		buttonsUpdateDelete = (
   			<div className='buttons-update-remove-diet'>
-  				<button className='button-update' data-id={diet._id} ><i className="fas fa-pencil-alt"></i></button>
-  				<button className='button-remove' data-id={diet._id} onClick={this.deleteDiet}><i className="fas fa-trash-alt"  data-id={diet._id}></i></button>
+  				<button 
+  					className='button-update' 
+  					onClick={this.showUpdateForm}
+  				>
+  					<i className="fas fa-pencil-alt"></i>
+  				</button>
+  				<button 
+  					className='button-remove'
+  					data-id={diet._id} 
+					 onClick={this.deleteDiet}
+					 >
+					 <i className="fas fa-trash-alt"  data-id={diet._id}></i>
+					 </button>
   			</div>
   		);
   	}
@@ -99,6 +112,20 @@ class DietCard extends Component {
   					</Link>
   				</div>
   			</div>
+  			{this.state.isModalUpdateVisible === true ? (
+  				<div>
+  					<button type="button" className="button-update-diet-modal" hidden data-toggle="modal" data-target="#dietUpdateModal">
+					Launch update
+  					</button>
+  					<div className="modal fade p-0" id="dietUpdateModal" tabIndex={-1} role="dialog" aria-labelledby="dietUpdateModal" aria-hidden="true">
+  					<div className="modal-dialog modal-lg" role="document">
+  						<div className="modal-content modal-form">
+  							<DietFormUpdate singleDiet={diet} showUpdateForm={this.showUpdateForm} />
+  						</div>
+  					</div>
+  					</div>
+  				</div>
+  			) : null}
   		</div>
   	);
   }

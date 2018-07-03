@@ -3,17 +3,22 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import ContentWrapper from '../common/ContentWrapper';
 import Loading from '../common/Loading';
 import DietCard from './DietCard';
 //actions
 import {getDiets} from '../../actions/dietActions';
 import DietForm from './DietForm';
+import DietFormUpdate from './DietFormUpdate';
 import Chart from 'chart.js';
 
 
 class Diets extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			sortByType: ''
+		};
 	}
 
 	componentDidMount() {
@@ -115,21 +120,33 @@ class Diets extends Component {
 		}
 	}
 
+	changeSortByType = (e) => {
+		this.setState({sortByType : e.target.getAttribute('data-sort')});
+	}
+
+	changeShowAll = (e) => {
+		this.setState({sortByType : ''});
+	}
+
 
 	render() {
 
-		const {diets, loading} = this.props.diet;
+		let {diets, loading} = this.props.diet;
 		let dietContent;
 
 		if(diets === null || loading) {
-			dietContent = <h1 className="display-1 text-center">Loading....</h1>;
+			dietContent = <h1 className="display-1 text-center">Loading....</h1>; //if loading true
+		} else if(!_.isEmpty(this.state.sortByType)) { // if not empty
+			diets = diets.map(diet => diet.type === this.state.sortByType ? diet : ''); //if === type in state
+			dietContent = diets.map(diet => !_.isEmpty(diet.type) ? <DietCard key={diet._id} diet={diet}/> : null); //if not null add react component
+			dietContent = dietContent.filter(diet => diet !== null); // if null remove from array
 		} else {
 			dietContent = diets.map(diet => <DietCard key={diet._id} diet={diet}/>);
 		}
 
 
 		return (
-			<div id="diets" className="mt-5">
+			<div className="mt-5">
 				<div className="container-fluid">
 					<div className="row">			
 						<div className="col-12 col-xl-4">
@@ -141,8 +158,8 @@ class Diets extends Component {
 									</div>
 								</button>		
 							</div>
-							<div className="modal fade" id="dietAddModal" tabIndex={-1} role="dialog" aria-labelledby="dietAddModalLabel" aria-hidden="true">
-								<div className="modal-dialog" role="document">
+							<div className="modal fade p-0" id="dietAddModal" tabIndex={-1} role="dialog" aria-labelledby="dietAddModalLabel" aria-hidden="true">
+								<div className="modal-dialog modal-lg" role="document">
 									<div className="modal-content modal-form">
 										<DietForm />
 									</div>
@@ -151,16 +168,37 @@ class Diets extends Component {
 
 						</div>
 						<div className="col-12 col-xl-8 mt-5" id="charts">
-
+							{
+								//charts go here
+							}
 						</div>			
 					</div>
 				</div>
 				<div className="container-fluid">
 					<div className="row user-content">
+
+						<div className="col-12 mb-4">
+							<button className='btn btn-green float-left'>Diets : {dietContent.length}</button>
+							<div className="dropdown float-left ml-3">
+								<button className="btn-green btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				CHANGE TYPE
+								</button>
+								<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">
+									<a className="dropdown-item" onClick={this.changeShowAll}>Show all</a>
+									<a className="dropdown-item" data-sort="Meat" onClick={this.changeSortByType}>Type: Meat</a>
+									<a className="dropdown-item" data-sort="Vegetarian" onClick={this.changeSortByType}>Type: Vegetarian</a>
+									<a className="dropdown-item" data-sort="Vegan" onClick={this.changeSortByType}>Type: Vegan</a>
+								</div>
+							</div>
+
+						</div>
+
 						{dietContent}
 					</div>
 				</div>
 			</div>
+
+			
 
 		);
 	}

@@ -13,9 +13,8 @@ class leftSide extends Component {
 		this.props.logoutUser();
 	}
 
-	addActive = (e) => {
-		// document.querySelector('.active').classList.remove('active');
-		// e.target.closest('.nav-link').classList.add('active');
+	hideNavbar = (e) => {
+		document.querySelector('.fa-bars').click();
 	}
 
 
@@ -26,7 +25,7 @@ class leftSide extends Component {
 				<h5 className="nav-heading">User content</h5>
 				<hr />
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.hideNavbar}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-columns"></i>
@@ -40,7 +39,7 @@ class leftSide extends Component {
 					</div>
 				</NavLink>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/posts" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/posts" onClick={this.hideNavbar}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="far fa-comment-alt"></i>
@@ -54,7 +53,7 @@ class leftSide extends Component {
 					</div>
 				</NavLink>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/diets" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/diets" onClick={this.hideNavbar}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-utensils"></i>
@@ -68,7 +67,7 @@ class leftSide extends Component {
 					</div>
 				</NavLink>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/recipes" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/recipes" onClick={this.hideNavbar}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="far fa-list-alt"></i>
@@ -82,7 +81,7 @@ class leftSide extends Component {
 					</div>
 				</NavLink>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/trainings" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/trainings" onClick={this.hideNavbar}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-heartbeat"></i>
@@ -99,7 +98,7 @@ class leftSide extends Component {
 				<h5 className="nav-heading">Know your body</h5>
 				<hr />
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.hideNavbar}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-heartbeat"></i>
@@ -113,7 +112,7 @@ class leftSide extends Component {
 					</div>
 				</NavLink>
 
-				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.addActive}>
+				<NavLink className="nav-link pt-3 pb-3" exact activeClassName="active" to="/" onClick={this.hideNavbar}>
 					<div className="row">
 						<div className="col-2 nav-item">
 							<i className="fas fa-heartbeat"></i>

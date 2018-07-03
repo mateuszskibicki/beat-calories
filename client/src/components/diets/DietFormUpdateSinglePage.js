@@ -3,37 +3,37 @@ import {connect} from 'react-redux';
 import InputForm from '../common/InputForm';
 import TextAreaForm from '../common/TextAreaForm';
 import SelectForm from '../common/SelectForm';
-import {Link} from 'react-router-dom';
-import {addDiet} from '../../actions/dietActions';
+import {Link, withRouter} from 'react-router-dom';
+import {updateDietSinglePage} from '../../actions/dietActions';
 import _ from 'lodash';
 
-class DietForm extends Component {
+class DietFormUpdateSinglePage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: '',
-			kcal: '',
-			type: '',
-			description: '',
-			tags: '',
+			title: props.singleDiet.title,
+			kcal: props.singleDiet.kcal,
+			type: props.singleDiet.type,
+			description: props.singleDiet.description,
+			tags: props.singleDiet.tags.join(','),
 			errors: {}
 		};
 	}
+  
+	componentDidMount() {
+		document.querySelector('.button-update-diet-modal').click();
+	}
 
 
-	componentWillReceiveProps(newProps) {
-		if(!_.isEmpty(newProps.errors)) {
-			this.setState({errors: newProps.errors});	
+	componentWillReceiveProps(nextProps) {
+		if(!_.isEmpty(nextProps.errors)) {
+			this.setState({errors: nextProps.errors});	
 		} else {
-			this.setState({
-				title: '',
-				kcal: '',
-				type: '',
-				description: '',
-				tags: '',
-				errors: {}
-			});
-			document.querySelector('form .button-red').click();
+			document.querySelector('.button-close-modal-diet-update').click();
+		}
+    
+		if(this.props !== nextProps && !_.isEmpty(nextProps.errors)) {
+			console.log('ok');
 		}
 	}
 
@@ -43,7 +43,26 @@ class DietForm extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault();
-		this.props.addDiet(this.state);
+		let {title, kcal, type, description, tag} = this.state;
+		let errors = {};
+		if(title.length < 5 || title.length > 50) {
+			errors.title = 'Title between 5 and 50.';
+			this.setState({errors: {title: 'Title between 5 and 50 characters.'}});
+		}
+    
+		if(Number(kcal) < 1000  || Number(kcal) > 10000) {
+			errors.kcal = 'Calories between 1000 and 10000.';
+			this.setState({errors: {kcal: 'Calories between 1000 and 10000.'}});
+		}
+    
+		if(description.length < 50 || description.length > 5000) {
+			errors.description = 'Description between 50 and 5000.';
+			this.setState({errors: {description: 'Description between 5 and 5000 characters'}});
+		}
+  
+		if(_.isEmpty(errors)){
+			this.props.updateDietSinglePage(this.props.singleDiet._id, this.state, this.props.history);
+		}
 	}
 
 	formatButton = (e) => {
@@ -52,13 +71,13 @@ class DietForm extends Component {
 
 
 	render() {
-
 		const {errors} = this.state;
+		const {diet} = this.props.singleDiet;
 
 		return (
 			<div className="col-12 pl-0 pr-0">
-				<form className="form" onSubmit={this.onSubmit} autoComplete="off">
-					<h4 className="display-4">Add diet</h4>
+				<form className="form form-diet-update" onSubmit={this.onSubmit} autoComplete="off">
+					<h1 className="display-4">Update diet</h1>
 
 					<InputForm
 						type="text"
@@ -92,14 +111,14 @@ class DietForm extends Component {
 						onClick={this.formatButton}
 						type="button" 
 						data-toggle="collapse" 
-						data-target="#dietFormatCollapse" 
+						data-target="#dietFormUpdateCollapse" 
 						aria-expanded="false" 
-						aria-controls="dietFormatCollapse"
+						aria-controls="dietFormUpdateCollapse"
 					>
 						Recommended format
 					</button>
 
-					<div className="collapse mt-2 mb-2" id="dietFormatCollapse">
+					<div className="collapse mt-2 mb-2" id="dietFormUpdateCollapse">
 						<p className="lead p-0 m-0">
 							<strong>Title:</strong> short title giving the main points of your diet
 							<br />
@@ -163,8 +182,18 @@ class DietForm extends Component {
 						Something went wrong, check your data.
 						</div>
 					) : null}
-					<button className="button-green">ADD DIET</button>
-					<button className="button-red" type="button" data-dismiss="modal" aria-label="Close">
+					<button 
+						className="button-green button-diet-update" 
+					>
+            UPDATE DIET
+					</button>
+					<button 
+						className="button-red button-close-modal-diet-update"
+						type="button" 
+						data-dismiss="modal" 
+						aria-label="Close"
+						onClick={this.props.showUpdateForm}
+					>
 						Cancel
 					</button>
 				</form>
@@ -181,4 +210,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {addDiet})(DietForm);
+export default connect(mapStateToProps, {updateDietSinglePage})(withRouter(DietFormUpdateSinglePage));

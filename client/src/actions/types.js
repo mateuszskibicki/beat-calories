@@ -18,4 +18,11 @@ export const GET_DIET = 'GET_DIET';
 export const GET_DIET_BY_ID = 'GET_DIET_BY_ID';
 export const GET_DIETS = 'GET_DIETS';
 export const DIET_LOADING = 'DIET_LOADING';
-export const ADD_DIET = 'DIET_LOADING';
+export const ADD_DIET = 'ADD_DIET';
+export const UPDATE_DIET = 'UPDATE_DIET';
+export const UPDATE_DIET_SINGLE_PAGE = 'UPDATE_DIET_SINGLE_PAGE';
+export const DELETE_DIET = 'DELETE_DIET';
+export const ADD_COMMENT_DIET = 'ADD_COMMENT_DIET';
+export const DELETE_COMMENT_DIET = 'DELETE_COMMENT_DIET';
+export const LIKE_DIET = 'LIKE_DIET';
+

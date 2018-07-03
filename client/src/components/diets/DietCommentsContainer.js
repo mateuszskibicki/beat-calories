@@ -19,8 +19,10 @@ class DietCommentsContainer extends Component {
 	componentWillReceiveProps(nextProps){
 		if (!_.isEmpty(nextProps.errors)) {
 			this.setState({errors: nextProps.errors});
-		} else {
-			this.setState({comment: '', errors: {}});
+		}
+		
+		if (this.props.diet.comments.length < nextProps.diet.comments.length) {
+			this.setState({errors: {}, comment: ''});
 		}
 	}
 
@@ -40,6 +42,7 @@ class DietCommentsContainer extends Component {
 
 
 	render() {
+
 		const diet = this.props.diet;
 
 		return (
@@ -92,6 +95,7 @@ class DietCommentsContainer extends Component {
 			</div>
 		);
 	}
+	
 }
 
 DietCommentsContainer.propTypes = {
