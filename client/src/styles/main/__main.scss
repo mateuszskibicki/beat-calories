@@ -28,9 +28,10 @@
   background: darken($blue, 15%);
 }
 
+html,
 body {
   background-color: $white-smoke;
   font-family: $font-roboto;
-  width: 100%;
+  width: auto;
   overflow-x: hidden;
 }

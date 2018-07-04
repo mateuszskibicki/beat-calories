@@ -46,7 +46,12 @@
           height: 40px;
           border-radius: 50%;
           margin-right: 20px;
+          transition: .2s;
           cursor: pointer;
+          &:hover {
+            box-shadow: $shadow-small;
+            transform: scale(1.1)
+          }
         }
       }
     }

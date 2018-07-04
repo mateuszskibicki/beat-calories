@@ -96,7 +96,7 @@ class DietSinglePage extends Component {
 								</div>
 								<div className={jumboBgClass}>
 									<div className="container text-center">
-										<h1 className="mb-1 display-4 fw-500">{diet.title}</h1>
+										<h1 className="mb-1 fw-500">{diet.title}</h1>
 										<h2 className="m-0 fw-500">Calories: {diet.kcal}</h2>
 										<p className="lead m-0 fw-500">Author: <Link to={`/profile/${diet.user.nickname}`}>{diet.user.nickname}</Link></p>
 										<p className="lead m-0 fw-500">Date: {Moment(diet.date).format('Do MMMM YYYY, h:mm a')}</p>
