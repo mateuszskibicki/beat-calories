@@ -225,7 +225,7 @@ router.post(
 			dietFields.user = req.user._id;
 			dietTags.length > 0 ? dietFields.tags = dietTags : '';
 			new Diet(dietFields).save().then(diet => {
-				Diet.find().populate('user').then(dietsWithNew => {
+				Diet.find().sort({date: 1}).populate('user').then(dietsWithNew => {
 					User.findById(req.user._id).then(user => {
 						let userWithDiet = user.diets.unshift(diet._id);
 						user.save(userWithDiet).then(() => console.log('Diet added'));
