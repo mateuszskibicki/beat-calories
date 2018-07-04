@@ -228,7 +228,7 @@ router.post(
 				Diet.find().populate('user').then(dietsWithNew => {
 					User.findById(req.user._id).then(user => {
 						let userWithDiet = user.diets.unshift(diet._id);
-						user.save(userWithDiet);
+						user.save(userWithDiet).then(() => console.log('Diet added'));
 					});
 					return res.json(dietsWithNew);
 				});
