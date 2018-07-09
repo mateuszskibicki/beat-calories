@@ -1,9 +1,9 @@
 .navbar-top {
-  background: $blue;
+  background: $red;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, $blue, $green-spring);
+  background: -webkit-linear-gradient(to right, $red, $blue);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, $blue, #38ef7d);
+  background: linear-gradient(to right, $red, $blue);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   border-bottom: 2px solid darken($gray, 10%);
   .left {

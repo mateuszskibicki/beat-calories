@@ -8,6 +8,9 @@ const passport = require('passport');
 const _ = require('lodash');
 const validator = require('validator');
 
+var fs = require('fs');
+var busboy = require('connect-busboy');
+
 // Load User model
 const User = require('../../models/User');
 const avatarDefault = 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
@@ -16,7 +19,55 @@ const avatarDefault = 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.p
 // @desc    Tests users route
 // @access  Public
 router.post('/test', (req, res) => {
-	console.log(req.body);
+
+	var fstream;
+	req.pipe(req.busboy);
+	req.busboy.on('file', function (fieldname, file, filename) {
+		console.log('Uploading: ' + filename); 
+		fstream = fs.createWriteStream(__dirname + '/../../client/src/images/profile-images/' + Date.now() + filename);
+		file.pipe(fstream);
+		fstream.on('close', function () {
+			res.redirect('back');
+		});
+	});
+
+});
+
+// @route   POST api/users/register
+// @desc    Register user
+// @access  Public
+router.post('/registerWithFacebook', (req, res) => {
+	User.findOne({email: req.body.email}).then(user => {
+		if (user) {
+			// User Matched
+			const payload = { id: user.id, name: user.name, avatar: user.avatar, nickname: user.nickname }; // Create JWT Payload
+			// Sign Token
+			jwt.sign(
+				payload,
+				keys.secretOrKey,
+				{ expiresIn: 7200 },
+				(err, token) => {
+					res.json({
+						success: true,
+						token: 'Bearer ' + token
+					});
+				}
+			);
+		} else {
+			let newUser = {
+				name: req.body.name,
+				nickname: req.body.name.trim().toLowerCase().split(' ').join(''),
+				email: req.body.email,
+				avatar: req.body.avatar,
+				password: req.body.id
+			};
+			
+			let userData = new User(newUser);
+			userData.save()
+				.then(user => res.json(user))
+				.catch(err => console.log(err));
+		}
+	});
 });
 
 // @route   POST api/users/register
@@ -216,6 +267,47 @@ router.post('/login', (req, res) => {
 		return res.status(404).json(errors);
 	}
 });
+
+// @route   POST api/users/avatar/:id
+// @desc    Change avatar
+// @access  Private
+router.post('/test', (req, res) => {
+
+	var fstream;
+	req.pipe(req.busboy);
+	req.busboy.on('file', function (fieldname, file, filename) {
+		console.log('Uploading: ' + filename); 
+		fstream = fs.createWriteStream(__dirname + '/../../client/public/img/profile/' + Date.now() + filename);
+		file.pipe(fstream);
+		fstream.on('close', function () {
+			res.redirect('back');
+		});
+	});
+
+});
+
+// router.post(
+// 	'/avatar',
+// 	passport.authenticate('jwt', { session: false }),
+// 	(req, res) => {
+
+// 		var fstream;
+// 		req.pipe(req.busboy);
+// 		req.busboy.on('file', function (fieldname, file, filename) {
+// 			console.log('Uploading: ' + filename); 
+// 			const fileNameWithDate = Date.now() + filename;
+// 			const fullPathToImg = __dirname + '/../../client/src/images/profile-images/' + req.user.id + '.jpg';
+// 			fstream = fs.createWriteStream(fullPathToImg);
+// 			file.pipe(fstream);
+// 			fstream.on('close', function () {
+// 				User.findById(req.user.id).then(user => {
+// 					user.avatar = fileNameWithDate;
+// 					user.save().then(userWithNewAvatar => {res.json(userWithNewAvatar); console.log(userWithNewAvatar);});
+// 				});
+// 			});
+// 		});
+// 	}
+// );
 
 // @route   GET api/users/current
 // @desc    Return current user

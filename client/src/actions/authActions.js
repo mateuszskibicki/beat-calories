@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from './types';
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -14,6 +14,27 @@ export const registerUser = (userData, history) => dispatch => {
 				type: GET_ERRORS,
 				payload: err.response.data
 			})
+		);
+};
+
+// Register User
+export const registerUserWithFacebook = (userData, history) => dispatch => {
+	axios
+		.post('/api/users/registerWithFacebook', userData)
+		.then(res => {		
+			// Save to localStorage
+			const { token } = res.data;
+			// Set token to ls
+			localStorage.setItem('jwtToken', token);
+			// Set token to Auth header
+			setAuthToken(token);
+			// Decode token to get user data
+			const decoded = jwt_decode(token);
+			// Set current user
+			dispatch(setCurrentUser(decoded));
+		})
+		.catch(err =>
+			console.log(err)
 		);
 };
 
@@ -57,4 +78,9 @@ export const logoutUser = () => dispatch => {
 	setAuthToken(false);
 	// Set current user to {} which will set isAuthenticated to false
 	dispatch(setCurrentUser({}));
+};
+
+// Clear errors
+export const clearErrors = () => {
+	return { type: CLEAR_ERRORS };
 };

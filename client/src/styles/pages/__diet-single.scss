@@ -12,7 +12,7 @@
   a:active,
   a:hover,
   a:link {
-    color: $dark;
+    color: $white-smoke;
     text-transform: none;
     text-decoration: none;
     font-weight: 900;
@@ -67,5 +67,12 @@
     &:hover {
       background-color: $blue;
     }
+  }
+}
+
+#charts {
+  display: none;
+  @include media-sm {
+    display: block;
   }
 }

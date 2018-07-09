@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const busboy = require('connect-busboy');
 
 const path = require('path');
 
@@ -11,15 +12,18 @@ const users = require('./routes/api/users');
 const diets = require('./routes/api/diets');
 const recipes = require('./routes/api/recipes');
 
+
 const app = express();
 
 // Body parser middleware, req.body available with post requests
 app.use(
 	bodyParser.urlencoded({
 		extended: false,
+		limit: '50mb'
 	})
 );
 app.use(bodyParser.json());
+app.use(busboy());
 
 // DB Config -> key to connect to MLAB
 const db = require('./config/keys').mongoURI;

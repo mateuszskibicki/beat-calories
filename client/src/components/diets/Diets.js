@@ -29,11 +29,11 @@ class Diets extends Component {
 		if(this.props !== nextProps){
 			document.getElementById('charts').innerHTML = `
 				<div class="row">
-					<div class="col-12 col-md-6 text-center">
+					<div class="col-sm-6 text-center">
 						<small><strong>BY TYPES</strong></small>
 						<canvas id="dietsChart" width="320" height="320"></canvas>
 					</div>		  
-					<div class="col-12 col-md-6 text-center">
+					<div class="col-sm-6 text-center">
 						<small><strong>BY CALORIES</strong></small>
 						<canvas id="kcalChart" width="320" height="320"></canvas>
 					</div>

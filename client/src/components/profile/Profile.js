@@ -8,7 +8,6 @@ class Profile extends Component {
 
 	render() {
 		const { user } = this.props.auth;
-		console.log(this.props.match.params.nickname);
 
 		return (
 			<div id="posts">
@@ -17,10 +16,39 @@ class Profile extends Component {
 						<div className="row">
 							<p className="display-4">Section profile in progress, come back later <strong>{user.nickname}</strong>. Thank you.</p>
 							<div className="col-8">
-								<div className="custom-file">
-									<input type="file" className="custom-file-input" id="customFile" />
-									<label className="custom-file-label" htmlFor="customFile">Choose file</label>
-								</div>
+								
+
+								<form 
+									className="login-form" 
+									onSubmit={this.onSubmit} 
+									autoComplete="off"
+									encType="multipart/form-data"
+								>
+									<div className="input-group mb-3">
+										<div className="input-group-prepend">
+											<span className="input-group-text">Upload</span>
+										</div>
+										<div className="custom-file">
+											<input 
+												type="file" 
+												className="custom-file-input" 
+												id="profile-image" 
+												name="profile-image"
+												//onChange={this.onChange}
+											/>
+											<label 
+												className="custom-file-label" 
+												htmlFor="profile-image"
+											>
+												<button className="btn-block mt-5 btn btn-danger">Submit</button>
+											Choose file
+											</label>
+										</div>
+									</div>
+
+								</form>
+
+
 							</div>
 						</div>
 					</div>

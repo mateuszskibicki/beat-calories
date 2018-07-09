@@ -62,12 +62,16 @@ class Register extends Component {
 		const { errors } = this.state;
 
 
-
+		//20:54
 		return (
 			<div className="login-bg">
 				<div className="login-page mb-5">
 					<div className="form">
-						<form className="login-form" onSubmit={this.onSubmit} autoComplete="off">
+						<form 
+							className="login-form" 
+							onSubmit={this.onSubmit} 
+							autoComplete="off"
+						>
 							<h4 className="display-3">Register</h4>
 							<p className="lead">* - required</p>
 							<hr />
@@ -80,6 +84,7 @@ class Register extends Component {
 								error = {errors.name}
 								icon = {<i className="fa fa-user-circle" aria-hidden="true"></i>}
 							/>
+
 							<InputForm
 								type = "text"
 								placeholder = "Your nickname *"
