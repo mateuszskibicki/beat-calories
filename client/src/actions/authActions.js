@@ -17,27 +17,6 @@ export const registerUser = (userData, history) => dispatch => {
 		);
 };
 
-// Register User
-export const registerUserWithFacebook = (userData, history) => dispatch => {
-	axios
-		.post('/api/users/registerWithFacebook', userData)
-		.then(res => {		
-			// Save to localStorage
-			const { token } = res.data;
-			// Set token to ls
-			localStorage.setItem('jwtToken', token);
-			// Set token to Auth header
-			setAuthToken(token);
-			// Decode token to get user data
-			const decoded = jwt_decode(token);
-			// Set current user
-			dispatch(setCurrentUser(decoded));
-		})
-		.catch(err =>
-			console.log(err)
-		);
-};
-
 // Login - Get User Token
 export const loginUser = userData => dispatch => {
 	axios

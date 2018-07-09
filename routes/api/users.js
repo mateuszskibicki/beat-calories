@@ -36,43 +36,6 @@ router.post('/test', (req, res) => {
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
-router.post('/registerWithFacebook', (req, res) => {
-	User.findOne({email: req.body.email}).then(user => {
-		if (user) {
-			// User Matched
-			const payload = { id: user.id, name: user.name, avatar: user.avatar, nickname: user.nickname }; // Create JWT Payload
-			// Sign Token
-			jwt.sign(
-				payload,
-				keys.secretOrKey,
-				{ expiresIn: 7200 },
-				(err, token) => {
-					res.json({
-						success: true,
-						token: 'Bearer ' + token
-					});
-				}
-			);
-		} else {
-			let newUser = {
-				name: req.body.name,
-				nickname: req.body.name.trim().toLowerCase().split(' ').join(''),
-				email: req.body.email,
-				avatar: req.body.avatar,
-				password: req.body.id
-			};
-			
-			let userData = new User(newUser);
-			userData.save()
-				.then(user => res.json(user))
-				.catch(err => console.log(err));
-		}
-	});
-});
-
-// @route   POST api/users/register
-// @desc    Register user
-// @access  Public
 router.post('/register', (req, res) => {
 	let errors = {};
 
@@ -181,7 +144,7 @@ router.post('/register', (req, res) => {
 						return res.status(400).json(errors);
 					} else {
 						const avatar = gravatar.url(req.body.email, {
-							s: '200', // Size
+							s: '300', // Size
 							r: 'pg', // Rating
 							d: 'mm' // Default
 						});
@@ -193,7 +156,7 @@ router.post('/register', (req, res) => {
 							nickname: newUser.nickname,
 							email: newUser.email,
 							password: newUser.password,
-							avatar: avatarDefault,
+							avatar: avatar,
 							social: social,
 							bio: bio
 						});
@@ -268,47 +231,6 @@ router.post('/login', (req, res) => {
 	}
 });
 
-// @route   POST api/users/avatar/:id
-// @desc    Change avatar
-// @access  Private
-router.post('/test', (req, res) => {
-
-	var fstream;
-	req.pipe(req.busboy);
-	req.busboy.on('file', function (fieldname, file, filename) {
-		console.log('Uploading: ' + filename); 
-		fstream = fs.createWriteStream(__dirname + '/../../client/public/img/profile/' + Date.now() + filename);
-		file.pipe(fstream);
-		fstream.on('close', function () {
-			res.redirect('back');
-		});
-	});
-
-});
-
-// router.post(
-// 	'/avatar',
-// 	passport.authenticate('jwt', { session: false }),
-// 	(req, res) => {
-
-// 		var fstream;
-// 		req.pipe(req.busboy);
-// 		req.busboy.on('file', function (fieldname, file, filename) {
-// 			console.log('Uploading: ' + filename); 
-// 			const fileNameWithDate = Date.now() + filename;
-// 			const fullPathToImg = __dirname + '/../../client/src/images/profile-images/' + req.user.id + '.jpg';
-// 			fstream = fs.createWriteStream(fullPathToImg);
-// 			file.pipe(fstream);
-// 			fstream.on('close', function () {
-// 				User.findById(req.user.id).then(user => {
-// 					user.avatar = fileNameWithDate;
-// 					user.save().then(userWithNewAvatar => {res.json(userWithNewAvatar); console.log(userWithNewAvatar);});
-// 				});
-// 			});
-// 		});
-// 	}
-// );
-
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
@@ -319,6 +241,7 @@ router.get(
 		User.findById(req.user.id)
 			.populate('recipes')
 			.populate('diets')
+			.populate({path: 'diets'})
 			.populate('likedDiets')
 			.populate({path: 'likedDiets', populate: {path: 'user'}})
 			.populate('likedRecipes')
@@ -417,32 +340,78 @@ router.get(
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
 		User.findOne({ nickname: req.params.nickname })
-			.populate('diets')
 			.populate('recipes')
+			.populate('diets')
+			.populate({path: 'diets', populate : {path: 'user'}})
+			.populate('likedDiets')
+			.populate({path: 'likedDiets', populate: {path: 'user'}})
+			.populate('likedRecipes')
 			.then(user => {
-				let errors = {};
-				if(user) {
-					const userToDisplay = {
-						_id : user._id,
-						name: user.name,
-						nickname: user.nickname,
-						social: user.social,
-						avatar: user.avatar,
-						bio: user.bio,
-						date: user.date,
-						diets: user.diets,
-						numberOfDiets: user.diets.length,
-						posts: user.posts,
-						numberOfPosts: user.posts.length,
-						recipes: user.recipes,
-						numberOfRecipies: user.recipes.length
-					};
-					res.json(userToDisplay);
-				} else {
-					res.status(404).json(errors.user = 'User not found.');
-				}
-			}
-			);
+				let dietsData = user.diets.map(diet => (
+					{
+						comments: diet.comments,
+						date: diet.date,
+						description: diet.description,
+						kcal: diet.kcal,
+						likes: diet.likes,
+						tags: diet.tags,
+						title: diet.title,
+						type: diet.type,
+						_id: diet._id,
+						user: {
+							name: diet.user.name,
+							nickname: diet.user.nickname,
+							avatar: diet.user.avatar,
+							_id: diet.user._id
+						}
+					}
+				));
+
+				let likedDietsData = user.likedDiets.map(diet => (
+					{
+						comments: diet.comments,
+						date: diet.date,
+						description: diet.description,
+						kcal: diet.kcal,
+						likes: diet.likes,
+						tags: diet.tags,
+						title: diet.title,
+						type: diet.type,
+						_id: diet._id,
+						user: {
+							name: diet.user.name,
+							nickname: diet.user.nickname,
+							avatar: diet.user.avatar,
+							_id: diet.user._id
+						}
+					}
+				));
+
+
+				const userData = {
+					_id : user._id,
+					name: user.name,
+					nickname: user.nickname,
+					social: user.social,
+					avatar: user.avatar,
+					bio: user.bio,
+					date: user.date,
+					diets: dietsData,
+					numberOfDiets: user.diets.length,
+					posts: user.posts,
+					numberOfPosts: user.posts.length,
+					recipes: user.recipes,
+					numberOfRecipies: user.recipes.length,
+					likedDiets: likedDietsData,
+					likedPosts: user.likedPosts,
+					likedRecipes: user.likedRecipes,
+					likedTrainings: user.likedTrainings
+				};
+
+				user._id.toString() === req.user._id.toString() ? userData.email = user.email : null;
+
+				res.json(userData);
+			});
 	});
 
 

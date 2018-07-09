@@ -91,7 +91,7 @@ class leftSide extends Component {
 
 				<div className="nav-footer pt-2 pb-4">
 					<p>2018 BeatCalories &copy; Mateusz Skibicki </p>
-					<p>Icons made by Freepik from <a href="https://www.flaticon.com" target="_blank">www.flaticon.com</a></p>
+					<p>Icons made by Freepik from <a href="https://www.flaticon.com" target="_blank" className="small-link">www.flaticon.com</a></p>
 					<button 
 						className="btn-outline-success btn btn-sm"
 						onClick={this.logoutClick}

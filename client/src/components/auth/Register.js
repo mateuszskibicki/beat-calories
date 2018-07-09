@@ -23,9 +23,6 @@ class Register extends Component {
 			bio: '',
 			errors: {}
 		};
-
-	// 	this.onChange = this.onChange.bind(this);
-	// 	this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	componentDidMount() {
@@ -54,6 +51,13 @@ class Register extends Component {
 			password: this.state.password,
 			password2: this.state.password2
 		};
+
+		!_.isEmpty(this.state.facebook) ? newUser.facebook = this.state.facebook : null;
+		!_.isEmpty(this.state.instagram) ? newUser.instagram = this.state.instagram : null;
+		!_.isEmpty(this.state.twitter) ? newUser.twitter = this.state.twitter : null;
+		!_.isEmpty(this.state.linkedin) ? newUser.linkedin = this.state.linkedin : null;
+		!_.isEmpty(this.state.website) ? newUser.website = this.state.website : null;
+		!_.isEmpty(this.state.bio) ? newUser.bio = this.state.bio : null;
 
 		this.props.registerUser(newUser, this.props.history);
 	}
@@ -193,11 +197,11 @@ class Register extends Component {
 	}
 }
 
-// Register.propTypes = {
-// 	registerUser: PropTypes.func.isRequired,
-// 	auth: PropTypes.object.isRequired,
-// 	errors: PropTypes.object.isRequired
-// };
+Register.propTypes = {
+	registerUser: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
 	auth: state.auth,

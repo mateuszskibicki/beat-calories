@@ -5,7 +5,6 @@ import {Link, withRouter} from 'react-router-dom';
 import {getDietByID, likeDiet, deleteDietSinglePage} from '../../actions/dietActions';
 import DietFormUpdateSinglePage from './DietFormUpdateSinglePage';
 import DietCommentsContainer from './DietCommentsContainer';
-import * as jsPDF from 'jspdf';
 import Moment from 'moment';
 import _ from 'lodash';
 
@@ -33,22 +32,6 @@ class DietSinglePage extends Component {
 	removeDiet = (e) => {
 		this.props.deleteDietSinglePage(e.target.getAttribute('data-id'), this.props.history);
 		//remove diet and push to /diets
-	}
-
-	getPDF = () => {
-		let {diet} = this.props.diet;
-		let doc = new jsPDF();
-
-		doc.setFontSize(20);
-		doc.text(20, 20, 'Beat Calories project by Mateusz Skibicki');
-		doc.setFontSize(10);
-		doc.text(20, 40, `Author: ${diet.user.name} | nickname : ${diet.user.nickname}`);
-		doc.text(20, 50, `Title: ${diet.title}`);
-		doc.text(20, 60, `Calories: ${diet.kcal}`);
-		doc.text(20, 70, `Tags: ${diet.tags.join(',')}`);
-		doc.text(20, 80, 'Description :');
-		doc.text(20, 90, `${diet.description}`);
-		doc.save('diet.pdf');
 	}
 
 	render() {
@@ -101,7 +84,6 @@ class DietSinglePage extends Component {
 										<p className="lead m-0 fw-500">Author: <Link to={`/profile/${diet.user.nickname}`}>{diet.user.nickname}</Link></p>
 										<p className="lead m-0 fw-500">Date: {Moment(diet.date).format('Do MMMM YYYY, h:mm a')}</p>
 										<p className="lead m-0 fw-500">Type: {diet.type}</p>
-										<p className="lead m-0 fw-500 pdf-version">PDF version: <i className="fas fa-file-pdf ml-1" onClick={this.getPDF}></i></p>
 										<p className="lead m-0 fw-500">
 											<i className="far fa-heart"></i> {diet.likes.length} 
 											<i className="ml-2 far fa-comments"></i> {diet.comments.length}
