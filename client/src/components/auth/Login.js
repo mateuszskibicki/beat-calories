@@ -54,7 +54,7 @@ class Login extends Component {
 	 }
 
 	 componentClicked = () => {
-		 console.log('clicked');
+		 //console.log('clicked');
 	 }
 
 	 responseFacebook = (response) => {
@@ -81,7 +81,7 @@ class Login extends Component {
 							 <hr />
 
 	 						<FacebookLogin
-	 							appId="1809524152690009"
+	 							appId="433735363773317"
 	 							autoLoad={false}
 	 							fields="name,email,picture"
 	 							onClick={this.componentClicked}
