@@ -5,4 +5,17 @@
   &-body {
     white-space: pre-line;
   }
+  a {
+    color: $muted;
+    transition: .2s;
+    h4 {
+      transition: .2s;
+    }
+    &:hover {
+      text-decoration: none;
+      h4 {
+        color: darken($green-spring, 10%);
+      }
+    }
+  }
 }

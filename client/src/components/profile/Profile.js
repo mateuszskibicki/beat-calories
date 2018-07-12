@@ -6,70 +6,63 @@ import {getProfileByHandle} from '../../actions/profileActions';
 import moment from 'moment';
 import _ from 'lodash';
 
+import Loading from '../common/Loading';
+import SocialIcons from './SocialIcons';
+
 
 class Profile extends Component {
 
 	componentDidMount() {
 		this.props.getProfileByHandle(this.props.match.params.nickname);
+		window.scrollTo(0,0);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if(nextProps && nextProps.match.params.nickname !== this.props.match.params.nickname)
+		{
+			this.props.getProfileByHandle(nextProps.match.params.nickname);
+			window.scrollTo(0,0);
+		}
 	}
 
 	render() {
-
 		const {profile, loading} = this.props.profile;
 		let profileContent;
 		
-		if (_.isEmpty(profile) || loading) {
-			profileContent = (<h1 className="text-center display-1">Loading...</h1>);
+		if (loading) {
+			profileContent = <Loading />;
+
+		} else if (_.isEmpty(profile) && !loading && !this.props.errors.success) {
+			profileContent = (
+				<div>
+					<p className="display-4 text-muted">Ups.. something went wrong!</p>
+					<p className="lead text-muted">User <strong className="text-dark">{this.props.match.params.nickname}</strong> does not exist or account has been deleted.</p>								
+					<Link to='/' className="btn btn-outline-secondary m-0">Go back to dashboard</Link>
+				</div>
+			);
 		} else {
-			console.log(profile);
+			//console.log(profile);
 
 			//if this is user's account - info about gravatar
-			let gravatarInfo;
-			{profile._id.toString() === this.props.auth.user.id.toString() ? gravatarInfo = (
-				<div>
-					<small className="d-block text-muted mt-3">Would you like to change your profile photo?</small>
+			let updateInfo;
+			{profile._id.toString() === this.props.auth.user.id.toString() ? updateInfo = (
+				<div className="mt-3">
+					<div className="profile-update-button mb-1">
+						<i className="fas fa-pencil-alt"></i>
+					</div>
+					<small className="d-block text-muted">Would you like to change your profile photo?</small>
 					<small className="d-block text-muted">Your account is registed with email <strong>{profile.email}</strong></small>
 					<small className="d-block text-muted">Change your global avatar here: <a href="https://en.gravatar.com/" target="_blank" className="small-link">GRAVATAR</a></small>
 				</div>
-			) : gravatarInfo = '';}
+			) : updateInfo = '';}
 
-			let socialIcons = {
-				facebook: false,
-				instagram: false,
-				twitter: false,
-				linkedin: false,
-				website: false
-			};
-
-			!_.isEmpty(profile.social.facebook) ? socialIcons.facebook = true : null;
-			!_.isEmpty(profile.social.instagram) ? socialIcons.instagram = true : null;
-			!_.isEmpty(profile.social.twitter) ? socialIcons.twitter = true : null;
-			!_.isEmpty(profile.social.linkedin) ? socialIcons.linkedin = true : null;
-			!_.isEmpty(profile.social.website) ? socialIcons.website = true : null;
-
-			let socialIconsContent = (
-				<div className="mt-3 social-icons">
-					{socialIcons.facebook ? <a href={profile.social.facebook}><i className="fab fa-facebook-square"></i></a> : null}
-					{socialIcons.instagram ? <a href={profile.social.instagram}><i className="fab fa-instagram"></i></a> : null}
-					{socialIcons.twitter ? <a href={profile.social.twitter}><i className="fab fa-twitter-square"></i></a> : null}
-					{socialIcons.linkedin ? <a href={profile.social.linkedin}><i className="fab fa-linkedin"></i></a> : null}
-					{socialIcons.website ? <a href={profile.social.website}><i className="fas fa-paperclip"></i></a> : null}
-				</div>
-			);
-
-			// <i className="fab fa-facebook-square mr-2 fa-lg"></i>
-			// <i className="fab fa-instagram mr-2 fa-lg"></i>
-			// <i className="fab fa-twitter-square mr-2 fa-lg"></i>
-			// <i className="fab fa-linkedin mr-2 fa-lg"></i>
-			// <i className="fas fa-paperclip mr-2 fa-lg"></i>
-			// <i className="fas fa-user-circle mr-2 fa-lg"></i>
 
 			profileContent = (
 				<div className="row">
 					<div className="col-12 col-md-6 text-center">
 						<img src={profile.avatar} className="profile-img img-fluid rounded-circle" alt={`${profile.name} avatar`}/>
-						{gravatarInfo}
-						{socialIconsContent}
+						{updateInfo}
+						<SocialIcons  socialIcons={profile.social}/>
 					</div>
 					<div className="col-12 col-md-6 text-center mt-3 text-muted">
 						<small className="lead">Full name: </small>
@@ -87,10 +80,14 @@ class Profile extends Component {
 						<small className="lead">Trainings: </small>
 						<h4>{profile.numberOfPosts}</h4>
 					</div>
-					<div className="col-12 text-center mt-3 text-muted">
-						<h1>About user:</h1>
-						<h4>{profile.bio}</h4>
-					</div>
+
+					{!_.isEmpty(profile.bio) ? (
+						<div className="col-12 text-center mt-3 text-muted">
+							<h1>About user:</h1>
+							<p className="lead text-space">{profile.bio}</p>
+						</div>
+					) : null}
+
 				</div>
 			);
 		}

@@ -411,7 +411,8 @@ router.get(
 				user._id.toString() === req.user._id.toString() ? userData.email = user.email : null;
 
 				res.json(userData);
-			});
+			})
+			.catch(err => res.status(404).json({success: false}));
 	});
 
 

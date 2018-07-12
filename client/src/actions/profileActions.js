@@ -4,6 +4,7 @@ import {
 	GET_PROFILE,
 	GET_PROFILES,
 	PROFILE_LOADING,
+	PROFILE_LOADING_FALSE,
 	CLEAR_CURRENT_PROFILE,
 	GET_ERRORS,
 	SET_CURRENT_USER,
@@ -40,11 +41,13 @@ export const getProfileByHandle = handle => dispatch => {
 				payload: res.data
 			})
 		)
-		.catch(err =>
+		.catch(err => {
+			dispatch(setProfileLoadingFalse());
 			dispatch({
-				type: GET_PROFILE,
-				payload: null
-			})
+				type: GET_ERRORS,
+				payload: err.response.data
+			});
+		}
 		);
 };
 
@@ -52,6 +55,13 @@ export const getProfileByHandle = handle => dispatch => {
 export const setProfileLoading = () => {
 	return {
 		type: PROFILE_LOADING
+	};
+};
+
+// Stop loading
+export const setProfileLoadingFalse = () => {
+	return {
+		type: PROFILE_LOADING_FALSE
 	};
 };
 

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import ContentWrapper from '../common/ContentWrapper';
 import Loading from '../common/Loading';
 import DietCard from './DietCard';
 //actions
@@ -23,6 +22,7 @@ class Diets extends Component {
 
 	componentDidMount() {
 		this.props.getDiets();
+		window.scrollTo(0,0);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -147,7 +147,7 @@ class Diets extends Component {
 
 		return (
 			<div className="mt-5">
-				<div className="container-fluid">
+				<div className="container">
 					<div className="row">			
 						<div className="col-12 col-xl-4">
 							<div className="add-container add-container-diet">
@@ -174,7 +174,7 @@ class Diets extends Component {
 						</div>			
 					</div>
 				</div>
-				<div className="container-fluid">
+				<div className="container">
 					<div className="row user-content">
 
 						<div className="col-12 mb-4">
@@ -194,6 +194,8 @@ class Diets extends Component {
 						</div>
 
 						{dietContent}
+
+
 					</div>
 				</div>
 			</div>

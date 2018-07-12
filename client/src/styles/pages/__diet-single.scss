@@ -70,6 +70,13 @@
   }
 }
 
+.diet-single-avatar {
+  height: 80px;
+  width: 80px;
+  border-radius: 100%;
+  box-shadow: $shadow-small;
+}
+
 #charts {
   display: none;
   @include media-sm {

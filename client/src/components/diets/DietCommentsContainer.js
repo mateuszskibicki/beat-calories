@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {deleteComment, addComment} from '../../actions/dietActions';
+import {addComment} from '../../actions/dietActions';
 import TextAreaForm from '../common/TextAreaForm';
 import _ from 'lodash';
 import Moment from 'moment';
+
+import Comment from '../common/Comment';
 
 class DietCommentsContainer extends Component {
 	constructor(props) {
@@ -34,11 +36,6 @@ class DietCommentsContainer extends Component {
 		this.props.addComment(this.props.diet._id, this.state);
 	}
 
-	deleteComment = (e) => {
-		const commentId = e.target.getAttribute('data-comment');
-		const dietId = e.target.getAttribute('data-diet');
-		this.props.deleteComment(dietId, commentId);
-	}
 
 
 	render() {
@@ -66,29 +63,7 @@ class DietCommentsContainer extends Component {
 					<hr />
 					<div className="col-12">
 						{diet.comments.map(comment => (
-							<div className="card comment text-muted" key={comment._id}>
-								<div className="card-body">
-									<h4 className="comment-user">{comment.nickname}</h4>
-									<small>{Moment(comment.date).format('Do MMMM YYYY, h:mm a')}</small>
-									<hr />
-									<p className="lead comment-body">{comment.body}</p>
-									{this.props.auth.user.id.toString() === comment.user.toString() ? (
-										<button 
-											className="btn btn-red d-block-inline float-right pl-4 pr-4"
-											data-comment={comment._id}
-											data-diet={diet._id}
-											onClick={this.deleteComment}
-										>
-											<i 
-												className="fas fa-trash-alt"
-												data-comment={comment._id}
-												data-diet={diet._id}
-											></i>
-										</button>
-									) : null}
-								</div>
-                  
-							</div>
+							<Comment comment={comment} id={diet._id} key={comment._id}/>
 						))}
 					</div>
 				</div>
@@ -102,8 +77,7 @@ DietCommentsContainer.propTypes = {
 	auth: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired,
 	diet: PropTypes.object.isRequired,
-	deleteComment : PropTypes.func.isRequired,
-	addComment : PropTypes.func.isRequired,
+	addComment : PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -112,4 +86,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, {deleteComment, addComment})(DietCommentsContainer);
+export default connect(mapStateToProps, { addComment})(DietCommentsContainer);

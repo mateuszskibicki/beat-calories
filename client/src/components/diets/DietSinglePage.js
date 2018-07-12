@@ -18,6 +18,7 @@ class DietSinglePage extends Component {
 
 	componentDidMount() {
 		this.props.getDietByID(this.props.match.params.id);
+		window.scrollTo(0,0);
 	}
 
 	showUpdateForm = () => {
@@ -82,6 +83,7 @@ class DietSinglePage extends Component {
 										<h1 className="mb-1 fw-500">{diet.title}</h1>
 										<h2 className="m-0 fw-500">Calories: {diet.kcal}</h2>
 										<p className="lead m-0 fw-500">Author: <Link to={`/profile/${diet.user.nickname}`}>{diet.user.nickname}</Link></p>
+										<Link to={`/profile/${diet.user.nickname}`}><img src={diet.user.avatar} className="diet-single-avatar"/></Link>
 										<p className="lead m-0 fw-500">Date: {Moment(diet.date).format('Do MMMM YYYY, h:mm a')}</p>
 										<p className="lead m-0 fw-500">Type: {diet.type}</p>
 										<p className="lead m-0 fw-500">
@@ -110,7 +112,7 @@ class DietSinglePage extends Component {
 								<button className={likeBtnClass} onClick={this.likeDiet}><i className="far fa-heart"></i></button>
 							</div>
 							<div className="container mt-5 text-center">
-								<p className="lead diet-text">{diet.description}</p>
+								<p className="lead diet-text text-muted">{diet.description}</p>
 							</div>
 							<DietCommentsContainer diet={diet} />
 						</div>

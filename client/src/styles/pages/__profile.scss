@@ -35,4 +35,23 @@
       }
     }
   }
+  .profile-update-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    margin: auto;
+    background-color: $green-spring;
+    border-radius: 100%;
+    color: $white-smoke;
+    font-size: 1.2rem;
+    transition: .2s;
+    cursor: pointer;
+    &:hover {
+      background-color: darken($green-spring, 10%);
+      transform: scale(1.1);
+      box-shadow: $shadow-small;
+    }
+  }
 }
