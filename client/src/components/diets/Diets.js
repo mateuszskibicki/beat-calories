@@ -16,7 +16,10 @@ class Diets extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sortByType: ''
+			sortByType: '',
+			sortByLikes: '',
+			sortByComments: '',
+			sortByDate: ''
 		};
 	}
 
@@ -124,6 +127,30 @@ class Diets extends Component {
 		this.setState({sortByType : e.target.getAttribute('data-sort')});
 	}
 
+	changeSortByLikes = (e) => {
+		this.setState({
+			sortByComments : '',
+			sortByLikes : e.target.getAttribute('data-sort'),
+			sortByDate : ''
+		});
+	}
+
+	changeSortByComments = (e) => {
+		this.setState({
+			sortByComments : e.target.getAttribute('data-sort'),
+			sortByLikes: '',
+			sortByDate : ''
+		});
+	}
+
+	changeSortByDate = (e) => {
+		this.setState({
+			sortByComments : '',
+			sortByLikes: '',
+			sortByDate : 'Date'
+		});
+	}
+
 	changeShowAll = (e) => {
 		this.setState({sortByType : ''});
 	}
@@ -137,10 +164,31 @@ class Diets extends Component {
 		if(diets === null || loading) {
 			dietContent = <h1 className="display-1 text-center">Loading....</h1>; //if loading true
 		} else if(!_.isEmpty(this.state.sortByType)) { // if not empty
+
+			if(!_.isEmpty(this.state.sortByLikes)) {
+				diets = diets.sort((a,b) => b.likes.length - a.likes.length);
+			}
+			if(!_.isEmpty(this.state.sortByComments)) {
+				diets = diets.sort((a,b) => b.comments.length - a.comments.length);
+			}
+			if(!_.isEmpty(this.state.sortByDate)) {
+				diets = diets.sort((a,b) => new Date(b.date) - new Date(a.date));
+			}
+
 			diets = diets.map(diet => diet.type === this.state.sortByType ? diet : ''); //if === type in state
 			dietContent = diets.map(diet => !_.isEmpty(diet.type) ? <DietCard key={diet._id} diet={diet}/> : null); //if not null add react component
 			dietContent = dietContent.filter(diet => diet !== null); // if null remove from array
+
 		} else {
+			if(!_.isEmpty(this.state.sortByLikes)) {
+				diets = diets.sort((a,b) => b.likes.length - a.likes.length);
+			}
+			if(!_.isEmpty(this.state.sortByComments)) {
+				diets = diets.sort((a,b) => b.comments.length - a.comments.length);
+			}
+			if(!_.isEmpty(this.state.sortByDate)) {
+				diets = diets.sort((a,b) => new Date(b.date) - new Date(a.date));
+			}
 			dietContent = diets.map(diet => <DietCard key={diet._id} diet={diet}/>);
 		}
 
@@ -179,6 +227,7 @@ class Diets extends Component {
 
 						<div className="col-12 mb-4">
 							<button className='btn btn-green float-left'>Diets : {dietContent.length}</button>
+
 							<div className="dropdown float-left ml-3">
 								<button className="btn-green btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				CHANGE TYPE
@@ -188,6 +237,17 @@ class Diets extends Component {
 									<a className="dropdown-item" data-sort="Meat" onClick={this.changeSortByType}>Type: Meat</a>
 									<a className="dropdown-item" data-sort="Vegetarian" onClick={this.changeSortByType}>Type: Vegetarian</a>
 									<a className="dropdown-item" data-sort="Vegan" onClick={this.changeSortByType}>Type: Vegan</a>
+								</div>
+							</div>
+
+							<div className="dropdown float-left ml-3">
+								<button className="btn-green btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				SORT BY
+								</button>
+								<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">
+									<a className="dropdown-item" onClick={this.changeSortByDate}>Newest</a>
+									<a className="dropdown-item" data-sort="Likes" onClick={this.changeSortByLikes}>Most liked <i className="far fa-heart ml-2"></i></a>
+									<a className="dropdown-item" data-sort="Comments" onClick={this.changeSortByComments}>Most commented <i className="far fa-comment-alt ml-2"></i></a>
 								</div>
 							</div>
 

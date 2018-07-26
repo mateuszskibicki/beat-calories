@@ -6,12 +6,19 @@
   position: relative;
   z-index: 1;
   background: $white-smoke;
-  margin: 0 20px;
+  margin: 0 5px;
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   box-shadow: $shadow-small;
-  @media screen and (min-width: 900px) {
-    padding: 45px;
+  @include media-sm {
+    margin: 0 10px;
+  }
+  @include media-md {
+    padding: 15px;
+  }
+  @include media-xl {
+    padding: 20px;
+    margin: 0 15px;
   }
   label {
     display: block;
