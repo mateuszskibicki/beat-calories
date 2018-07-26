@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {deleteDiet} from '../../actions/dietActions';
+import {Link, withRouter} from 'react-router-dom';
+import {deleteDiet, deleteDietProfilePage} from '../../actions/dietActions';
 import PropTypes from 'prop-types';
 import DietFormUpdate from './DietFormUpdate';
 import photoMeat from '../../images/diet-meat.png';
@@ -25,11 +25,17 @@ class DietCard extends Component {
 
   deleteDiet = (e) => {
   	const dietId = e.target.getAttribute('data-id');
-  	this.props.deleteDiet(dietId);
+		
+  	if (this.props.match.path === '/diets') {
+  		this.props.deleteDiet(dietId);
+  	} else if (this.props.match.path === '/profile/:nickname') {
+  		this.props.deleteDietProfilePage(dietId);
+  	}
   }
 
   render(){
   	const {diet} = this.props;
+  	//console.log(this.props);
 
   	let photo = '';
   	diet.type === 'Meat' ? photo = photoMeat : null;
@@ -83,7 +89,7 @@ class DietCard extends Component {
 
     
   	return (
-  		<div className="col-12 col-md-6 col-xl-4">
+  		<div className="col-12 col-md-6 col-xl-4 fade-in-left">
   			<div className="card card-diet">
   				{buttonsUpdateDelete}
   				<div className={imgTopClass}>
@@ -141,4 +147,4 @@ const mapStateToProps = state => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, {deleteDiet})(DietCard);
+export default connect(mapStateToProps, {deleteDiet, deleteDietProfilePage})(withRouter(DietCard));

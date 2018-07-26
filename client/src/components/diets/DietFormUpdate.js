@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+
 import InputForm from '../common/InputForm';
 import TextAreaForm from '../common/TextAreaForm';
 import SelectForm from '../common/SelectForm';
-import {Link} from 'react-router-dom';
-import {updateDiet} from '../../actions/dietActions';
+import {Link, withRouter} from 'react-router-dom';
+import {updateDiet, updateDietOnProfilePage} from '../../actions/dietActions';
 import _ from 'lodash';
+
 
 class DietFormUpdate extends Component {
 	constructor(props) {
@@ -22,6 +25,7 @@ class DietFormUpdate extends Component {
   
 	componentDidMount() {
 		document.querySelector('.button-update-diet-modal').click();
+		//console.log(this.props);
 	}
 
 
@@ -30,6 +34,7 @@ class DietFormUpdate extends Component {
 			this.setState({errors: newProps.errors});	
 		} else {
 			document.querySelector('.button-close-modal-diet-update').click();
+			//console.log(newProps);
 		}
 	}
 
@@ -57,7 +62,12 @@ class DietFormUpdate extends Component {
 		}
   
 		if(_.isEmpty(errors)){
-			this.props.updateDiet(this.props.singleDiet._id, this.state);
+			if (this.props.match.path === '/diets') {
+				this.props.updateDiet(this.props.singleDiet._id, this.state);
+			} else if (this.props.match.path === '/profile/:nickname') {
+				this.props.updateDietOnProfilePage(this.props.singleDiet._id, this.state);
+			}
+			
 		}
 	}
 
@@ -198,6 +208,14 @@ class DietFormUpdate extends Component {
 	}
 }
 
+DietFormUpdate.propTypes = {
+	auth: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired,
+	diet: PropTypes.object.isRequired,
+	updateDiet : PropTypes.func.isRequired,
+	updateDietOnProfilePage : PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
 	auth: state.auth,
 	errors: state.errors,
@@ -206,4 +224,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {updateDiet})(DietFormUpdate);
+export default connect(mapStateToProps, {updateDiet, updateDietOnProfilePage})(withRouter(DietFormUpdate));

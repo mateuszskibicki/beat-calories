@@ -1,6 +1,7 @@
 //main
 @import './main/__mixins.scss';
 @import './main/__variables.scss';
+@import './main/__animations.scss';
 @import './main/__main.scss';
 //utils
 @import './utils/__typography.scss';
@@ -20,3 +21,4 @@
 @import './components/__comment-container.scss';
 @import './components/__comment.scss';
 @import './components/__dropdown-item.scss';
+@import './components/__diet-update-modal.scss';

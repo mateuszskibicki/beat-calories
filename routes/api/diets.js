@@ -238,7 +238,7 @@ router.post(
 
 
 // @route   POST update api/diets
-// @desc    Update diet
+// @desc    Update diet on diets page
 // @access  Private
 router.post(
 	'/:id',
@@ -325,8 +325,8 @@ router.post(
 			.catch(e => res.json({success: false}));
 	});
 
-// @route   POST update api/diets
-// @desc    Update diet
+// @route   POST update api/diets/single
+// @desc    Update diet on single page
 // @access  Private
 router.post(
 	'/single/:id',
@@ -399,6 +399,165 @@ router.post(
 							)
 								.then(() => {
 									Diet.findById(req.params.id).populate('name').then(diet => res.json(diet));
+								});
+						}
+					} else {
+						res.status(400).json({auth: 'This is not your diet'});
+					}
+				} else {
+					res.status(404).json({success: false});
+				}
+			})
+			.catch(e => res.json({success: false}));
+	});
+
+// @route   POST update api/diets/profilePage
+// @desc    Update diet on profile page
+// @access  Private
+router.post(
+	'/profilePage/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		// required: title, calories, type, description
+		// if tags >> comma separated values >> array
+		Diet.findOne({_id: req.params.id})
+			.then(diet => {
+				if (diet) {
+					if(diet.user.toString() === req.user._id.toString()){ // check if this is diet owner
+						let dietFields = {};
+						let dietTags = [];
+						let errors = {};
+				
+						if(_.isEmpty(req.body.title)) {
+							errors.title = 'Title is required.';
+						} else if (
+							req.body.title.trim().length < 5 || 
+							req.body.title.trim().length > 50) 
+						{
+							errors.title = 'Title length between 5 and 50 characters.';
+						}
+				
+						if(_.isEmpty(req.body.kcal)) {
+							errors.kcal = 'Calories are required.';
+						} else if(!validator.isNumeric(req.body.kcal)){
+							errors.kcal = 'Fill with correct data.';
+						} else if (
+							Number(req.body.kcal) < 1000 || 
+						Number(req.body.kcal) > 10000) 
+						{
+							errors.kcal = 'Diets lower than 1000kcal or bigger than 10000kcal are unhelthy.';
+						}
+				
+						if(_.isEmpty(req.body.type)) {
+							errors.type = 'Type of diet is required.';
+						}
+			
+						if(_.isEmpty(req.body.description)) {
+							errors.description = 'Description is required.';
+						} else if (
+							req.body.description.trim().length < 50 ||
+						req.body.description.trim().length > 5000 
+						) {
+							errors.description = 'Description between 50 and 5000 characters.';
+						}
+			
+						if(!_.isEmpty(req.body.tags)) {
+							dietTags = req.body.tags.trim().split(',');
+							dietTags = dietTags.map(diet => {return diet.trim();});
+							dietTags = _.uniq(dietTags);
+						}
+			
+					
+				
+						if(!_.isEmpty(errors)) {
+							res.status(404).json(errors);
+						} else {
+							dietFields.title = req.body.title;
+							dietFields.kcal = req.body.kcal;
+							dietFields.type = req.body.type;
+							dietFields.description = req.body.description;
+							dietFields.user = req.user._id;
+							dietTags.length > 0 ? dietFields.tags = dietTags : '';
+							Diet.findOneAndUpdate(
+								{_id: req.params.id},
+								{$set: dietFields},
+								{new: true}
+							)
+								.then(() => {
+									User.findOne({ nickname: req.user.nickname })
+										.populate('recipes')
+										.populate('diets')
+										.populate({path: 'diets', populate : {path: 'user'}})
+										.populate('likedDiets')
+										.populate({path: 'likedDiets', populate: {path: 'user'}})
+										.populate('likedRecipes')
+										.then(user => {
+											let dietsData = user.diets.map(diet => (
+												{
+													comments: diet.comments,
+													date: diet.date,
+													description: diet.description,
+													kcal: diet.kcal,
+													likes: diet.likes,
+													tags: diet.tags,
+													title: diet.title,
+													type: diet.type,
+													_id: diet._id,
+													user: {
+														name: diet.user.name,
+														nickname: diet.user.nickname,
+														avatar: diet.user.avatar,
+														_id: diet.user._id
+													}
+												}
+											));
+						
+											let likedDietsData = user.likedDiets.map(diet => (
+												{
+													comments: diet.comments,
+													date: diet.date,
+													description: diet.description,
+													kcal: diet.kcal,
+													likes: diet.likes,
+													tags: diet.tags,
+													title: diet.title,
+													type: diet.type,
+													_id: diet._id,
+													user: {
+														name: diet.user.name,
+														nickname: diet.user.nickname,
+														avatar: diet.user.avatar,
+														_id: diet.user._id
+													}
+												}
+											));
+						
+						
+											const userData = {
+												_id : user._id,
+												name: user.name,
+												nickname: user.nickname,
+												social: user.social,
+												avatar: user.avatar,
+												bio: user.bio,
+												date: user.date,
+												diets: dietsData,
+												numberOfDiets: user.diets.length,
+												posts: user.posts,
+												numberOfPosts: user.posts.length,
+												recipes: user.recipes,
+												numberOfRecipies: user.recipes.length,
+												likedDiets: likedDietsData,
+												likedPosts: user.likedPosts,
+												likedRecipes: user.likedRecipes,
+												likedTrainings: user.likedTrainings
+											};
+						
+											user._id.toString() === req.user._id.toString() ? userData.email = user.email : null;
+						
+											res.json(userData);
+										})
+										.catch(err => res.status(404).json({success: false}));
 								});
 						}
 					} else {
@@ -512,7 +671,7 @@ router.delete(
 
 
 // @route   DELETE api/diets/:id
-// @desc    DELETE diet by id
+// @desc    DELETE diet by id on diets page
 // @access  Private
 router.delete(
 	'/:id',
@@ -540,4 +699,111 @@ router.delete(
 			.catch(e => res.json(e));
 	});
 
+// @route   DELETE api/diets/:id
+// @desc    DELETE diet by id on profile page
+// @access  Private
+router.delete(
+	'/profilePage/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+
+		Diet.findById(req.params.id).then(diet => {
+			// if true this is your diet and you can delete this
+			if(req.user._id.toString() === diet.user.toString()) {
+				diet.remove().then(() => {
+					User.findById(req.user.id).then(user => {
+						let newUser = user;
+						let index = newUser.diets.indexOf(diet._id);
+						newUser.diets.splice(index, 1);
+						user.save(newUser).then(() => {
+							User.findOne({ nickname: req.user.nickname })
+								.populate('recipes')
+								.populate('diets')
+								.populate({path: 'diets', populate : {path: 'user'}})
+								.populate('likedDiets')
+								.populate({path: 'likedDiets', populate: {path: 'user'}})
+								.populate('likedRecipes')
+								.then(user => {
+									let dietsData = user.diets.map(diet => (
+										{
+											comments: diet.comments,
+											date: diet.date,
+											description: diet.description,
+											kcal: diet.kcal,
+											likes: diet.likes,
+											tags: diet.tags,
+											title: diet.title,
+											type: diet.type,
+											_id: diet._id,
+											user: {
+												name: diet.user.name,
+												nickname: diet.user.nickname,
+												avatar: diet.user.avatar,
+												_id: diet.user._id
+											}
+										}
+									));
+
+									let likedDietsData = user.likedDiets.map(diet => (
+										{
+											comments: diet.comments,
+											date: diet.date,
+											description: diet.description,
+											kcal: diet.kcal,
+											likes: diet.likes,
+											tags: diet.tags,
+											title: diet.title,
+											type: diet.type,
+											_id: diet._id,
+											user: {
+												name: diet.user.name,
+												nickname: diet.user.nickname,
+												avatar: diet.user.avatar,
+												_id: diet.user._id
+											}
+										}
+									));
+
+
+									const userData = {
+										_id : user._id,
+										name: user.name,
+										nickname: user.nickname,
+										social: user.social,
+										avatar: user.avatar,
+										bio: user.bio,
+										date: user.date,
+										diets: dietsData,
+										numberOfDiets: user.diets.length,
+										posts: user.posts,
+										numberOfPosts: user.posts.length,
+										recipes: user.recipes,
+										numberOfRecipies: user.recipes.length,
+										likedDiets: likedDietsData,
+										likedPosts: user.likedPosts,
+										likedRecipes: user.likedRecipes,
+										likedTrainings: user.likedTrainings
+									};
+
+									user._id.toString() === req.user._id.toString() ? userData.email = user.email : null;
+
+									res.json(userData);
+								})
+								.catch(err => res.status(404).json({success: false}));
+						});
+					});
+				});
+		
+			} else {
+				res.status(400).json({success: false});
+			}
+		})
+			.catch(e => res.json(e));
+	});
+
 module.exports = router;
+
+
+
+
+

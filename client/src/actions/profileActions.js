@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {logoutUser} from './authActions';
 
 import {
 	GET_PROFILE,
@@ -7,8 +8,7 @@ import {
 	PROFILE_LOADING_FALSE,
 	CLEAR_CURRENT_PROFILE,
 	GET_ERRORS,
-	SET_CURRENT_USER,
-	CHANGE_AVATAR
+	SET_CURRENT_USER
 } from './types';
 
 // Get current profile
@@ -43,6 +43,20 @@ export const getProfileByHandle = handle => dispatch => {
 		)
 		.catch(err => {
 			dispatch(setProfileLoadingFalse());
+			dispatch({
+				type: GET_ERRORS,
+				payload: err.response.data
+			});
+		}
+		);
+};
+
+// Update profile by id
+export const updateProfile = (id, userData) => dispatch => {
+	axios
+		.post(`/api/users/update/${id}`, userData)
+		.then(res =>dispatch(logoutUser()))
+		.catch(err => {
 			dispatch({
 				type: GET_ERRORS,
 				payload: err.response.data

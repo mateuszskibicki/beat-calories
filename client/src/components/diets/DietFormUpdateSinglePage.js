@@ -61,7 +61,8 @@ class DietFormUpdateSinglePage extends Component {
 		}
   
 		if(_.isEmpty(errors)){
-			this.props.updateDietSinglePage(this.props.singleDiet._id, this.state, this.props.history);
+			//console.log(this.props.auth.user.nickname);
+			this.props.updateDietSinglePage(this.props.singleDiet._id, this.state, this.props.auth.user.nickname, this.props.history);
 		}
 	}
 

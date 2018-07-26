@@ -3,7 +3,9 @@ import {
 	GET_PROFILES,
 	PROFILE_LOADING,
 	PROFILE_LOADING_FALSE,
-	CLEAR_CURRENT_PROFILE
+	CLEAR_CURRENT_PROFILE,
+	UPDATE_DIET_PROFILE_PAGE,
+	DELETE_DIET_PROFILE_PAGE
 } from '../actions/types';
 
 const initialState = {
@@ -29,6 +31,18 @@ export default function(state = initialState, action) {
 			...state,
 			profile: action.payload,
 			loading: false
+		};
+	case UPDATE_DIET_PROFILE_PAGE:
+		return {
+			...state,
+			loading: false,
+			profile: action.payload
+		};
+	case DELETE_DIET_PROFILE_PAGE:
+		return {
+			...state,
+			loading: false,
+			profile: action.payload
 		};
 	case CLEAR_CURRENT_PROFILE:
 		return {

@@ -123,11 +123,6 @@ router.post('/register', (req, res) => {
 	if(!_.isEmpty(req.body.bio)) {
 		bio = req.body.bio.trim();
 	}
-
-	// avatar
-	// if(!_.isEmpty(req.body.avatar)) {
-	// 	console.log(req.body.avatar);
-	// } 
 	
 	if (!_.isEmpty(errors)) {
 		return res.status(400).json(errors);
@@ -182,6 +177,103 @@ router.post('/register', (req, res) => {
 		});
 	}
 });
+
+// @route   POST api/users/update/:id
+// @desc    Update user by ID
+// @access  Private
+
+router.post(
+	'/update/:id',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		let errors = {};
+
+		let updatedUser = {
+			name: '',
+			nickname: ''
+		};
+	
+		if(_.isEmpty(req.body.name)) {
+			errors.name = 'Full name is required.';
+		} else if(req.body.name.trim().length < 2 || req.body.name.trim().length > 30) {
+			errors.name = 'Length between 2 and 30 characters.';
+		} else {
+			// Validated
+			updatedUser.name = req.body.name.trim();
+		}
+		
+		if(_.isEmpty(req.body.nickname)) {
+			errors.nickname = 'Nickname is required.';
+		} else if(req.body.nickname.trim().length < 6 || req.body.nickname.trim().length > 30) {
+			errors.nickname = 'Length between 6 and 30 characters.';
+		} else {
+			// Validated
+			updatedUser.nickname = req.body.nickname.trim();
+		}
+	
+		let social = {};
+		req.body.facebook ? social.facebook = req.body.facebook.trim() : null;
+		req.body.twitter ? social.twitter = req.body.twitter.trim() : null;
+		req.body.instagram ? social.instagram = req.body.instagram.trim() : null;
+		req.body.linkedin ? social.linkedin = req.body.linkedin.trim() : null;
+		req.body.website ? social.website = req.body.website.trim() : null;
+	
+		if(social.facebook) {
+			!validator.isURL(social.facebook) ? errors.facebook = 'Facebook URL is not valid.' : null; 
+		}
+	
+		if(social.twitter) {
+			!validator.isURL(social.twitter) ? errors.twitter = 'Twitter URL is not valid.' : null; 
+		}
+	
+		if(social.instagram) {
+			!validator.isURL(social.instagram) ? errors.instagram = 'Instagram URL is not valid.' : null; 
+		}
+	
+		if(social.linkedin) {
+			!validator.isURL(social.linkedin) ? errors.linkedin = 'Facebook URL is not valid.' : null; 
+		}
+	
+		if(social.website) {
+			!validator.isURL(social.website) ? errors.website = 'Website URL is not valid.' : null; 
+		}
+	
+		let bio = '';
+		if(!_.isEmpty(req.body.bio)) {
+			bio = req.body.bio.trim();
+		}
+		
+		if (!_.isEmpty(errors)) {
+			return res.status(400).json(errors);
+		} else {
+			// Validated and ready to update
+			User.findById(req.params.id)
+				.then(user => {
+					let userData = {
+						name: updatedUser.name,
+						nickname: updatedUser.nickname,
+						email: user.email,
+						password: user.password,
+						avatar: user.avatar,
+						social: social,
+						bio: bio
+					};
+					User.findOneAndUpdate(
+						{_id: req.params.id},
+						{$set: userData},
+						{new: true}
+					).then((user) => {
+						res.json(user);
+					});
+				})
+				.catch(e => res.status(404));
+		}
+	}
+);
+
+
+
+
 
 // @route   GET api/users/login
 // @desc    Login User / Returning JWT Token

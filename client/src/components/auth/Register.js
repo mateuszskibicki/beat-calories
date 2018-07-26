@@ -64,9 +64,7 @@ class Register extends Component {
 
 	render() {
 		const { errors } = this.state;
-
-
-		//20:54
+		//
 		return (
 			<div className="login-bg">
 				<div className="login-page mb-5">

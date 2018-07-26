@@ -146,7 +146,7 @@ class Diets extends Component {
 
 
 		return (
-			<div className="mt-5">
+			<div className="mt-5 fade-in-left">
 				<div className="container">
 					<div className="row">			
 						<div className="col-12 col-xl-4">

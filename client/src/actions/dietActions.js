@@ -9,11 +9,13 @@ import {
 	DIET_LOADING,
 	GET_DIET_BY_ID,
 	DELETE_DIET,
+	DELETE_DIET_PROFILE_PAGE,
 	ADD_COMMENT_DIET,
 	DELETE_COMMENT_DIET,
 	LIKE_DIET,
 	UPDATE_DIET,
-	UPDATE_DIET_SINGLE_PAGE
+	UPDATE_DIET_SINGLE_PAGE,
+	UPDATE_DIET_PROFILE_PAGE
 } from './types';
 
 // Get diets
@@ -52,15 +54,25 @@ export const updateDiet = (id ,dietData) => dispatch => {
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
-// Update diet on single page
-export const updateDietSinglePage = (id ,dietData, history) => dispatch => {
+// Update diet on profile page
+export const updateDietOnProfilePage = (id ,dietData) => dispatch => {
 	dispatch(clearErrors());
-	axios.post(`/api/diets/single/${id}`, dietData)
-		.then((res) => history.push('/diets'))
+	axios.post(`/api/diets/profilePage/${id}`, dietData)
+		.then((res) => {
+			dispatch({type: UPDATE_DIET_PROFILE_PAGE, payload: res.data});
+		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
-// Delete diet
+// Update diet on single page
+export const updateDietSinglePage = (id ,dietData, nickname, history) => dispatch => {
+	dispatch(clearErrors());
+	axios.post(`/api/diets/single/${id}`, dietData)
+		.then((res) => history.push(`/profile/${nickname}`))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Delete diet on diets page
 export const deleteDiet = (id) => dispatch => {
 	axios.delete(`/api/diets/${id}`)
 		.then((res) => {
@@ -70,10 +82,19 @@ export const deleteDiet = (id) => dispatch => {
 };
 
 
-// Delete diet
+// Delete diet on single page
 export const deleteDietSinglePage = (id, history) => dispatch => {
 	axios.delete(`/api/diets/${id}`)
 		.then((res) => history.push('/diets'))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Delete diet on profile page
+export const deleteDietProfilePage = (id) => dispatch => {
+	axios.delete(`/api/diets/profilePage/${id}`)
+		.then((res) => {
+			dispatch({type: DELETE_DIET_PROFILE_PAGE, payload: res.data});
+		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
