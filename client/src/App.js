@@ -21,6 +21,7 @@ import Users from './components/users/Users';
 import Posts from './components/posts/Posts';
 import Diets from './components/diets/Diets';
 import DietSinglePage from './components/diets/DietSinglePage';
+import Recipes from './components/recipes/Recipes';
 
 
 //Check for token
@@ -98,7 +99,7 @@ class App extends Component {
 
 
 									<Switch>
-										<PrivateRoute exact path="/recipes" component={Dashboard} />
+										<PrivateRoute exact path="/recipes" component={Recipes} />
 									</Switch>
 									<Switch>
 										<PrivateRoute exact path="/trainings" component={Dashboard} />

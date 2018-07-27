@@ -5,38 +5,46 @@ import InputForm from '../common/InputForm';
 import TextAreaForm from '../common/TextAreaForm';
 import SelectForm from '../common/SelectForm';
 import {Link} from 'react-router-dom';
-import {addDiet} from '../../actions/dietActions';
+//import {addDiet} from '../../actions/dietActions';
 import _ from 'lodash';
 
-class DietForm extends Component {
+class RecipeForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			title: '',
 			kcal: '',
-			type: '',
-			description: '',
+			dishType: '',
+			cookingMethod: '',
+			cousines: '',
+			lifestyle: '',
+			preparationTime: '',
+			cookingTime: '',
+			price: '',
+			shortDescription: '',
+			longDescription: '',
 			tags: '',
+			ingredients: '',
 			errors: {}
 		};
 	}
 
 
-	componentWillReceiveProps(newProps) {
-		if(!_.isEmpty(newProps.errors)) {
-			this.setState({errors: newProps.errors});	
-		} else {
-			this.setState({
-				title: '',
-				kcal: '',
-				type: '',
-				description: '',
-				tags: '',
-				errors: {}
-			});
-			document.querySelector('form .button-red').click();
-		}
-	}
+	// componentWillReceiveProps(newProps) {
+	// 	if(!_.isEmpty(newProps.errors)) {
+	// 		this.setState({errors: newProps.errors});	
+	// 	} else {
+	// 		this.setState({
+	// 			title: '',
+	// 			kcal: '',
+	// 			type: '',
+	// 			description: '',
+	// 			tags: '',
+	// 			errors: {}
+	// 		});
+	// 		document.querySelector('form .button-red').click();
+	// 	}
+	// }
 
 	onChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
@@ -44,7 +52,7 @@ class DietForm extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault();
-		this.props.addDiet(this.state);
+		//this.props.addDiet(this.state);
 	}
 
 	formatButton = (e) => {
@@ -59,7 +67,7 @@ class DietForm extends Component {
 		return (
 			<div className="col-12 pl-0 pr-0">
 				<form className="form" onSubmit={this.onSubmit} autoComplete="off">
-					<h4 className="display-4">Add diet</h4>
+					<h4 className="display-4">Add recipe</h4>
 
 					<InputForm
 						type="text"
@@ -69,23 +77,67 @@ class DietForm extends Component {
 						onChange = {this.onChange}
 						error = {errors.title}
 					/>
-					<InputForm
-						type="text"
-						placeholder="Calories *"
-						name = "kcal"
-						value = {this.state.kcal}
+          
+					<SelectForm
+						htmlForAndID='calories'
+						label="Calories *"
+						name="calories"
+						optionArray={['0-300', '300-600', '600-1000', '1000+']}
+						value = {this.state.calories}
 						onChange = {this.onChange}
-						error = {errors.kcal}
+						error = {errors.calories}
 					/>
 
 					<SelectForm
-						htmlForAndID='typeOfDiet'
-						label="Type of diet"
-						name="type"
-						optionArray={['Meat', 'Vegetarian', 'Vegan']}
-						value = {this.state.type}
+						htmlForAndID='dishType'
+						label="Dish type *"
+						name="dishType"
+						optionArray={[
+							'Pasta & risotto', 
+							'Salad', 
+							'Bread & doughs', 
+							'Curry',
+							'Vegetable sides',
+							'Soup',
+							'Antipasti',
+							'Roast',
+							'BBQ food',
+							'Stew',
+							'Pizza',
+							'Sandwiches & wraps',
+							'Cakes & tea time treats',
+							'Pies & pastries',
+							'Sauces & condiments',
+							'Puddings & desserts',
+							'Drinks',
+							'Cookies',
+							'Meatballs',
+							'Other'
+						]}
+						value = {this.state.dishType}
 						onChange = {this.onChange}
-						error = {errors.type}
+						error = {errors.dishType}
+					/>
+          
+					<SelectForm
+						htmlForAndID='cookingMethod'
+						label="Cooking method *"
+						name="cookingMethod"
+						optionArray={[
+							'Baking',
+							'Boiling',
+							'Steaming',
+							'Broiling',
+							'Frying',
+							'Grilling',
+							'Roasting',
+							'Pickling',
+							'Raw',
+							'Other'
+						]}
+						value = {this.state.cookingMethod}
+						onChange = {this.onChange}
+						error = {errors.cookingMethod}
 					/>
 
 					<button 
@@ -174,19 +226,16 @@ class DietForm extends Component {
 	}
 }
 
-DietForm.propTypes = {
+RecipeForm.propTypes = {
 	auth: PropTypes.object.isRequired,
-	errors: PropTypes.object.isRequired,
-	diet: PropTypes.object.isRequired,
-	addDiet : PropTypes.func.isRequired
+	errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
 	auth: state.auth,
-	errors: state.errors,
-	diet: state.diet
+	errors: state.errors
 });
 
 
 
-export default connect(mapStateToProps, {addDiet})(DietForm);
+export default connect(mapStateToProps)(RecipeForm);

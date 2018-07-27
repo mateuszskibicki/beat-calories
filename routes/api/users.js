@@ -499,7 +499,7 @@ router.get(
 					posts: user.posts,
 					numberOfPosts: user.posts.length,
 					recipes: user.recipes,
-					numberOfRecipies: user.recipes.length,
+					numberOfRecipes: user.recipes.length,
 					likedDiets: likedDietsData,
 					likedPosts: user.likedPosts,
 					likedRecipes: user.likedRecipes,

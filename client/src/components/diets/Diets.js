@@ -162,7 +162,7 @@ class Diets extends Component {
 		let dietContent;
 
 		if(diets === null || loading) {
-			dietContent = <h1 className="display-1 text-center">Loading....</h1>; //if loading true
+			dietContent = <Loading />; //if loading true
 		} else if(!_.isEmpty(this.state.sortByType)) { // if not empty
 
 			if(!_.isEmpty(this.state.sortByLikes)) {
@@ -196,7 +196,8 @@ class Diets extends Component {
 		return (
 			<div className="mt-5 fade-in-left">
 				<div className="container">
-					<div className="row">			
+					<div className="row">		
+
 						<div className="col-12 col-xl-4">
 							<div className="add-container add-container-diet">
 								<button type="button" className="button-add-modal" data-toggle="modal" data-target="#dietAddModal">
@@ -213,8 +214,8 @@ class Diets extends Component {
 									</div>
 								</div>
 							</div>
-
 						</div>
+						
 						<div className="col-12 col-xl-8 mt-5" id="charts">
 							{
 								//charts go here

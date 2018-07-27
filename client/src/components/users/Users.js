@@ -18,13 +18,14 @@ class Users extends Component {
 		};
 	}
 
+	componentDidMount() {
+		this.props.getAllProfiles();
+		window.scrollTo(0,0);
+	}
+
 	onChange = (e) => {
 		e.preventDefault();
 		this.setState({findUser: e.target.value});
-	}
-
-	componentDidMount() {
-		this.props.getAllProfiles();
 	}
 
 	render() {

@@ -72,7 +72,7 @@ class ProfileContent extends Component {
   				<small className="lead">Posts: </small>
   				<h4>{profile.numberOfPosts}</h4>
   				<small className="lead">Recipes: </small>
-  				<h4>{profile.numberOfPosts}</h4>
+  				<h4>{profile.numberOfRecipes}</h4>
   				<small className="lead">Trainings: </small>
   				<h4>{profile.numberOfPosts}</h4>
   			</div>

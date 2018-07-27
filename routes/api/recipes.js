@@ -168,12 +168,12 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
 		// required: title*, kcal*, dishType*, cookingMethod*, cousines*, lifestyle*, 
-		// preparationTime*, cookingTime*, shortDescription*, longDescription*, price*, photo
-		// if tags* or ingradients* >> comma separated values >> array
+		// preparationTime*, cookingTime*, shortDescription*, longDescription*, price*
+		// if tags* or ingredients* >> comma separated values >> array
 		// default date
 		let recipeFields = {};
 		let recipeTags = [];
-		let recipeIngradients = [];
+		let recipeIngredients = [];
 		let errors = {};
 	
 		if(_.isEmpty(req.body.title)) {
@@ -186,8 +186,11 @@ router.post(
 		}
 	
 		if(_.isEmpty(req.body.kcal)) {
-			errors.kcal = 'Kalories are required.';
+			errors.kcal = 'Calories are required.';
+		} else if (!_.isNumber(Number(req.body.kcal))) {
+			errors.kcal = 'Calories must be a number.';
 		}
+
 	
 		if(_.isEmpty(req.body.dishType)) {
 			errors.dishType = 'Type of meal is required.';
@@ -240,15 +243,15 @@ router.post(
 			recipeTags = recipeTags.map(tag => {return tag.trim();});
 		}
 
-		if(!_.isEmpty(req.body.ingradients)) {
-			recipeIngradients = req.body.ingradients.trim().split(',');
-			recipeIngradients = recipeIngradients.map(ingradient => {return ingradient.trim();});
+		if(!_.isEmpty(req.body.ingredients)) {
+			recipeIngredients = req.body.ingredients.trim().split(',');
+			recipeIngredients = recipeIngredients.map(ingredient => {return ingredient.trim();});
 		}
 
 		
 	
 		if(!_.isEmpty(errors)) {
-			res.json(errors);
+			res.status(404).json(errors);
 		} else {
 			// create object with key value pairs
 			// required
@@ -266,15 +269,15 @@ router.post(
 			recipeFields.user = req.user._id;
 			// optional
 			recipeTags.length > 0 ? recipeFields.tags = recipeTags : null;
-			recipeIngradients.length > 0 ? recipeFields.ingradients = recipeIngradients : null;
+			recipeIngredients.length > 0 ? recipeFields.ingredients = recipeIngredients : null;
 
 			new Recipe(recipeFields).save().then(recipe => {
 				User.findById(req.user._id).then(user => {
 					let userWithRecipe = user.recipes.unshift(recipe._id);
 					user.save(userWithRecipe);
-					res.json({success: true});
+					res.json(recipe);
 				});
-			}).catch(e => res.json(e));
+			}).catch(e => res.status(400).json(e));
 		}
 	});
 

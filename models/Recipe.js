@@ -57,7 +57,7 @@ const RecipeSchema = new Schema({
 	tags: [{
 		type: String
 	}],
-	ingradients: [{
+	ingredients: [{
 		type: String
 	}],
 	date: {
