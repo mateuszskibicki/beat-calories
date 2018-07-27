@@ -28,17 +28,24 @@
 .btn-green {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
-  background-color: darken($green-spring, 20%);
-  color: #fff;
-  font-weight: 900;
   outline: 0;
+  width: 100%;
+  margin-top: 0.7rem;
   border: 0;
-  transition: .2s;
+  border-radius: 0%;
+  padding: 14px;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 900;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.2s;
+  cursor: pointer;
+  background-color: darken($green-spring, 10%);
   &:hover {
     outline: 0;
-    background: darken($green-spring, 25%);
+    background: darken($green-spring, 20%);
     box-shadow: $shadow-small;
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
 }
 

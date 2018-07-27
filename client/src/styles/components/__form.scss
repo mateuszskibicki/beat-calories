@@ -54,7 +54,7 @@
     border-color: none;
     box-shadow: $shadow-small;
     border-bottom: 3px $green-spring solid;
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
   @include media-md {
     padding: 0.7rem;
@@ -84,7 +84,7 @@
   font-size: 16px;
   font-weight: 900;
   -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+  transition: all 0.2s;
   cursor: pointer;
 }
 

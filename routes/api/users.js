@@ -370,15 +370,21 @@ router.get(
 	'/all',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		User.find()
+		User.find().sort({date: -1})
 			.then(users => {
 				const usersToDisplay = [];
 				users.forEach(user => {
 					usersToDisplay.push({
+						_id : user._id,
 						name: user.name,
 						nickname: user.nickname,
 						avatar: user.avatar,
-						date: user.date
+						date: user.date,
+						social: user.social,
+						numberOfDiets: user.diets.length,
+						numberOfPosts: user.posts.length,
+						numberOfRecipes: user.recipes.length,
+						numberOfTrainings: user.trainings.length,
 					});
 				});
 				res.json(usersToDisplay);
