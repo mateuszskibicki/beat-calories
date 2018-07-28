@@ -67,8 +67,8 @@ class Register extends Component {
 		//
 		return (
 			<div className="login-bg">
-				<div className="login-page mb-5">
-					<div className="form">
+				<div className="login-page mb-5 ">
+					<div className="form fade-in-left">
 						<form 
 							className="login-form" 
 							onSubmit={this.onSubmit} 

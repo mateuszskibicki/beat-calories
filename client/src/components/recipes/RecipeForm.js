@@ -5,7 +5,7 @@ import InputForm from '../common/InputForm';
 import TextAreaForm from '../common/TextAreaForm';
 import SelectForm from '../common/SelectForm';
 import {Link} from 'react-router-dom';
-//import {addDiet} from '../../actions/dietActions';
+import {addRecipe} from '../../actions/recipeActions';
 import _ from 'lodash';
 
 class RecipeForm extends Component {
@@ -16,7 +16,7 @@ class RecipeForm extends Component {
 			kcal: '',
 			dishType: '',
 			cookingMethod: '',
-			cousines: '',
+			cuisine: '',
 			lifestyle: '',
 			preparationTime: '',
 			cookingTime: '',
@@ -30,21 +30,29 @@ class RecipeForm extends Component {
 	}
 
 
-	// componentWillReceiveProps(newProps) {
-	// 	if(!_.isEmpty(newProps.errors)) {
-	// 		this.setState({errors: newProps.errors});	
-	// 	} else {
-	// 		this.setState({
-	// 			title: '',
-	// 			kcal: '',
-	// 			type: '',
-	// 			description: '',
-	// 			tags: '',
-	// 			errors: {}
-	// 		});
-	// 		document.querySelector('form .button-red').click();
-	// 	}
-	// }
+	componentWillReceiveProps(newProps) {
+		if(!_.isEmpty(newProps.errors)) {
+			this.setState({errors: newProps.errors});
+		} else {
+			this.setState({
+				title: '',
+				kcal: '',
+				dishType: '',
+				cookingMethod: '',
+				cuisine: '',
+				lifestyle: '',
+				preparationTime: '',
+				cookingTime: '',
+				price: '',
+				shortDescription: '',
+				longDescription: '',
+				tags: '',
+				ingredients: '',
+				errors: {}
+			});
+			document.querySelector('form .button-red').click();
+		}
+	}
 
 	onChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
@@ -52,7 +60,7 @@ class RecipeForm extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault();
-		//this.props.addDiet(this.state);
+		this.props.addRecipe(this.state);
 	}
 
 	formatButton = (e) => {
@@ -79,13 +87,13 @@ class RecipeForm extends Component {
 					/>
           
 					<SelectForm
-						htmlForAndID='calories'
+						htmlForAndID='kcal'
 						label="Calories *"
-						name="calories"
+						name="kcal"
 						optionArray={['0-300', '300-600', '600-1000', '1000+']}
-						value = {this.state.calories}
+						value = {this.state.kcal}
 						onChange = {this.onChange}
-						error = {errors.calories}
+						error = {errors.kcal}
 					/>
 
 					<SelectForm
@@ -138,6 +146,93 @@ class RecipeForm extends Component {
 						value = {this.state.cookingMethod}
 						onChange = {this.onChange}
 						error = {errors.cookingMethod}
+					/>
+
+					<SelectForm
+						htmlForAndID='cuisine'
+						label="Cuisine *"
+						name="cuisine"
+						optionArray={[
+							'American',
+							'British',
+							'Caribbean',
+							'Chinese',
+							'French',
+							'Greek',
+							'Indian',
+							'Italy',
+							'Japanese',
+							'Mediterranean',
+							'Mexican',
+							'Spanish',
+							'Thai',
+							'Turkish',
+							'Vietnamese',
+							'Other'
+						]}
+						value = {this.state.cuisine}
+						onChange = {this.onChange}
+						error = {errors.cuisine}
+					/>
+
+					<SelectForm
+						htmlForAndID='lifestyle'
+						label="Lifestyle (food) *"
+						name="lifestyle"
+						optionArray={[
+							'Meat',
+							'Vegetarian',
+							'Vegan'
+						]}
+						value = {this.state.lifestyle}
+						onChange = {this.onChange}
+						error = {errors.lifestyle}
+					/>
+
+					<SelectForm
+						htmlForAndID='preparationTime'
+						label="Preparation time *"
+						name="preparationTime"
+						optionArray={[
+							'0-10 min',
+							'10-30 min',
+							'30-60 min',
+							'60-120 min',
+							'120+ min'
+						]}
+						value = {this.state.preparationTime}
+						onChange = {this.onChange}
+						error = {errors.preparationTime}
+					/>
+
+					<SelectForm
+						htmlForAndID='cookingTime'
+						label="Cooking time *"
+						name="cookingTime"
+						optionArray={[
+							'0-10 min',
+							'10-30 min',
+							'30-60 min',
+							'60-120 min',
+							'120+ min'
+						]}
+						value = {this.state.cookingTime}
+						onChange = {this.onChange}
+						error = {errors.cookingTime}
+					/>
+
+					<SelectForm
+						htmlForAndID='price'
+						label="Price *"
+						name="price"
+						optionArray={[
+							'Cheap $',
+							'Average $$',
+							'Expensive $$$'
+						]}
+						value = {this.state.price}
+						onChange = {this.onChange}
+						error = {errors.price}
 					/>
 
 					<button 
@@ -195,11 +290,20 @@ class RecipeForm extends Component {
 
 					<TextAreaForm 
 						type="text"
-						placeholder="Description 50-5000 characters *"
-						name = "description"
-						value = {this.state.description}
+						placeholder="Short description 10-200 characters *"
+						name = "shortDescription"
+						value = {this.state.shortDescription}
 						onChange = {this.onChange}
-						error = {errors.description}
+						error = {errors.shortDescription}
+					/>
+
+					<TextAreaForm 
+						type="text"
+						placeholder="Full (long) description 50-3000 characters *"
+						name = "longDescription"
+						value = {this.state.longDescription}
+						onChange = {this.onChange}
+						error = {errors.longDescription}
 					/>
 
 					<InputForm
@@ -210,13 +314,22 @@ class RecipeForm extends Component {
 						onChange = {this.onChange}
 						error = {errors.tags}
 					/>
+
+					<InputForm
+						type="text"
+						placeholder="Ingredients : comma separated ','"
+						name = "ingredients"
+						value = {this.state.ingredients}
+						onChange = {this.onChange}
+						error = {errors.ingredients}
+					/>
 				
 					{!_.isEmpty(errors) ? (
 						<div className="alert alert-danger" role="alert">
 						Something went wrong, check your data.
 						</div>
 					) : null}
-					<button className="button-green">ADD DIET</button>
+					<button className="button-green">ADD RECIPE</button>
 					<button className="button-red" type="button" data-dismiss="modal" aria-label="Close">
 						Cancel
 					</button>
@@ -228,14 +341,17 @@ class RecipeForm extends Component {
 
 RecipeForm.propTypes = {
 	auth: PropTypes.object.isRequired,
-	errors: PropTypes.object.isRequired
+	errors: PropTypes.object.isRequired,
+	recipe: PropTypes.object.isRequired,
+	addRecipe: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	auth: state.auth,
+	recipe: state.recipe,
 	errors: state.errors
 });
 
 
 
-export default connect(mapStateToProps)(RecipeForm);
+export default connect(mapStateToProps, {addRecipe})(RecipeForm);

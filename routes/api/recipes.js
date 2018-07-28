@@ -200,12 +200,12 @@ router.post(
 			errors.cookingMethod = 'Cooking method is required.';
 		}
     
-		if(_.isEmpty(req.body.cousines)) {
-			errors.cousines = 'Cousine is required.';
+		if(_.isEmpty(req.body.cuisine)) {
+			errors.cuisine = 'Cuisine is required.';
 		}
 
 		if(_.isEmpty(req.body.lifestyle)) {
-			errors.lifestyle = 'Info about lifestyle is required, if you can\'t specify, choose mixed.';
+			errors.lifestyle = 'Info about lifestyle is required, people have to know what type of meal it is.';
 		}
 
 		if(_.isEmpty(req.body.preparationTime)) {
@@ -241,11 +241,13 @@ router.post(
 		if(!_.isEmpty(req.body.tags)) {
 			recipeTags = req.body.tags.trim().split(',');
 			recipeTags = recipeTags.map(tag => {return tag.trim();});
+			recipeTags = _.uniq(recipeTags);
 		}
 
 		if(!_.isEmpty(req.body.ingredients)) {
 			recipeIngredients = req.body.ingredients.trim().split(',');
 			recipeIngredients = recipeIngredients.map(ingredient => {return ingredient.trim();});
+			recipeIngredients = _.uniq(recipeIngredients);
 		}
 
 		
@@ -259,7 +261,7 @@ router.post(
 			recipeFields.kcal = req.body.kcal;
 			recipeFields.dishType = req.body.dishType;
 			recipeFields.cookingMethod = req.body.cookingMethod;
-			recipeFields.cousines = req.body.cousines;
+			recipeFields.cuisine = req.body.cuisine;
 			recipeFields.lifestyle = req.body.lifestyle;
 			recipeFields.preparationTime = req.body.preparationTime;
 			recipeFields.cookingTime = req.body.cookingTime;
@@ -275,9 +277,26 @@ router.post(
 				User.findById(req.user._id).then(user => {
 					let userWithRecipe = user.recipes.unshift(recipe._id);
 					user.save(userWithRecipe);
-					res.json(recipe);
-				});
-			}).catch(e => res.status(400).json(e));
+					return Recipe.find().populate('user');
+				})
+					.then((recipes) => {
+						let allRecipes = []; // empty array
+						recipes.map(recipe => { // map through array
+							let recipeWithUser = {
+								...recipe._doc,
+								user: {
+									_id: recipe.user._id,
+									avatar: recipe.user.avatar,
+									name: recipe.user.name,
+									nickname: recipe.user.nickname
+								}
+							};
+							allRecipes.unshift(recipeWithUser);
+						});
+						res.json(allRecipes);
+					});
+			})
+				.catch(e => res.status(400).json(e));
 		}
 	});
 

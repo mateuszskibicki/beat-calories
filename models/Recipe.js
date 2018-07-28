@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // http://allrecipes.co.uk/recipes/cook-prep-method.aspx?o_is=TopNode_3_Method
-// title kcal dishType cookingMethod cousines lifestyle preparationTime cookingTime
+// title kcal dishType cookingMethod cuisine lifestyle preparationTime cookingTime
 // short and long desc, price, photo ->> all required
 // tags and ingradients nope
 // Create Schema
@@ -22,7 +22,7 @@ const RecipeSchema = new Schema({
 		type: String,
 		required: true
 	},
-	cousines: {
+	cuisine: {
 		type: String,
 		required: true
 	},

@@ -73,7 +73,7 @@ class Login extends Component {
 	 	return (
 	 		<div className="login-bg">
 	 			<div className="login-page mb-5">
-	 				<div className="form">
+	 				<div className="form fade-in-left">
 	 					<form className="login-form" onSubmit={this.onSubmit} autoComplete="off">
 	 						<h4 className="display-3">Login</h4>
 	 						<p className="lead">* - required</p>

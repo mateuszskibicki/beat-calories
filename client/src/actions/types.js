@@ -30,3 +30,10 @@ export const ADD_COMMENT_DIET = 'ADD_COMMENT_DIET';
 export const DELETE_COMMENT_DIET = 'DELETE_COMMENT_DIET';
 export const LIKE_DIET = 'LIKE_DIET';
 
+
+export const GET_RECIPE_BY_ID = 'GET_RECIPE_BY_ID';
+export const GET_RECIPES = 'GET_RECIPES';
+export const RECIPE_LOADING = 'RECIPE_LOADING';
+export const ADD_RECIPE = 'ADD_RECIPE';
+export const LIKE_RECIPE = 'LIKE_RECIPE';
+

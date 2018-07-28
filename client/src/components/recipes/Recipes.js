@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {getRecipes} from '../../actions/recipeActions';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -17,7 +18,14 @@ class Recipes extends Component {
 
 	componentDidMount() {
 		window.scrollTo(0,0);
+		this.props.getRecipes();
 	}
+
+	// componentWillReceiveProps(nextProps) {
+	// 	if(this.props !== nextProps) {
+	// 		let contentToDisplay = {nextProps.}
+	// 	}
+	// }
 
 	onChange = (e) => {
 		e.preventDefault();
@@ -27,6 +35,7 @@ class Recipes extends Component {
 
 		return (
 			<div id="recipes">
+				<h1>{this.props.recipe.recipes.length}</h1>
 				<div className="mt-5 mb-5 fade-in-left">
 					<div className="container">
 						<div className="row">
@@ -58,11 +67,14 @@ class Recipes extends Component {
 }
 
 Recipes.propTypes = {
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
+	recipe: PropTypes.object.isRequired,
+	getRecipes: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth
+	auth: state.auth,
+	recipe: state.recipe
 });
 
-export default connect(mapStateToProps)(Recipes);
+export default connect(mapStateToProps, {getRecipes})(Recipes);

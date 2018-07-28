@@ -70,6 +70,11 @@
 
 .form select {
   padding: 0px 0px 0px 10px;
+  option {
+    font-size: 1.1rem;
+    font-family: "Roboto", sans-serif;
+    padding: 3px;
+  }
 }
 
 .form button {
