@@ -68,7 +68,7 @@ class DietCard extends Component {
 
   	if(this.props.auth.user.id && this.props.auth.user.id === diet.user._id) {
   		buttonsUpdateDelete = (
-  			<div className='buttons-update-remove-diet'>
+  			<div className='buttons-update-remove-card'>
   				<button 
   					className='button-update' 
   					onClick={this.showUpdateForm}

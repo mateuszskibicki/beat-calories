@@ -6,9 +6,10 @@
 // $red-meat: #ff6347;
 // $green-vegan: #89da59;
 // $blue--vegetarian: #11998e;
-.card-diet {
+.card-diet,
+.card-recipe {
   margin: 40px 0px;
-  .buttons-update-remove-diet {
+  .buttons-update-remove-card {
     margin: 0;
     padding: 0;
     position: absolute;
@@ -115,6 +116,11 @@
   .button-blue {
     background-color: $blue-vegetarian;
     ;
+  }
+  .price {
+    font-size: 0.8rem;
+    background-color: rgba($blue-vegetarian, .25);
+    padding: 0 10px;
   }
 }
 

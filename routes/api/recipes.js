@@ -18,7 +18,7 @@ router.get(
 	(req, res) => {
 		// find all and populate with user
 		// return just id, avatar, name and nickname of user
-		Recipe.find().populate('user')
+		Recipe.find().populate('user').sort({date: 1})
 			.then(recipes => {
 				let allRecipes = []; // empty array
 				recipes.map(recipe => { // map through array

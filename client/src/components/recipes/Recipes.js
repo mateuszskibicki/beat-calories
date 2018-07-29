@@ -9,23 +9,15 @@ import moment from 'moment';
 
 import Loading from '../common/Loading';
 import RecipeForm from './RecipeForm';
+import RecipeCard from './RecipeCard';
 
 
 class Recipes extends Component {
-	constructor(props) {
-		super(props);
-	}
 
 	componentDidMount() {
 		window.scrollTo(0,0);
 		this.props.getRecipes();
 	}
-
-	// componentWillReceiveProps(nextProps) {
-	// 	if(this.props !== nextProps) {
-	// 		let contentToDisplay = {nextProps.}
-	// 	}
-	// }
 
 	onChange = (e) => {
 		e.preventDefault();
@@ -35,12 +27,14 @@ class Recipes extends Component {
 
 		return (
 			<div id="recipes">
-				<h1>{this.props.recipe.recipes.length}</h1>
 				<div className="mt-5 mb-5 fade-in-left">
+
 					<div className="container">
 						<div className="row">
-
-							<div className="col-12 col-xl-4">
+						 {
+							 //only now xl-12
+						 }
+							<div className="col-12 col-xl-12">
 								<div className="add-container add-container-recipe">
 									<button type="button" className="button-add-modal" data-toggle="modal" data-target="#dietAddModal">
 									ADD RECIPE
@@ -57,9 +51,21 @@ class Recipes extends Component {
 									</div>
 								</div>
 							</div>
-
 						</div>
 					</div>
+
+					<div className="container">
+						<div className="row user-content">
+							<div className="col-12 mb-4">
+								<div className="row">
+									{this.props.recipe.recipes.map(recipe => <RecipeCard recipe={recipe} key={recipe._id}/>)}
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
 				</div>
 			</div>
 		);
