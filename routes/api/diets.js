@@ -226,32 +226,31 @@ router.post(
 			dietTags.length > 0 ? dietFields.tags = dietTags : '';
 			new Diet(dietFields).save().then(diet => {
 				console.log('1');
-				Diet.find().sort({date: 1}).populate('user')
-					.then(dietsWithNew => {
-						console.log('2');
-						User.findById(req.user._id).then(user => {
-							console.log('3');
-							let userWithDiet = user.diets.unshift(diet._id);
-							user.save(userWithDiet)
-								.then((user)=> console.log('New data'))
-								.catch(e => console.log(e));	
-						});
-						let allDiets = []; // empty array
-						dietsWithNew.map(diet => { // map through array
-							console.log('4');
-							let dietWithUser = {
-								...diet._doc,
-								user: {
-									_id: diet.user._id,
-									avatar: diet.user.avatar,
-									name: diet.user.name,
-									nickname: diet.user.nickname
-								}
-							};
-							allDiets.unshift(dietWithUser);
-						});
-						console.log('5');
-						return res.json(allDiets);
+				User.findById(req.user._id).then(user => {
+					console.log('2');
+					let userWithDiet = user.diets.unshift(diet._id);
+					return user.save(userWithDiet);	
+				})
+					.then((user) => {
+						console.log('3');
+						Diet.find().sort({date: 1}).populate('user')
+							.then(dietsWithNew => {
+								let allDiets = []; // empty array
+								dietsWithNew.map(diet => { // map through array
+									let dietWithUser = {
+										...diet._doc,
+										user: {
+											_id: diet.user._id,
+											avatar: diet.user.avatar,
+											name: diet.user.name,
+											nickname: diet.user.nickname
+										}
+									};
+									allDiets.unshift(dietWithUser);
+								});
+								console.log('4');
+								return res.json(allDiets);
+							});
 					})
 					.catch(e => console.log(e));
 			});
