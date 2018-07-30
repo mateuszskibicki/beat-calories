@@ -253,7 +253,7 @@ router.post(
 		
 	
 		if(!_.isEmpty(errors)) {
-			res.status(404).json(errors);
+			return res.status(404).json(errors);
 		} else {
 			// create object with key value pairs
 			// required
@@ -293,7 +293,7 @@ router.post(
 							};
 							allRecipes.unshift(recipeWithUser);
 						});
-						res.json(allRecipes);
+						return res.json(allRecipes);
 					});
 			})
 				.catch(e => res.status(400).json(e));

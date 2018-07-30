@@ -20,6 +20,7 @@ import {
 
 // Get diets
 export const getDiets = () => dispatch => {
+	dispatch(clearErrors());
 	dispatch(dietLoading());
 	axios.get('/api/diets')
 		.then(res => dispatch({type: GET_DIETS, payload: res.data }))

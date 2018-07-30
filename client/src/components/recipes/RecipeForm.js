@@ -63,10 +63,6 @@ class RecipeForm extends Component {
 		this.props.addRecipe(this.state);
 	}
 
-	formatButton = (e) => {
-		e.preventDefault();
-	}
-
 
 	render() {
 

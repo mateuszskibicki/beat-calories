@@ -14,8 +14,13 @@ class RecipeCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isShortAboutVisible : false,
 			isModalUpdateVisible: false
 		};
+	}
+
+	showShortAbout = (e) => {
+		this.setState({isShortAboutVisible: !this.state.isShortAboutVisible});
 	}
 	
 	// showUpdateForm = () => {
@@ -144,22 +149,47 @@ class RecipeCard extends Component {
 						<small className="text-muted text-right mb-0 d-block">Dish type: {dishType}</small>
 						<small className="text-muted text-right mb-0 d-block">Cuisine: {cuisine}</small>
 						<small className="text-muted text-right mb-0 d-block"><strong className="price">Price: {price}</strong></small>
-						<h3>{title}</h3>
+						<h3 className='text-space'>{title}</h3>
 						<p className="mb-0">{kcal} kcal</p>
 						<p className="mb-0">Cooking method : {cookingMethod}</p>
 						<p className="mb-0">Preparation time : {preparationTime}</p>
 						<p className="mb-0">Cooking time : {cookingTime}</p>
-						<hr/>
-						<p className="text-space">{shortDescription}</p>
-						<hr />
-						<p className="card-text mb-0">
-							<span className="text-muted">Tags: </span>
-							{tagsRecipe}
-						</p>
-						<p className="card-text mb-0">
-							<span className="text-muted">Ingredients: </span>
-							{ingredientsRecipe}
-						</p>
+
+						<button className={buttonClass} onClick={this.showShortAbout}>
+							Short about {
+								this.state.isShortAboutVisible ?
+									<i class="fas fa-arrow-up"></i> :
+									<i class="fas fa-arrow-down"></i> 
+							}
+						</button>
+
+						{this.state.isShortAboutVisible ? (
+							<div className='fade-in-up'>
+								<hr/>
+								<p className="text-space">{shortDescription}</p>
+								<hr />
+								<p className="card-text mb-0">
+									<span className="text-muted">Tags: </span>
+									{tagsRecipe}
+								</p>
+								<p className="card-text mb-0">
+									<span className="text-muted">Ingredients: </span>
+									{ingredientsRecipe}
+								</p>
+								<hr />
+							</div>
+						) : null}
+
+
+
+						<Link to={`/recipes/${_id}`}>
+							<button
+								className={buttonClass} 
+								data-id={_id}   
+							>
+						Read more... <i className="ml-2 fas fa-book"></i>
+							</button>
+						</Link>
   				</div>
 				</div>
         

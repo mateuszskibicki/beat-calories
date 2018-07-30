@@ -33,7 +33,7 @@ router.get(
 					};
 					allDiets.unshift(dietWithUser);
 				});
-				res.json(allDiets);
+				return res.json(allDiets);
 			})
 			.catch(e => res.json(e));
 	});
@@ -228,9 +228,22 @@ router.post(
 				Diet.find().sort({date: 1}).populate('user').then(dietsWithNew => {
 					User.findById(req.user._id).then(user => {
 						let userWithDiet = user.diets.unshift(diet._id);
-						user.save(userWithDiet).then(() => console.log('Diet added'));	
+						user.save(userWithDiet);	
 					});
-					return res.json(dietsWithNew);
+					let allDiets = []; // empty array
+					dietsWithNew.map(diet => { // map through array
+						let dietWithUser = {
+							...diet._doc,
+							user: {
+								_id: diet.user._id,
+								avatar: diet.user.avatar,
+								name: diet.user.name,
+								nickname: diet.user.nickname
+							}
+						};
+						allDiets.unshift(dietWithUser);
+					});
+					return res.json(allDiets);
 				});
 			});
 		}
@@ -296,7 +309,7 @@ router.post(
 					
 				
 						if(!_.isEmpty(errors)) {
-							res.status(404).json(errors);
+							return res.status(404).json(errors);
 						} else {
 							dietFields.title = req.body.title;
 							dietFields.kcal = req.body.kcal;
@@ -310,16 +323,29 @@ router.post(
 								{new: true}
 							)
 								.then(() => {
-									Diet.find().sort({date: 1}).populate('user').then(diets => {
-										res.json(diets);
+									Diet.find().sort({date: -1}).populate('user').then(diets => {
+										let allDiets = []; // empty array
+										diets.map(diet => { // map through array
+											let dietWithUser = {
+												...diet._doc,
+												user: {
+													_id: diet.user._id,
+													avatar: diet.user.avatar,
+													name: diet.user.name,
+													nickname: diet.user.nickname
+												}
+											};
+											allDiets.unshift(dietWithUser);
+										});
+										return res.json(allDiets);
 									});
 								});
 						}
 					} else {
-						res.status(400).json({auth: 'This is not your diet'});
+						return res.status(400).json({auth: 'This is not your diet'});
 					}
 				} else {
-					res.status(404).json({success: false});
+					return res.status(404).json({success: false});
 				}
 			})
 			.catch(e => res.json({success: false}));
@@ -384,7 +410,7 @@ router.post(
 					
 				
 						if(!_.isEmpty(errors)) {
-							res.status(404).json(errors);
+							return res.status(404).json(errors);
 						} else {
 							dietFields.title = req.body.title;
 							dietFields.kcal = req.body.kcal;
@@ -402,16 +428,16 @@ router.post(
 								});
 						}
 					} else {
-						res.status(400).json({auth: 'This is not your diet'});
+						return res.status(400).json({auth: 'This is not your diet'});
 					}
 				} else {
-					res.status(404).json({success: false});
+					return res.status(404).json({success: false});
 				}
 			})
 			.catch(e => res.json({success: false}));
 	});
 
-// @route   POST update api/diets/profilePage
+// @route   DIET update api/diets/profilePage
 // @desc    Update diet on profile page
 // @access  Private
 router.post(
@@ -555,16 +581,16 @@ router.post(
 						
 											user._id.toString() === req.user._id.toString() ? userData.email = user.email : null;
 						
-											res.json(userData);
+											return res.json(userData);
 										})
 										.catch(err => res.status(404).json({success: false}));
 								});
 						}
 					} else {
-						res.status(400).json({auth: 'This is not your diet'});
+						return res.status(400).json({auth: 'This is not your diet'});
 					}
 				} else {
-					res.status(404).json({success: false});
+					return res.status(404).json({success: false});
 				}
 			})
 			.catch(e => res.json({success: false}));
@@ -618,7 +644,7 @@ router.post(
 		}
 
 		if (!_.isEmpty(errors)) {
-			res.status(400).json(errors);
+			return res.status(400).json(errors);
 		} else {
 			Diet.findById(req.params.id).populate('user').then(diet => {
 				let newComment = {
@@ -688,12 +714,25 @@ router.delete(
 						newUser.diets.splice(index, 1);
 						user.save(newUser);
 					});
-					Diet.find().sort({date: 1}).populate('user').then(diets => {
-						res.json(diets);
+					Diet.find().sort({date: -1}).populate('user').then(diets => {
+						let allDiets = []; // empty array
+						diets.map(diet => { // map through array
+							let dietWithUser = {
+								...diet._doc,
+								user: {
+									_id: diet.user._id,
+									avatar: diet.user.avatar,
+									name: diet.user.name,
+									nickname: diet.user.nickname
+								}
+							};
+							allDiets.unshift(dietWithUser);
+						});
+						return res.json(allDiets);
 					});
 				});
 			} else {
-				res.status(400).json({success: false});
+				return res.status(400).json({success: false});
 			}
 		})
 			.catch(e => res.json(e));
@@ -787,7 +826,7 @@ router.delete(
 
 									user._id.toString() === req.user._id.toString() ? userData.email = user.email : null;
 
-									res.json(userData);
+									return res.json(userData);
 								})
 								.catch(err => res.status(404).json({success: false}));
 						});
@@ -795,7 +834,7 @@ router.delete(
 				});
 		
 			} else {
-				res.status(400).json({success: false});
+				return res.status(400).json({success: false});
 			}
 		})
 			.catch(e => res.json(e));

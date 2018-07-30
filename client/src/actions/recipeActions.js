@@ -12,6 +12,7 @@ import {
 
 // Get recipes
 export const getRecipes = () => dispatch => {
+	dispatch(clearErrors());
 	dispatch(recipeLoading());
 	axios.get('/api/recipes')
 		.then(res => dispatch({type: GET_RECIPES, payload: res.data }))
@@ -20,9 +21,11 @@ export const getRecipes = () => dispatch => {
 
 // Add recipes
 export const addRecipe = (recipeData) => dispatch => {
-	dispatch(clearErrors());
 	axios.post('/api/recipes', recipeData)
-		.then(res => dispatch({type: ADD_RECIPE, payload: res.data }))
+		.then(res => {
+			dispatch(clearErrors());
+			dispatch(getRecipes());
+		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 

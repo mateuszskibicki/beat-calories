@@ -15,3 +15,21 @@
 .fade-in-left {
   animation: fade-in-left .5s ease-in-out;
 }
+
+@keyframes fade-in-up {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(8%)
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up .5s ease-in-out;
+}
