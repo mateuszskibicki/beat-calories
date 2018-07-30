@@ -229,10 +229,13 @@ router.post(
 				User.findById(req.user._id).then(user => {
 					console.log('2');
 					let userWithDiet = user.diets.unshift(diet._id);
-					return user.save(userWithDiet);	
-				})
+					return user.save(userWithDiet);
+				})						
 					.then((user) => {
 						console.log('3');
+						return null;
+					})
+					.then(() => {
 						Diet.find().sort({date: 1}).populate('user')
 							.then(dietsWithNew => {
 								let allDiets = []; // empty array
@@ -251,7 +254,7 @@ router.post(
 								console.log('4');
 								return res.json(allDiets);
 							});
-					})
+					})	
 					.catch(e => console.log(e));
 			});
 		}
