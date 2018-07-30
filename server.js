@@ -2,12 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const busboy = require('connect-busboy');
 
 const path = require('path');
 
 const users = require('./routes/api/users');
-// const profile = require('./routes/api/profile');
+const profile = require('./routes/api/profile');
 // const posts = require('./routes/api/posts');
 const diets = require('./routes/api/diets');
 const recipes = require('./routes/api/recipes');
@@ -23,7 +22,6 @@ app.use(
 	})
 );
 app.use(bodyParser.json());
-app.use(busboy());
 
 // DB Config -> key to connect to MLAB
 const db = require('./config/keys').mongoURI;
@@ -42,7 +40,7 @@ require('./config/passport')(passport);
 
 // Use Routes
 app.use('/api/users', users);
-// app.use('/api/profile', profile);
+app.use('/api/profile', profile);
 // app.use('/api/posts', posts);
 app.use('/api/diets', diets);
 app.use('/api/recipes', recipes);
