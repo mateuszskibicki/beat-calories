@@ -228,7 +228,7 @@ router.post(
 				Diet.find().sort({date: 1}).populate('user').then(dietsWithNew => {
 					User.findById(req.user._id).then(user => {
 						let userWithDiet = user.diets.unshift(diet._id);
-						user.save(userWithDiet);	
+						user.save(userWithDiet).then((user)=> console.log('New data'));	
 					});
 					let allDiets = []; // empty array
 					dietsWithNew.map(diet => { // map through array
