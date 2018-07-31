@@ -38,9 +38,19 @@ export const getDietByID = (id) => dispatch => {
 // Add diet
 export const addDiet = (dietData) => dispatch => {
 	axios.post('/api/diets', dietData)
-		.then(() => {
+		.then((res) => {
 			dispatch(getDiets());
+			dispatch(updateUserWithNewDiet({dietID: res.data._id}));
 			dispatch(clearErrors());
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Add diet
+export const updateUserWithNewDiet = (dietID) => dispatch => {
+	axios.post('/api/diets/addDietToTheUser', dietID)
+		.then(() => {
+			console.log('Diet added to the user');
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };

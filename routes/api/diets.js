@@ -257,8 +257,23 @@ router.post(
 				// 		});
 				// });	
 			
-				.catch(e => console.log(e));
+				.catch(e => res.status(404).json({succes: false}));
 		}
+	});
+
+// @route   POST api/diets/addDietToTheUser
+// @desc    Add diet id to the user's diets array
+// @access  Private
+router.post(
+	'/addDietToTheUser',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		User.findById(req.user.id)
+			.then(user => {
+				user.diets.unshift(req.body.dietID);
+				user.save();
+			})
+			.catch(e => res.status(404).json({succes: false}));
 	});
 
 
