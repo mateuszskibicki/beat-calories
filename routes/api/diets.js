@@ -224,39 +224,8 @@ router.post(
 			dietFields.description = req.body.description;
 			dietFields.user = req.user._id;
 			dietTags.length > 0 ? dietFields.tags = dietTags : '';
-			new Diet(dietFields).save().then(diet => res.status(200).json(diet))
-
-				// console.log('1');
-				// User.findByIdAndUpdate((
-				// 	{_id: req.user._id},
-				// 	{$set: dietFields},
-				// 	{new: true}
-				// )).then(user => {
-				// 	console.log('2');
-				// 	let userWithDiet = user.diets.unshift(diet._id);
-				// 	user.save(userWithDiet)
-				// 		.then(() => {
-				// 			Diet.find().sort({date: 1}).populate('user')
-				// 				.then(dietsWithNew => {
-				// 					let allDiets = []; // empty array
-				// 					dietsWithNew.map(diet => { // map through array
-				// 						let dietWithUser = {
-				// 							...diet._doc,
-				// 							user: {
-				// 								_id: diet.user._id,
-				// 								avatar: diet.user.avatar,
-				// 								name: diet.user.name,
-				// 								nickname: diet.user.nickname
-				// 							}
-				// 						};
-				// 						allDiets.unshift(dietWithUser);
-				// 					});
-				// 					res.json(allDiets);
-				// 					console.log('3');
-				// 				});
-				// 		});
-				// });	
-			
+			new Diet(dietFields).save()
+				.then(diet => res.status(200).json(diet))
 				.catch(e => res.status(404).json({succes: false}));
 		}
 	});
@@ -271,7 +240,7 @@ router.post(
 		User.findById(req.user.id)
 			.then(user => {
 				user.diets.unshift(req.body.dietID);
-				user.save();
+				user.save().then(() => console.log('User updated with new diet'));
 			})
 			.catch(e => res.status(404).json({succes: false}));
 	});
