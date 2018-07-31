@@ -8,8 +8,10 @@ import {
 	PROFILE_LOADING_FALSE,
 	CLEAR_CURRENT_PROFILE,
 	GET_ERRORS,
-	SET_CURRENT_USER
+	SET_CURRENT_USER,
+	CLEAR_ERRORS
 } from './types';
+import { clearErrors } from './dietActions';
 
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
@@ -35,11 +37,13 @@ export const getProfileByHandle = handle => dispatch => {
 	dispatch(setProfileLoading());
 	axios
 		.get(`/api/users/${handle}`)
-		.then(res =>
+		.then(res =>{
+			dispatch(clearErrors());
 			dispatch({
 				type: GET_PROFILE,
 				payload: res.data
-			})
+			});
+		}
 		)
 		.catch(err => {
 			dispatch(setProfileLoadingFalse());
@@ -106,4 +110,3 @@ export const clearCurrentProfile = () => {
 		type: CLEAR_CURRENT_PROFILE
 	};
 };
-

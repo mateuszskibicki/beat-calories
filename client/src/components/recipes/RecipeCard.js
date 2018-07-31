@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
+import RecipeFormUpdate from './RecipeFormUpdate';
+import {deleteRecipe} from '../../actions/recipeActions';
 
 import photoMeat from '../../images/diet-meat.png';
 import photoVegetarian from '../../images/diet-vegetarian.png';
@@ -19,24 +21,32 @@ class RecipeCard extends Component {
 		};
 	}
 
-	showShortAbout = (e) => {
+	showShortAbout = () => {
 		this.setState({isShortAboutVisible: !this.state.isShortAboutVisible});
 	}
 	
-	// showUpdateForm = () => {
-	// 	let modalVisible = this.state.isModalUpdateVisible;
-	// 	this.setState({isModalUpdateVisible : !this.state.isModalUpdateVisible});
-	// }
+	showUpdateForm = () => {
+		let modalVisible = this.state.isModalUpdateVisible;
+		this.setState({isModalUpdateVisible : !this.state.isModalUpdateVisible});
+	}
 
-	// deleteDiet = (e) => {
-	// 	const dietId = e.target.getAttribute('data-id');
+	hideModalClickModal = (e) => {
+		e.preventDefault();
+		if(e.target.classList.contains('modal')) {
+			this.setState({isModalUpdateVisible : !this.state.isModalUpdateVisible});
+		}
+	}
+
+	deleteRecipe = (e) => {
+		const recipeID = e.target.getAttribute('data-id');
 		
-	// 	if (this.props.match.path === '/diets') {
-	// 		this.props.deleteDiet(dietId);
-	// 	} else if (this.props.match.path === '/profile/:nickname') {
-	// 		this.props.deleteDietProfilePage(dietId);
-	// 	}
-	// }
+		if (this.props.match.path === '/recipes') {
+			this.props.deleteRecipe(recipeID);
+		} else if (this.props.match.path === '/profile/:nickname') {
+			//this.props.deleteDietProfilePage(dietId);
+			console.log('profile');
+		}
+	}
 
 	render(){
 		const {
@@ -60,7 +70,6 @@ class RecipeCard extends Component {
 			_id
 		} = this.props.recipe;
     
-		console.log(this.props);
 
   	let photo = '';
   	lifestyle === 'Meat' ? photo = photoMeat : null;
@@ -108,7 +117,7 @@ class RecipeCard extends Component {
   				<button 
   					className='button-remove'
   					data-id={_id} 
-					  onClick={this.deleteDiet}
+					  onClick={this.deleteRecipe}
 					 >
 					 <i className="fas fa-trash-alt"  data-id={_id}></i>
 					 </button>
@@ -116,22 +125,6 @@ class RecipeCard extends Component {
   		);
   	}
 		
-
-		// comments,
-		// cookingMethod,
-		// cookingTime,
-		// cousines,
-		// date,
-		// dishType,
-		// ingredients,
-		// kcal,
-		// lifestyle,
-		// likes,
-		// longDescription,
-		// shortDescription,
-		// tags,
-		// title,
-		// user,
     
   	return (
   		<div className="col-12 col-md-6 col-xl-4 fade-in-left">
@@ -158,8 +151,8 @@ class RecipeCard extends Component {
 						<button className={buttonClass} onClick={this.showShortAbout}>
 							Short about {
 								this.state.isShortAboutVisible ?
-									<i class="fas fa-arrow-up"></i> :
-									<i class="fas fa-arrow-down"></i> 
+									<i className="fas fa-arrow-up"></i> :
+									<i className="fas fa-arrow-down"></i> 
 							}
 						</button>
 
@@ -192,6 +185,24 @@ class RecipeCard extends Component {
 						</Link>
   				</div>
 				</div>
+
+
+				{this.state.isModalUpdateVisible === true ? (
+  				<div>
+  					<button type="button" className="button-update-diet-modal" hidden data-toggle="modal" data-target="#recipeModalUpdate">
+					Launch update
+  					</button>
+  					<div className="modal fade p-0" onClick={this.hideModalClickModal} id="recipeModalUpdate" tabIndex={-1} role="dialog" aria-labelledby="recipeModalUpdate" aria-hidden="true">
+  					<div className="modal-dialog modal-lg" role="document">
+  						<div className="modal-content modal-form">
+  							<RecipeFormUpdate singleRecipe={this.props.recipe} showUpdateForm={this.showUpdateForm} />
+  						</div>
+  					</div>
+  					</div>
+  				</div>
+				) : null}
+
+
         
   		</div>
   	);
@@ -199,12 +210,13 @@ class RecipeCard extends Component {
 }
 
 RecipeCard.propTypes = {
+	auth: PropTypes.object.isRequired,
 	recipe: PropTypes.object.isRequired,
-	auth: PropTypes.object.isRequired
+	deleteRecipe: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps)(withRouter(RecipeCard));
+export default connect(mapStateToProps, {deleteRecipe})(withRouter(RecipeCard));

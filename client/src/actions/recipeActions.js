@@ -32,9 +32,27 @@ export const addRecipe = (recipeData) => dispatch => {
 
 // Add recipe to the user's diet array
 export const updateUserWithNewRecipe = (recipeID) => dispatch => {
-	axios.post('/api/diets/addRecipeToTheUser', recipeID)
+	axios.post('/api/recipes/addRecipeToTheUser', recipeID)
 		.then(() => {
 			console.log('Recipe added to the user');
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Update recipe on main /recipe page
+export const updateRecipe = (id , recipeData) => dispatch => {
+	axios.post(`/api/recipes/update/${id}`, recipeData)
+		.then(() => {
+			dispatch(getRecipes());
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Delete recipe on recipe page
+export const deleteRecipe = (id) => dispatch => {
+	axios.delete(`/api/recipes/${id}`)
+		.then(() => {
+			dispatch(getRecipes());
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };

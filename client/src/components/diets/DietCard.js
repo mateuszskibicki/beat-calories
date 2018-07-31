@@ -23,6 +23,13 @@ class DietCard extends Component {
 		this.setState({isModalUpdateVisible : !this.state.isModalUpdateVisible});
 	}
 
+	hideModalClickModal = (e) => {
+		e.preventDefault();
+		if(e.target.classList.contains('modal')) {
+			this.setState({isModalUpdateVisible : !this.state.isModalUpdateVisible});
+		}
+	}
+
   deleteDiet = (e) => {
   	const dietId = e.target.getAttribute('data-id');
 		
@@ -118,6 +125,7 @@ class DietCard extends Component {
   					</Link>
   				</div>
   			</div>
+				
   			{this.state.isModalUpdateVisible === true ? (
   				<div>
   					<button type="button" className="button-update-diet-modal" hidden data-toggle="modal" data-target="#dietUpdateModal">
@@ -132,6 +140,7 @@ class DietCard extends Component {
   					</div>
   				</div>
   			) : null}
+				
   		</div>
   	);
   }

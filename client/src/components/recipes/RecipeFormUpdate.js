@@ -1,56 +1,47 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+
 import InputForm from '../common/InputForm';
 import TextAreaForm from '../common/TextAreaForm';
 import SelectForm from '../common/SelectForm';
-import {Link} from 'react-router-dom';
-import {addRecipe} from '../../actions/recipeActions';
+import {Link, withRouter} from 'react-router-dom';
+import {updateRecipe} from '../../actions/recipeActions';
 import _ from 'lodash';
 
-class RecipeForm extends Component {
+
+class RecipeFormUpdate extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: '',
-			kcal: '',
-			dishType: '',
-			cookingMethod: '',
-			cuisine: '',
-			lifestyle: '',
-			preparationTime: '',
-			cookingTime: '',
-			price: '',
-			shortDescription: '',
-			longDescription: '',
-			tags: '',
-			ingredients: '',
+			title: props.singleRecipe.title,
+			kcal: props.singleRecipe.kcal,
+			dishType: props.singleRecipe.dishType,
+			cookingMethod: props.singleRecipe.cookingMethod,
+			cuisine: props.singleRecipe.cuisine,
+			lifestyle: props.singleRecipe.lifestyle,
+			preparationTime: props.singleRecipe.preparationTime,
+			cookingTime: props.singleRecipe.cookingTime,
+			price: props.singleRecipe.price,
+			shortDescription: props.singleRecipe.shortDescription,
+			longDescription: props.singleRecipe.longDescription,
+			tags: props.singleRecipe.tags.join(','),
+			ingredients: props.singleRecipe.ingredients.join(','),
 			errors: {}
 		};
+	}
+  
+	componentDidMount() {
+		document.querySelector('.button-update-diet-modal').click();
 	}
 
 
 	componentWillReceiveProps(newProps) {
 		if(!_.isEmpty(newProps.errors)) {
-			this.setState({errors: newProps.errors});
+			this.setState({errors: newProps.errors});	
 		} else {
-			this.setState({
-				title: '',
-				kcal: '',
-				dishType: '',
-				cookingMethod: '',
-				cuisine: '',
-				lifestyle: '',
-				preparationTime: '',
-				cookingTime: '',
-				price: '',
-				shortDescription: '',
-				longDescription: '',
-				tags: '',
-				ingredients: '',
-				errors: {}
-			});
-			document.querySelector('form .button-red').click();
+			document.querySelector('.button-close-modal-diet-update').click();
+			//console.log(newProps);
 		}
 	}
 
@@ -60,18 +51,21 @@ class RecipeForm extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault();
-		this.props.addRecipe(this.state);
+		this.props.updateRecipe(this.props.singleRecipe._id, this.state);
+	}
+
+	formatButton = (e) => {
+		e.preventDefault();
 	}
 
 
 	render() {
-
 		const {errors} = this.state;
 
 		return (
 			<div className="col-12 pl-0 pr-0">
-				<form className="form" onSubmit={this.onSubmit} autoComplete="off">
-					<h4 className="display-4">Add recipe</h4>
+				<form className="form form-diet-update" autoComplete="off">
+					<h1 className="display-4">Update recipe</h1>
 
 					<InputForm
 						type="text"
@@ -272,8 +266,19 @@ class RecipeForm extends Component {
 						Something went wrong, check your data.
 						</div>
 					) : null}
-					<button className="button-green">ADD RECIPE</button>
-					<button className="button-red" type="button" data-dismiss="modal" aria-label="Close">
+					<button 
+						className="button-green button-diet-update"
+						onClick={this.onSubmit}
+					>
+            UPDATE RECIPE
+					</button>
+					<button 
+						className="button-red button-close-modal-diet-update"
+						type="button" 
+						data-dismiss="modal" 
+						aria-label="Close"
+						onClick={this.props.showUpdateForm}
+					>
 						Cancel
 					</button>
 				</form>
@@ -282,19 +287,18 @@ class RecipeForm extends Component {
 	}
 }
 
-RecipeForm.propTypes = {
+RecipeFormUpdate.propTypes = {
 	auth: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired,
-	recipe: PropTypes.object.isRequired,
-	addRecipe: PropTypes.func.isRequired
+	singleRecipe: PropTypes.object.isRequired,
+	updateRecipe : PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
 	auth: state.auth,
-	recipe: state.recipe,
 	errors: state.errors
 });
 
 
 
-export default connect(mapStateToProps, {addRecipe})(RecipeForm);
+export default connect(mapStateToProps, {updateRecipe})(withRouter(RecipeFormUpdate));
