@@ -29,7 +29,7 @@ class Diets extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(this.props !== nextProps){
+		if(this.props !== nextProps && nextProps.diet.diets.length > 0){
 			document.getElementById('charts').innerHTML = `
 				<div class="row">
 					<div class="col-sm-6 text-center">
