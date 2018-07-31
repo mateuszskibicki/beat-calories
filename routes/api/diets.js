@@ -224,39 +224,40 @@ router.post(
 			dietFields.description = req.body.description;
 			dietFields.user = req.user._id;
 			dietTags.length > 0 ? dietFields.tags = dietTags : '';
-			new Diet(dietFields).save().then(diet => {
-				console.log('1');
-				User.findById(req.user._id).then(user => {
-					console.log('2');
-					let userWithDiet = user.diets.unshift(diet._id);
-					return user.save(userWithDiet);
-				})						
-					.then((user) => {
-						console.log('3');
-						return null;
-					})
-					.then(() => {
-						Diet.find().sort({date: 1}).populate('user')
-							.then(dietsWithNew => {
-								let allDiets = []; // empty array
-								dietsWithNew.map(diet => { // map through array
-									let dietWithUser = {
-										...diet._doc,
-										user: {
-											_id: diet.user._id,
-											avatar: diet.user.avatar,
-											name: diet.user.name,
-											nickname: diet.user.nickname
-										}
-									};
-									allDiets.unshift(dietWithUser);
-								});
-								console.log('4');
-								return res.json(allDiets);
-							});
-					})	
-					.catch(e => console.log(e));
-			});
+			new Diet(dietFields).save().then(diet => res.status(200).json(diet))
+
+				// console.log('1');
+				// User.findByIdAndUpdate((
+				// 	{_id: req.user._id},
+				// 	{$set: dietFields},
+				// 	{new: true}
+				// )).then(user => {
+				// 	console.log('2');
+				// 	let userWithDiet = user.diets.unshift(diet._id);
+				// 	user.save(userWithDiet)
+				// 		.then(() => {
+				// 			Diet.find().sort({date: 1}).populate('user')
+				// 				.then(dietsWithNew => {
+				// 					let allDiets = []; // empty array
+				// 					dietsWithNew.map(diet => { // map through array
+				// 						let dietWithUser = {
+				// 							...diet._doc,
+				// 							user: {
+				// 								_id: diet.user._id,
+				// 								avatar: diet.user.avatar,
+				// 								name: diet.user.name,
+				// 								nickname: diet.user.nickname
+				// 							}
+				// 						};
+				// 						allDiets.unshift(dietWithUser);
+				// 					});
+				// 					res.json(allDiets);
+				// 					console.log('3');
+				// 				});
+				// 		});
+				// });	
+			
+				.catch(e => console.log(e));
 		}
 	});
 

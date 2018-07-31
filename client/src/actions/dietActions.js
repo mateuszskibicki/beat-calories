@@ -38,7 +38,7 @@ export const getDietByID = (id) => dispatch => {
 // Add diet
 export const addDiet = (dietData) => dispatch => {
 	axios.post('/api/diets', dietData)
-		.then((res) => {
+		.then(() => {
 			dispatch(getDiets());
 			dispatch(clearErrors());
 		})
