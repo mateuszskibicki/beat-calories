@@ -19,6 +19,15 @@ export const getRecipes = () => dispatch => {
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
+// Get recipes
+export const getRecipeByID = (id) => dispatch => {
+	dispatch(clearErrors());
+	dispatch(recipeLoading());
+	axios.get(`/api/recipes/${id}`)
+		.then(res => dispatch({type: GET_RECIPE_BY_ID, payload: res.data }))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
 // Add recipes
 export const addRecipe = (recipeData) => dispatch => {
 	axios.post('/api/recipes', recipeData)

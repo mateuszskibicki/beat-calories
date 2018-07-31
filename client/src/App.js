@@ -9,12 +9,13 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import PrivateRoute from './components/common/PrivateRoute';
-//public routes
+// public routes
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-//private routes
+// ----- PRIVATE ROUTES
 import LeftNavbar from './components/navbar/LeftNavbar';
 import TopNavbar from './components/navbar/TopNavbar';
+
 import Dashboard from './components/dashboard/Dashboard';
 import Profile from './components/profile/Profile';
 import Users from './components/users/Users';
@@ -22,6 +23,7 @@ import Posts from './components/posts/Posts';
 import Diets from './components/diets/Diets';
 import DietSinglePage from './components/diets/DietSinglePage';
 import Recipes from './components/recipes/Recipes';
+import RecipeSinglePage from './components/recipes/RecipeSinglePage';
 
 
 //Check for token
@@ -97,10 +99,17 @@ class App extends Component {
 										<PrivateRoute exact path="/diets/:id" component={DietSinglePage} />
 									</Switch>
 
-
+									{
+										// RECIPES
+									}
 									<Switch>
 										<PrivateRoute exact path="/recipes" component={Recipes} />
 									</Switch>
+									<Switch>
+										<PrivateRoute exact path="/recipes/:id" component={RecipeSinglePage} />
+									</Switch>
+
+
 									<Switch>
 										<PrivateRoute exact path="/trainings" component={Dashboard} />
 									</Switch>

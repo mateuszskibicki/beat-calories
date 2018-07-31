@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import Loading from '../common/Loading';
-import DietCard from './DietCard';
-//actions
+
 import {getDiets} from '../../actions/dietActions';
+
+import Loading from '../common/Loading';
+
+import DietCard from './DietCard';
 import DietForm from './DietForm';
 import DietFormUpdate from './DietFormUpdate';
+
 import Chart from 'chart.js';
+import _ from 'lodash';
 
 
 class Diets extends Component {

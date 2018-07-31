@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom';
+
 import {getDietByID, likeDiet, deleteDietSinglePage} from '../../actions/dietActions';
+
+import Loading from '../common/Loading';
+
 import DietFormUpdateSinglePage from './DietFormUpdateSinglePage';
 import DietCommentsContainer from './DietCommentsContainer';
+
 import Moment from 'moment';
 import _ from 'lodash';
 
@@ -40,7 +45,7 @@ class DietSinglePage extends Component {
 
 		let componentDiet;
 		if(_.isEmpty(diet) || loading) {
-			componentDiet = <h1 className="display-1 text-center">Loading...</h1>;
+			componentDiet = <Loading />;
 		} else {
 
 		 //diet jumbotron bg
