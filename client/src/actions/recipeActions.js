@@ -25,6 +25,16 @@ export const addRecipe = (recipeData) => dispatch => {
 		.then(res => {
 			dispatch(clearErrors());
 			dispatch(getRecipes());
+			dispatch(updateUserWithNewRecipe({recipeID: res.data._id}));
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Add recipe to the user's diet array
+export const updateUserWithNewRecipe = (recipeID) => dispatch => {
+	axios.post('/api/diets/addRecipeToTheUser', recipeID)
+		.then(() => {
+			console.log('Recipe added to the user');
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };

@@ -240,7 +240,9 @@ router.post(
 		User.findById(req.user.id)
 			.then(user => {
 				user.diets.unshift(req.body.dietID);
-				user.save().then(() => console.log('User updated with new diet'));
+				user.save().then((newUser) => {
+					return res.json(newUser);
+				});
 			})
 			.catch(e => res.status(404).json({succes: false}));
 	});

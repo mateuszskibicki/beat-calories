@@ -39,14 +39,14 @@ export const getDietByID = (id) => dispatch => {
 export const addDiet = (dietData) => dispatch => {
 	axios.post('/api/diets', dietData)
 		.then((res) => {
+			dispatch(clearErrors());
 			dispatch(getDiets());
 			dispatch(updateUserWithNewDiet({dietID: res.data._id}));
-			dispatch(clearErrors());
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
-// Add diet
+// Add diet to the user's diet array
 export const updateUserWithNewDiet = (dietID) => dispatch => {
 	axios.post('/api/diets/addDietToTheUser', dietID)
 		.then(() => {
@@ -127,7 +127,7 @@ export const addComment = (id, data) => dispatch => {
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
-// Add comment to diet
+// Delete comment in diet
 export const deleteComment = (dietId, commentId) => dispatch => {
 	axios.delete(`/api/diets/comments/${dietId}/${commentId}`)
 		.then(res => {

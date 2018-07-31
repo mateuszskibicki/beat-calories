@@ -273,31 +273,27 @@ router.post(
 			recipeTags.length > 0 ? recipeFields.tags = recipeTags : null;
 			recipeIngredients.length > 0 ? recipeFields.ingredients = recipeIngredients : null;
 
-			new Recipe(recipeFields).save().then(recipe => {
-				User.findById(req.user._id).then(user => {
-					let userWithRecipe = user.recipes.unshift(recipe._id);
-					user.save(userWithRecipe);
-					return Recipe.find().populate('user');
-				})
-					.then((recipes) => {
-						let allRecipes = []; // empty array
-						recipes.map(recipe => { // map through array
-							let recipeWithUser = {
-								...recipe._doc,
-								user: {
-									_id: recipe.user._id,
-									avatar: recipe.user.avatar,
-									name: recipe.user.name,
-									nickname: recipe.user.nickname
-								}
-							};
-							allRecipes.unshift(recipeWithUser);
-						});
-						return res.json(allRecipes);
-					});
-			})
+			new Recipe(recipeFields).save()
+				.then(recipe => res.status(200).json({success: true}))
 				.catch(e => res.status(400).json(e));
 		}
+	});
+
+// @route   POST api/diets/addRecipeToTheUser
+// @desc    Add recipe id to the user's diets array
+// @access  Private
+router.post(
+	'/addRecipeToTheUser',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		User.findById(req.user.id)
+			.then(user => {
+				user.recipes.unshift(req.body.recipeID);
+				user.save().then((newUser) => {
+					return res.json(newUser);
+				});
+			})
+			.catch(e => res.status(404).json({succes: false}));
 	});
 
 // @route   POST api/recipes
