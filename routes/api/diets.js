@@ -633,12 +633,12 @@ router.post(
 		let errors = {};
 
 		if(_.isEmpty(req.body.comment)) {
-			errors.comment = 'Comment body is required, 10-300 characters';
+			errors.comment = 'Comment body is required, 10-500 characters';
 		} else if (
 			req.body.comment.trim().length < 10 ||
-			req.body.comment.trim().length > 300 
+			req.body.comment.trim().length > 500 
 		) {
-			errors.comment = 'Length between 10 and 300 characters.';
+			errors.comment = 'Length between 10 and 500 characters.';
 		}
 
 		if (!_.isEmpty(errors)) {

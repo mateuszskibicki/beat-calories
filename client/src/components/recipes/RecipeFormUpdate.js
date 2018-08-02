@@ -6,7 +6,7 @@ import InputForm from '../common/InputForm';
 import TextAreaForm from '../common/TextAreaForm';
 import SelectForm from '../common/SelectForm';
 import {Link, withRouter} from 'react-router-dom';
-import {updateRecipe} from '../../actions/recipeActions';
+import {updateRecipe, updateRecipeSinglePage, updateRecipeProfilePage} from '../../actions/recipeActions';
 import _ from 'lodash';
 
 
@@ -51,7 +51,9 @@ class RecipeFormUpdate extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault();
-		this.props.updateRecipe(this.props.singleRecipe._id, this.state);
+		this.props.match.path === '/recipes' ? this.props.updateRecipe(this.props.singleRecipe._id, this.state) : null;
+		this.props.match.path === '/recipes/:id' ? this.props.updateRecipeSinglePage(this.props.singleRecipe._id, this.state) : null;
+		this.props.match.path === '/profile/:nickname' ? this.props.updateRecipeProfilePage(this.props.singleRecipe._id, this.state, this.props.auth.user.nickname) : null;
 	}
 
 	formatButton = (e) => {
@@ -292,6 +294,7 @@ RecipeFormUpdate.propTypes = {
 	errors: PropTypes.object.isRequired,
 	singleRecipe: PropTypes.object.isRequired,
 	updateRecipe : PropTypes.func.isRequired,
+	updateRecipeSinglePage : PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -301,4 +304,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {updateRecipe})(withRouter(RecipeFormUpdate));
+export default connect(mapStateToProps, {updateRecipe, updateRecipeSinglePage, updateRecipeProfilePage})(withRouter(RecipeFormUpdate));

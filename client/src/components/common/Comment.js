@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {deleteComment} from '../../actions/dietActions';
+import {deleteCommentDiet} from '../../actions/dietActions';
+import {deleteCommentRecipe} from '../../actions//recipeActions';
 import _ from 'lodash';
 import Moment from 'moment';
 
@@ -11,7 +12,14 @@ class Comment extends Component {
 	deleteComment = (e) => {
 		const commentId = e.target.getAttribute('data-comment');
 		const dataId = e.target.getAttribute('data-id');
-		this.props.deleteComment(dataId, commentId);
+
+		if(this.props.match.path === '/recipes/:id') {
+			this.props.deleteCommentRecipe(dataId, commentId);
+		}
+
+		if(this.props.match.path === '/diets/:id') {
+			this.props.deleteCommentDiet(dataId, commentId);
+		}
 	}
 
 	render() {
@@ -46,7 +54,8 @@ class Comment extends Component {
 
 Comment.propTypes = {
 	auth: PropTypes.object.isRequired,
-	deleteComment: PropTypes.func.isRequired,
+	deleteCommentDiet: PropTypes.func.isRequired,
+	deleteCommentRecipe: PropTypes.func.isRequired,
 	comment: PropTypes.object.isRequired,
 	id: PropTypes.string.isRequired
 };
@@ -55,4 +64,4 @@ const mapStateToProps = state => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, {deleteComment})(Comment);
+export default connect(mapStateToProps, {deleteCommentDiet, deleteCommentRecipe})(withRouter(Comment));

@@ -69,6 +69,7 @@ class DietForm extends Component {
 						onChange = {this.onChange}
 						error = {errors.title}
 					/>
+					
 					<InputForm
 						type="text"
 						placeholder="Calories *"

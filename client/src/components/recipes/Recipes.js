@@ -14,6 +14,18 @@ import RecipeCard from './RecipeCard';
 
 class Recipes extends Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			sortByType: '',
+			sortByPrice: '',
+			sortByLikes: '',
+			sortByComments: '',
+			sortByDate: '',
+			sortByKcal: ''
+		};
+	}
+
 	componentDidMount() {
 		window.scrollTo(0,0);
 		this.props.getRecipes();
@@ -112,11 +124,100 @@ class Recipes extends Component {
 		}
 	}
 
-	onChange = (e) => {
+	changeSortByType = (e) => {
 		e.preventDefault();
+		this.setState({sortByType :  e.target.getAttribute('data-sort')});
 	}
 
+	changeSortByPrice = (e) => {
+		e.preventDefault();
+		this.setState({sortByPrice :  e.target.getAttribute('data-sort')});
+	}
+
+	changeSortByLikes = (e) => {
+		this.setState({
+			sortByComments : '',
+			sortByLikes : e.target.getAttribute('data-sort'),
+			sortByDate : ''
+		});
+	}
+
+	changeSortByComments = (e) => {
+		this.setState({
+			sortByComments : e.target.getAttribute('data-sort'),
+			sortByLikes: '',
+			sortByDate : ''
+		});
+	}
+
+	changeSortByDate = (e) => {
+		this.setState({
+			sortByComments : '',
+			sortByLikes: '',
+			sortByDate : 'Newest'
+		});
+	}
+
+	changeSortByKcal = (e) => {
+		this.setState({
+			sortByKcal: e.target.getAttribute('data-sort')
+		});
+	}
+
+
+
 	render() {
+		let {recipes} = this.props.recipe;
+
+		//Sort by type/lifestyle
+		this.state.sortByType === 'Meat' ? 
+			recipes = recipes.filter(recipe => recipe.lifestyle === 'Meat') :
+			null;
+
+		this.state.sortByType === 'Vegetarian' ? 
+			recipes = recipes.filter(recipe => recipe.lifestyle === 'Vegetarian') :
+			null;
+
+		this.state.sortByType === 'Vegan' ? 
+			recipes = recipes.filter(recipe => recipe.lifestyle === 'Vegan') :
+			null;
+
+		this.state.sortByType === 'Show all' ? 
+			recipes = recipes.filter(recipe => recipe) :
+			null;
+		
+		//Sort by price
+		this.state.sortByPrice === 'Cheap $' ? 
+			recipes = recipes.filter(recipe => recipe.price === 'Cheap $') :
+			null;
+
+		this.state.sortByPrice === 'Average $$' ? 
+			recipes = recipes.filter(recipe => recipe.price === 'Average $$') :
+			null;
+
+		this.state.sortByPrice === 'Expensive $$$' ? 
+			recipes = recipes.filter(recipe => recipe.price === 'Expensive $$$') :
+			null;
+
+		this.state.sortByPrice === 'Show all' ? 
+			recipes = this.props.recipe.recipes :
+			null;
+
+		//Sort by likes/comments/date
+		if(!_.isEmpty(this.state.sortByLikes)) {
+			recipes = recipes.sort((a,b) => b.likes.length - a.likes.length);
+		}
+		if(!_.isEmpty(this.state.sortByComments)) {
+			recipes = recipes.sort((a,b) => b.comments.length - a.comments.length);
+		}
+		if(!_.isEmpty(this.state.sortByDate)) {
+			recipes = recipes.sort((a,b) => new Date(b.date) - new Date(a.date));
+		}
+
+		//Sort by kcal
+		this.state.sortByKcal === 'Show all' || _.isEmpty(this.state.sortByKcal) ?
+			recipes = this.props.recipe.recipes :
+			null;
 
 		return (
 			<div id="recipes">
@@ -154,9 +255,63 @@ class Recipes extends Component {
 
 					<div className="container">
 						<div className="row user-content">
+
+							<div className="col-12 mb-4 sort-by-buttons-container">
+								<button className='btn btn-green-small float-left'>Recipes : {recipes.length}</button>
+
+								<div className="dropdown float-left ml-3">
+									<button className="btn-green-small btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				CHANGE TYPE
+									</button>
+									<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">
+										<a className="dropdown-item" data-sort="Show all" onClick={this.changeSortByType}>Show all</a>
+										<a className="dropdown-item" data-sort="Meat" onClick={this.changeSortByType}>Type: Meat</a>
+										<a className="dropdown-item" data-sort="Vegetarian" onClick={this.changeSortByType}>Type: Vegetarian</a>
+										<a className="dropdown-item" data-sort="Vegan" onClick={this.changeSortByType}>Type: Vegan</a>
+									</div>
+								</div>
+
+								<div className="dropdown float-left ml-3">
+									<button className="btn-green-small btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				SORT BY
+									</button>
+									<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">
+										<a className="dropdown-item" onClick={this.changeSortByDate}>Newest</a>
+										<a className="dropdown-item" data-sort="Likes" onClick={this.changeSortByLikes}>Most liked <i className="far fa-heart ml-2"></i></a>
+										<a className="dropdown-item" data-sort="Comments" onClick={this.changeSortByComments}>Most commented <i className="far fa-comment-alt ml-2"></i></a>
+									</div>
+								</div>
+
+								<div className="dropdown float-left ml-3">
+									<button className="btn-green-small btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			PRICE
+									</button>
+									<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">
+										<a className="dropdown-item" data-sort="Show all" onClick={this.changeSortByPrice}>Show all</a>
+										<a className="dropdown-item" data-sort="Cheap $" onClick={this.changeSortByPrice}>Cheap $</a>
+										<a className="dropdown-item" data-sort="Average $$" onClick={this.changeSortByPrice}>Average $$</a>
+										<a className="dropdown-item" data-sort="Expensive $$$" onClick={this.changeSortByPrice}>Expensive $$$</a>
+									</div>
+								</div>
+
+								<div className="dropdown float-left ml-3">
+									<button className="btn-green-small btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Calories
+									</button>
+									<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">
+										<a className="dropdown-item" data-sort="Show all" onClick={this.changeSortByKcal}>Show all</a>
+										<a className="dropdown-item" data-sort="0-300" onClick={this.changeSortByKcal}>0-300</a>
+										<a className="dropdown-item" data-sort="300-600" onClick={this.changeSortByKcal}>300-600</a>
+										<a className="dropdown-item" data-sort="600-1000" onClick={this.changeSortByKcal}>600-1000</a>
+										<a className="dropdown-item" data-sort="1000+" onClick={this.changeSortByKcal}>1000+</a>
+									</div>
+								</div>
+
+							</div>
+
 							<div className="col-12 mb-4">
 								<div className="row">
-									{this.props.recipe.recipes.map(recipe => <RecipeCard recipe={recipe} key={recipe._id}/>)}
+									{recipes.map(recipe => <RecipeCard recipe={recipe} key={recipe._id}/>)}
 								</div>
 							</div>
 						</div>
@@ -169,6 +324,12 @@ class Recipes extends Component {
 		);
 	}
 }
+
+// sortByType: '',
+// sortByPrice: '',
+// sortByLikes: '',
+// sortByComments: '',
+// sortByDate: ''
 
 Recipes.propTypes = {
 	auth: PropTypes.object.isRequired,

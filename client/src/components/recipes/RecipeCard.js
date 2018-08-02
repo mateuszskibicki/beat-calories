@@ -147,6 +147,7 @@ class RecipeCard extends Component {
 						<p className="mb-0">Cooking method : {cookingMethod}</p>
 						<p className="mb-0">Preparation time : {preparationTime}</p>
 						<p className="mb-0">Cooking time : {cookingTime}</p>
+						<p className="text-muted mb-0"><i className="far fa-heart"></i> {likes.length} | <i className="far fa-comments"></i> {comments.length}</p>
 
 						<button className={buttonClass} onClick={this.showShortAbout}>
 							Short about {

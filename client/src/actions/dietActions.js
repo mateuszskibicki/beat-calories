@@ -18,6 +18,8 @@ import {
 	UPDATE_DIET_PROFILE_PAGE
 } from './types';
 
+import {getProfileByHandle} from './profileActions';
+
 // Get diets
 export const getDiets = () => dispatch => {
 	dispatch(clearErrors());
@@ -66,20 +68,22 @@ export const updateDiet = (id ,dietData) => dispatch => {
 };
 
 // Update diet on profile page
-export const updateDietOnProfilePage = (id ,dietData) => dispatch => {
+export const updateDietOnProfilePage = (id ,dietData, userNickname) => dispatch => {
 	dispatch(clearErrors());
 	axios.post(`/api/diets/profilePage/${id}`, dietData)
 		.then((res) => {
-			dispatch({type: UPDATE_DIET_PROFILE_PAGE, payload: res.data});
+			dispatch(getProfileByHandle(userNickname));
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
 // Update diet on single page
-export const updateDietSinglePage = (id ,dietData, nickname, history) => dispatch => {
+export const updateDietSinglePage = (id ,dietData) => dispatch => {
 	dispatch(clearErrors());
-	axios.post(`/api/diets/single/${id}`, dietData)
-		.then((res) => history.push(`/profile/${nickname}`))
+	axios.post(`/api/diets/${id}`, dietData)
+		.then((res) => {
+			dispatch(getDietByID(id));
+		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
@@ -128,7 +132,7 @@ export const addComment = (id, data) => dispatch => {
 };
 
 // Delete comment in diet
-export const deleteComment = (dietId, commentId) => dispatch => {
+export const deleteCommentDiet = (dietId, commentId) => dispatch => {
 	axios.delete(`/api/diets/comments/${dietId}/${commentId}`)
 		.then(res => {
 			dispatch({type: DELETE_COMMENT_DIET, payload: res.data});		

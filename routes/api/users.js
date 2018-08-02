@@ -393,43 +393,6 @@ router.get(
 	});
 
 
-// @route   GET api/users/:id
-// @desc    Find user by ID
-// @access  Private
-router.get(
-	'/id/:id',
-	passport.authenticate('jwt', { session: false }),
-	(req, res) => {
-		User.findById(req.params.id)
-			.populate('diets')
-			.populate('recipes')
-			.then(user => {
-				let errors = {};
-				if(user) {
-					const userToDisplay = {
-						_id : user._id,
-						name: user.name,
-						nickname: user.nickname,
-						social: user.social,
-						avatar: user.avatar,
-						bio: user.bio,
-						date: user.date,
-						diets: user.diets,
-						numberOfDiets: user.diets.length,
-						posts: user.posts,
-						numberOfPosts: user.posts.length,
-						recipes: user.recipes,
-						numberOfRecipies: user.recipes.length
-					};
-					res.json(userToDisplay);
-				} else {
-					res.status(404).json(errors.user = 'User not found.');
-				}
-			}
-			);
-	});
-
-
 // @route   GET api/users/:nickname
 // @desc    Find user by nickname
 // @access  Private
@@ -439,11 +402,13 @@ router.get(
 	(req, res) => {
 		User.findOne({ nickname: req.params.nickname })
 			.populate('recipes')
+			.populate({path: 'recipes', populate : {path: 'user'}})
 			.populate('diets')
 			.populate({path: 'diets', populate : {path: 'user'}})
 			.populate('likedDiets')
 			.populate({path: 'likedDiets', populate: {path: 'user'}})
 			.populate('likedRecipes')
+			.populate({path: 'likedRecipes', populate : {path: 'user'}})
 			.then(user => {
 				let dietsData = user.diets.map(diet => (
 					{
@@ -485,6 +450,62 @@ router.get(
 					}
 				));
 
+				let recipeData = user.recipes.map(recipe => (
+					{
+						comments: recipe.comments,
+						date: recipe.date,
+						shortDescription: recipe.shortDescription,
+						longDescription: recipe.longDescription,
+						kcal: recipe.kcal,
+						likes: recipe.likes,
+						tags: recipe.tags,
+						ingredients: recipe.ingredients,
+						title: recipe.title,
+						cookingMethod: recipe.cookingMethod,
+						lifestyle: recipe.lifestyle,
+						cookingTime: recipe.cookingTime,
+						preparationTime: recipe.preparationTime,
+						price: recipe.price,
+						cuisine: recipe.cuisine,
+						dishType: recipe.dishType,
+						_id: recipe._id,
+						user: {
+							name: recipe.user.name,
+							nickname: recipe.user.nickname,
+							avatar: recipe.user.avatar,
+							_id: recipe.user._id
+						}
+					}
+				));
+
+				let likedRecipesData = user.likedRecipes.map(recipe => (
+					{
+						comments: recipe.comments,
+						date: recipe.date,
+						shortDescription: recipe.shortDescription,
+						longDescription: recipe.longDescription,
+						kcal: recipe.kcal,
+						likes: recipe.likes,
+						tags: recipe.tags,
+						ingredients: recipe.ingredients,
+						title: recipe.title,
+						cookingMethod: recipe.cookingMethod,
+						lifestyle: recipe.lifestyle,
+						cookingTime: recipe.cookingTime,
+						preparationTime: recipe.preparationTime,
+						price: recipe.price,
+						cuisine: recipe.cuisine,
+						dishType: recipe.dishType,
+						_id: recipe._id,
+						user: {
+							name: recipe.user.name,
+							nickname: recipe.user.nickname,
+							avatar: recipe.user.avatar,
+							_id: recipe.user._id
+						}
+					}
+				));
+
 
 				const userData = {
 					_id : user._id,
@@ -498,17 +519,17 @@ router.get(
 					numberOfDiets: user.diets.length,
 					posts: user.posts,
 					numberOfPosts: user.posts.length,
-					recipes: user.recipes,
+					recipes: recipeData,
 					numberOfRecipes: user.recipes.length,
 					likedDiets: likedDietsData,
 					likedPosts: user.likedPosts,
-					likedRecipes: user.likedRecipes,
+					likedRecipes: likedRecipesData,
 					likedTrainings: user.likedTrainings
 				};
 
 				user._id.toString() === req.user._id.toString() ? userData.email = user.email : null;
 
-				res.json(userData);
+				res.status(200).json(userData);
 			})
 			.catch(err => res.status(404).json({success: false}));
 	});

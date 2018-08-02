@@ -181,7 +181,7 @@ router.post(
 			recipeIngredients.length > 0 ? recipeFields.ingredients = recipeIngredients : null;
 
 			new Recipe(recipeFields).save()
-				.then(recipe => res.status(200).json({success: true}))
+				.then(recipe => res.status(200).json(recipe))
 				.catch(e => res.status(400).json(e));
 		}
 	});
@@ -326,6 +326,7 @@ router.post(
 					
 		}
 	});
+	
 
 // @route   POST api/recipes/likes/:id
 // @desc    POST Like recipe by ID
@@ -393,16 +394,16 @@ router.post(
 		let errors = {};
 
 		if(_.isEmpty(req.body.comment)) {
-			errors.comment = 'Comment body is required, 10-200 characters';
+			errors.comment = 'Comment body is required, 10-500 characters';
 		} else if (
 			req.body.comment.trim().length < 10 ||
-			req.body.comment.trim().length > 200 
+			req.body.comment.trim().length > 500 
 		) {
-			errors.comment = 'Length between 10 and 200 characters.';
+			errors.comment = 'Length between 10 and 500 characters.';
 		}
 
 		if (!_.isEmpty(errors)) {
-			return res.json(errors);
+			return res.status(400).json(errors);
 		}
 
 		Recipe.findById(req.params.id).then(recipe => {
@@ -441,7 +442,7 @@ router.delete(
 							recipe.comments.splice(commentIndex, 1);
 							recipe.save().then(() => res.json({success: true}));
 						} else { // auth false
-							res.json({success: false});
+							res.status(404).json({success: false});
 						}
 					} else {
 						res.json({
@@ -452,7 +453,7 @@ router.delete(
 				
 				
 			})
-			.catch(e => res.json(e));
+			.catch(e => res.status(404).json(e));
 	});
 
 module.exports = router;

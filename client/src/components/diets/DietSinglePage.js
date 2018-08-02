@@ -77,7 +77,7 @@ class DietSinglePage extends Component {
 
 			componentDiet = (
 				<div className="mt-5 fade-in-left">
-					<div className="container-fluid">
+					<div className="container">
 						<div className="row">			
 							<div className="col-12">
 								<div className="col-12 mb-3">

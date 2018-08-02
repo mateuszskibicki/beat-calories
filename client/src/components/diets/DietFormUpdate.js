@@ -65,7 +65,7 @@ class DietFormUpdate extends Component {
 			if (this.props.match.path === '/diets') {
 				this.props.updateDiet(this.props.singleDiet._id, this.state);
 			} else if (this.props.match.path === '/profile/:nickname') {
-				this.props.updateDietOnProfilePage(this.props.singleDiet._id, this.state);
+				this.props.updateDietOnProfilePage(this.props.singleDiet._id, this.state, this.props.auth.user.nickname);
 			}
 			
 		}

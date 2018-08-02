@@ -3,7 +3,8 @@ import {
 	GET_RECIPES,
 	RECIPE_LOADING,
 	ADD_RECIPE,
-	LIKE_RECIPE
+	LIKE_RECIPE,
+	GET_RECIPE_BY_ID_WITHOUT_LOADING
 } from '../actions/types';
 
 const initialState = {
@@ -29,6 +30,11 @@ export default function(state = initialState, action) {
 		return {
 			...state,
 			loading: false,
+			recipe: action.payload	
+		};
+	case GET_RECIPE_BY_ID_WITHOUT_LOADING:
+		return {
+			...state,
 			recipe: action.payload	
 		};
 	case ADD_RECIPE:

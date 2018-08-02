@@ -49,6 +49,52 @@
   }
 }
 
+.btn-green-small {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  margin-top: 0.6rem;
+  border: 0;
+  border-radius: 0%;
+  padding: 10px;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 900;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.2s;
+  cursor: pointer;
+  background-color: darken($green-spring, 10%);
+  &:hover {
+    outline: 0;
+    background: darken($green-spring, 20%);
+    box-shadow: $shadow-small;
+    transform: scale(1.1);
+  }
+}
+
+.btn-green-medium {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  margin-top: 0.8rem;
+  border: 0;
+  border-radius: 0%;
+  padding: 12px;
+  color: #FFFFFF;
+  font-size: 17px;
+  font-weight: 900;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.2s;
+  cursor: pointer;
+  background-color: darken($green-spring, 10%);
+  &:hover {
+    outline: 0;
+    background: darken($green-spring, 20%);
+    box-shadow: $shadow-small;
+    transform: scale(1.1);
+  }
+}
+
 .btn-red {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
@@ -61,6 +107,30 @@
   &:hover {
     outline: 0;
     background: darken($red, 10%);
+    box-shadow: $shadow-small;
+    transform: scale(1.05);
+  }
+}
+
+.btn-red-big {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  width: 100%;
+  margin-top: 0.7rem;
+  border: 0;
+  border-radius: 0px;
+  padding: 14px;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 900;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.2s;
+  cursor: pointer;
+  background-color: $red-meat;
+  &:hover {
+    outline: 0;
+    background: darken($red-meat, 10%);
     box-shadow: $shadow-small;
     transform: scale(1.05);
   }

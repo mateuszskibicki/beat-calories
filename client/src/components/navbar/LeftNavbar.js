@@ -22,16 +22,10 @@ class leftSide extends Component {
 
 	render() {
 		return (
-			<nav className="nav flex-column d-sm-block" id="left-nav">
+			<nav className="nav flex-column d-sm-block fade-in-left" id="left-nav">
 
 				<h5 className="nav-heading">User content</h5>
 				<hr />
-
-				<LeftNavbarNavLink 
-					to="/"
-					icon="fas fa-columns"
-					name="Dashboard"
-				/>
 
 				<LeftNavbarNavLink 
 					to="/users"
@@ -82,7 +76,7 @@ class leftSide extends Component {
 				<hr />
 
 				<LeftNavbarNavLink 
-					to="/about"
+					to="/"
 					icon="fas fa-info-circle"
 					name="About"
 				/>

@@ -229,11 +229,11 @@ class Diets extends Component {
 				<div className="container">
 					<div className="row user-content">
 
-						<div className="col-12 mb-4">
-							<button className='btn btn-green float-left'>Diets : {dietContent.length}</button>
+						<div className="col-12 mb-4 sort-by-buttons-container">
+							<button className='btn btn-green-small float-left'>Diets : {dietContent.length}</button>
 
 							<div className="dropdown float-left ml-3">
-								<button className="btn-green btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<button className="btn-green-small btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				CHANGE TYPE
 								</button>
 								<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">
@@ -245,7 +245,7 @@ class Diets extends Component {
 							</div>
 
 							<div className="dropdown float-left ml-3">
-								<button className="btn-green btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<button className="btn-green-small btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				SORT BY
 								</button>
 								<div className="dropdown-menu" aria-labelledby="dropdownSortByDiets">

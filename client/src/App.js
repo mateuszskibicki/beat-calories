@@ -16,14 +16,17 @@ import Login from './components/auth/Login';
 import LeftNavbar from './components/navbar/LeftNavbar';
 import TopNavbar from './components/navbar/TopNavbar';
 
-import Dashboard from './components/dashboard/Dashboard';
+import About from './components/about/About';
 import Profile from './components/profile/Profile';
 import Users from './components/users/Users';
 import Posts from './components/posts/Posts';
+import Trainings from './components/trainings/Trainings';
 import Diets from './components/diets/Diets';
 import DietSinglePage from './components/diets/DietSinglePage';
 import Recipes from './components/recipes/Recipes';
 import RecipeSinglePage from './components/recipes/RecipeSinglePage';
+
+import Calculators from './components/calculators/Calculators';
 
 
 //Check for token
@@ -77,18 +80,34 @@ class App extends Component {
 									</Switch>
 								</div>
 								<div className="col-12 col-sm-9 col-xl-10">
+									{
+									// ABOUT PAGE
+									}
 									<Switch>
-										<PrivateRoute exact path="/" component={Dashboard} />
+										<PrivateRoute exact path="/" component={About} />
 									</Switch>
+
+									{
+										// USERS
+									}
 									<Switch>
 										<PrivateRoute exact path="/users" component={Users} />
 									</Switch>
+
+									{
+										// PROFILE PAGE
+									}
 									<Switch>
 										<PrivateRoute exact path="/profile/:nickname" component={Profile} />
 									</Switch>
+
+									{
+										// POSTS
+									}
 									<Switch>
 										<PrivateRoute exact path="/posts" component={Posts} />
 									</Switch>
+
 									{
 										// DIETS
 									}
@@ -109,10 +128,20 @@ class App extends Component {
 										<PrivateRoute exact path="/recipes/:id" component={RecipeSinglePage} />
 									</Switch>
 
-
+									{
+										// TRAININGS
+									}
 									<Switch>
-										<PrivateRoute exact path="/trainings" component={Dashboard} />
+										<PrivateRoute exact path="/trainings" component={Trainings} />
 									</Switch>
+
+									{
+										// CALCULATORS
+									}
+									<Switch>
+										<PrivateRoute exact path="/calculators" component={Calculators} />
+									</Switch>
+
 								</div>
 							</div>
 

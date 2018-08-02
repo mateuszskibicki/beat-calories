@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
 	GET_RECIPE_BY_ID,
+	GET_RECIPE_BY_ID_WITHOUT_LOADING,
 	GET_RECIPES,
 	GET_ERRORS,
 	RECIPE_LOADING,
@@ -9,6 +10,8 @@ import {
 	LIKE_RECIPE,
 	CLEAR_ERRORS
 } from '../actions/types';
+
+import {getProfileByHandle} from './profileActions';
 
 // Get recipes
 export const getRecipes = () => dispatch => {
@@ -25,6 +28,13 @@ export const getRecipeByID = (id) => dispatch => {
 	dispatch(recipeLoading());
 	axios.get(`/api/recipes/${id}`)
 		.then(res => dispatch({type: GET_RECIPE_BY_ID, payload: res.data }))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Get recipes
+export const getRecipeByIdWithoutLoading = (id) => dispatch => {
+	axios.get(`/api/recipes/${id}`)
+		.then(res => dispatch({type: GET_RECIPE_BY_ID_WITHOUT_LOADING, payload: res.data }))
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
@@ -48,11 +58,31 @@ export const updateUserWithNewRecipe = (recipeID) => dispatch => {
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
-// Update recipe on main /recipe page
+// Update recipe on main /recipes page
 export const updateRecipe = (id , recipeData) => dispatch => {
 	axios.post(`/api/recipes/update/${id}`, recipeData)
 		.then(() => {
 			dispatch(getRecipes());
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Update recipe on single page /recipes/:id
+export const updateRecipeSinglePage = (id , recipeData) => dispatch => {
+	axios.post(`/api/recipes/update/${id}`, recipeData)
+		.then((res) => {
+			dispatch(clearErrors());
+			dispatch(getRecipeByIdWithoutLoading(id));
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Update recipe on single page /recipes/:id
+export const updateRecipeProfilePage = (id , recipeData, userNickname) => dispatch => {
+	axios.post(`/api/recipes/update/${id}`, recipeData)
+		.then((res) => {
+			dispatch(clearErrors());
+			dispatch(getProfileByHandle(userNickname));
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
@@ -63,6 +93,40 @@ export const deleteRecipe = (id) => dispatch => {
 		.then(() => {
 			dispatch(getRecipes());
 		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Like recipe
+export const likeRecipe = (id) => dispatch => {
+	axios.post(`/api/recipes/likes/${id}`)
+		.then(() => dispatch(getRecipeByIdWithoutLoading(id)))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Add comment to recipe
+export const addComment = (id, data) => dispatch => {
+	dispatch(clearErrors());
+	axios.post(`/api/recipes/comments/${id}`, data)
+		.then(res => {
+			dispatch(clearErrors());
+			dispatch(getRecipeByIdWithoutLoading(id));
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Delete comment in recipe
+export const deleteCommentRecipe = (recipeId, commentId) => dispatch => {
+	axios.delete(`/api/recipes/comments/${recipeId}/${commentId}`)
+		.then(res => {
+			dispatch(getRecipeByIdWithoutLoading(recipeId));	
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Delete recipe on single page
+export const deleteRecipeSinglePage = (id, history) => dispatch => {
+	axios.delete(`/api/recipes/${id}`)
+		.then((res) => history.push('/recipes'))
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
