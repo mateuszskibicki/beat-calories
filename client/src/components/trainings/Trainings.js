@@ -17,22 +17,22 @@ class Trainings extends Component {
 						<h1 className="lead">This is TRAININGS page, this is going to be finished soon.</h1>
 						<div>
 							<Link to='/diets'>
-								<button className="btn btn-green-medium">GO TO DIETS PAGE <i class="far fa-hand-point-left"></i></button>
+								<button className="btn btn-green-medium">GO TO DIETS PAGE <i className="far fa-hand-point-left"></i></button>
 							</Link>
 						</div>
 						<div>
 							<Link to='/recipes'>
-								<button className="btn btn-green-medium">GO TO RECIPES PAGE <i class="far fa-hand-point-left"></i></button>
+								<button className="btn btn-green-medium">GO TO RECIPES PAGE <i className="far fa-hand-point-left"></i></button>
 							</Link>
 						</div>
 						<div>
 							<Link to={`/profile/${this.props.auth.user.nickname}`}>
-								<button className="btn btn-green-medium">GO TO YOUR PROFILE PAGE <i class="far fa-hand-point-left"></i></button>
+								<button className="btn btn-green-medium">GO TO YOUR PROFILE PAGE <i className="far fa-hand-point-left"></i></button>
 							</Link>
 						</div>
 						<div>
 							<Link to='/users'>
-								<button className="btn btn-green-medium">FIND USERS <i class="far fa-hand-point-left"></i></button>
+								<button className="btn btn-green-medium">FIND USERS <i className="far fa-hand-point-left"></i></button>
 							</Link>
 						</div>
 					</div>

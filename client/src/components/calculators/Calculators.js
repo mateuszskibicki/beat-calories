@@ -7,6 +7,8 @@ import _ from 'lodash';
 import CalculatorBMI from './CalculatorBMI';
 import CalculatorBMR from './CalculatorBMR';
 import CalculatorHarrisBenedict from './CalculatorHarrisBenedict';
+import CalculatorDaily from './CalculatorDaily';
+import CalculatorKgCm from './CalculatorKgCm';
 
 
 class Calculators extends Component {
@@ -26,18 +28,15 @@ class Calculators extends Component {
 							</div>
 						</div>
 
+						<CalculatorKgCm />
+
 						<CalculatorBMI />
 
 						<CalculatorBMR />
 
 						<CalculatorHarrisBenedict />
-					
 
-						Harris Benedict Formula
-						Harris Benedict Formula
-						Harris Benedict Formula
-						Harris Benedict Formula
-						Harris Benedict Formula
+						<CalculatorDaily />
 
 
 					</div>

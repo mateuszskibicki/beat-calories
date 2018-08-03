@@ -14,6 +14,7 @@ class CalculatorHarrisBenedict extends Component {
 		super(props);
 		this.state={
 			bmr : '',
+			exercise: '',
 			harrisBenedict: '',
 			errors: {}
 		};
@@ -26,18 +27,33 @@ class CalculatorHarrisBenedict extends Component {
 	calculateHarrisBenedict = (e) => {
 		e.preventDefault();
 		let errors = {};
-
+		_.isEmpty(this.state.bmr) && !_.isNumber(this.state.bmr) ? errors.bmr = 'BMR in calories is required.' : null;
+		_.isEmpty(this.state.exercise) ? errors.exercise = 'Exercise is required.' : null;
+		if(_.isEmpty(errors)) {
+			let valueToMultiple;
+			this.state.exercise === 'Little/no exercise' ? valueToMultiple = 1.2 : null;
+			this.state.exercise === 'Light exercise' ? valueToMultiple = 1.375 : null;
+			this.state.exercise === 'Moderate exercise (3-5 days/wk)' ? valueToMultiple = 1.55 : null;
+			this.state.exercise === 'Very active (6-7 days/wk)' ? valueToMultiple = 1.725 : null;
+			this.state.exercise === 'Extra active (very active & physical job)' ? valueToMultiple = 1.9 : null;
+			this.setState({
+				harrisBenedict : this.state.bmr * valueToMultiple,
+				errors: {}
+			});
+		} else {
+			this.setState({errors: errors});
+		}
 	}
 
 	render() {
 		const {errors} = this.state;
     
 		let harrisBenedictContent = '';
-		_.isNumber(this.state.harrisBenedictContent) ?
+		_.isNumber(this.state.harrisBenedict) ?
 			harrisBenedictContent = (
 				<div>
 					<h2>
-    Your BMR : {Math.round(this.state.bmr * 100) / 100}			
+    Your daily calories : {Math.round(this.state.harrisBenedict * 100) / 100}			
 					</h2>
 				</div>
 			) : 
@@ -87,14 +103,14 @@ class CalculatorHarrisBenedict extends Component {
 									'Very active (6-7 days/wk)',
 									'Extra active (very active & physical job)'
 								]}
-								value = {this.state.gender}
+								value = {this.state.exercise}
 								onChange = {this.onChange}
-								error = {errors.gender}
+								error = {errors.exercise}
 							/>
 
 							{harrisBenedictContent}
 
-							<button className='btn btn-green-medium' type='submit' onClick={this.calculateHarrisBenedict}>Calculate BMR</button>
+							<button className='btn btn-green-medium' type='submit' onClick={this.calculateHarrisBenedict}>Calculate Benedict</button>
 						</div>
 					</div>
 				</div>

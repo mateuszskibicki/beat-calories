@@ -15,7 +15,8 @@ import {
 	LIKE_DIET,
 	UPDATE_DIET,
 	UPDATE_DIET_SINGLE_PAGE,
-	UPDATE_DIET_PROFILE_PAGE
+	UPDATE_DIET_PROFILE_PAGE,
+	GET_DIET_BY_ID_WITHOUT_LOADING
 } from './types';
 
 import {getProfileByHandle} from './profileActions';
@@ -34,6 +35,13 @@ export const getDietByID = (id) => dispatch => {
 	dispatch(dietLoading());
 	axios.get(`/api/diets/${id}`)
 		.then(res => dispatch({type: GET_DIET_BY_ID, payload: res.data }))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Get diet by ID without loading
+export const getDietByIdWithoutLoading = (id) => dispatch => {
+	axios.get(`/api/diets/${id}`)
+		.then(res => dispatch({type: GET_DIET_BY_ID_WITHOUT_LOADING, payload: res.data }))
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };
 
@@ -82,7 +90,7 @@ export const updateDietSinglePage = (id ,dietData) => dispatch => {
 	dispatch(clearErrors());
 	axios.post(`/api/diets/${id}`, dietData)
 		.then((res) => {
-			dispatch(getDietByID(id));
+			dispatch(getDietByIdWithoutLoading(id));
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };

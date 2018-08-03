@@ -9,7 +9,8 @@ import {
 	ADD_DIET,
 	DELETE_DIET,
 	UPDATE_DIET,
-	UPDATE_DIET_SINGLE_PAGE
+	UPDATE_DIET_SINGLE_PAGE,
+	GET_DIET_BY_ID_WITHOUT_LOADING
 } from '../actions/types';
 
 const initialState = {
@@ -35,6 +36,11 @@ export default function(state = initialState, action) {
 		return {
 			...state,
 			loading: false,
+			diet: action.payload	
+		};
+	case GET_DIET_BY_ID_WITHOUT_LOADING:
+		return {
+			...state,
 			diet: action.payload	
 		};
 	case ADD_DIET:
