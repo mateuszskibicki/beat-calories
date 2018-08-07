@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import RecipeFormUpdate from './RecipeFormUpdate';
-import {deleteRecipe} from '../../actions/recipeActions';
+import {deleteRecipe, deleteRecipeProfilePage} from '../../actions/recipeActions';
 
 import photoMeat from '../../images/diet-meat.png';
 import photoVegetarian from '../../images/diet-vegetarian.png';
@@ -43,8 +43,7 @@ class RecipeCard extends Component {
 		if (this.props.match.path === '/recipes') {
 			this.props.deleteRecipe(recipeID);
 		} else if (this.props.match.path === '/profile/:nickname') {
-			//this.props.deleteDietProfilePage(dietId);
-			console.log('profile');
+			this.props.deleteRecipeProfilePage(recipeID, this.props.auth.user.nickname);
 		}
 	}
 
@@ -127,7 +126,7 @@ class RecipeCard extends Component {
 		
     
   	return (
-  		<div className="col-12 col-md-6 col-xl-4 fade-in-left">
+  		<div className="col-12 col-md-6 col-xl-4">
 				<div className="card card-recipe">
 					{buttonsUpdateDelete}
 					<div className={imgTopClass}>
@@ -213,11 +212,12 @@ class RecipeCard extends Component {
 RecipeCard.propTypes = {
 	auth: PropTypes.object.isRequired,
 	recipe: PropTypes.object.isRequired,
-	deleteRecipe: PropTypes.func.isRequired
+	deleteRecipe: PropTypes.func.isRequired,
+	deleteRecipeProfilePage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, {deleteRecipe})(withRouter(RecipeCard));
+export default connect(mapStateToProps, {deleteRecipe, deleteRecipeProfilePage})(withRouter(RecipeCard));

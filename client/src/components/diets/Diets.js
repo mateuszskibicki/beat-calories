@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import {getDiets} from '../../actions/dietActions';
 
 import Loading from '../common/Loading';
@@ -195,11 +197,27 @@ class Diets extends Component {
 			dietContent = diets.map(diet => <DietCard key={diet._id} diet={diet}/>);
 		}
 
+		dietContent = (
+			<ReactCSSTransitionGroup
+				className="row container ml-0 mr-0 pr-0 pl-0"
+				transitionName="fade"
+				transitionEnterTimeout={500}
+				transitionLeaveTimeout={300}>
+				{dietContent}
+			</ReactCSSTransitionGroup>
+		);
+
 
 		return (
-			<div className="mt-5 fade-in-left">
+			<div className="mt-5">
 				<div className="container">
-					<div className="row">		
+					<ReactCSSTransitionGroup
+						className="row"
+						transitionName="fade"
+						transitionEnterTimeout={500}
+						transitionLeaveTimeout={10000}
+						transitionAppear={true}
+						transitionAppearTimeout={500}>	
 
 						<div className="col-12 col-xl-4">
 							<div className="add-container add-container-diet">
@@ -224,7 +242,7 @@ class Diets extends Component {
 								//charts go here
 							}
 						</div>			
-					</div>
+					</ReactCSSTransitionGroup>
 				</div>
 				<div className="container">
 					<div className="row user-content">
@@ -256,10 +274,9 @@ class Diets extends Component {
 							</div>
 
 						</div>
-
+						
 						{dietContent}
-
-
+							
 					</div>
 				</div>
 			</div>

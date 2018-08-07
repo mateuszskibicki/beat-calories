@@ -11,7 +11,7 @@ import {
 	CLEAR_ERRORS
 } from '../actions/types';
 
-import {getProfileByHandle} from './profileActions';
+import {getProfileByHandle, getProfileByHandleWithoutLoading} from './profileActions';
 
 // Get recipes
 export const getRecipes = () => dispatch => {
@@ -92,6 +92,15 @@ export const deleteRecipe = (id) => dispatch => {
 	axios.delete(`/api/recipes/${id}`)
 		.then(() => {
 			dispatch(getRecipes());
+		})
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+};
+
+// Delete recipe on profile page
+export const deleteRecipeProfilePage = (id, nickname) => dispatch => {
+	axios.delete(`/api/recipes/${id}`)
+		.then(() => {
+			dispatch(getProfileByHandleWithoutLoading(nickname));
 		})
 		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
 };

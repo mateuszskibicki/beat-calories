@@ -55,6 +55,28 @@ export const getProfileByHandle = handle => dispatch => {
 		);
 };
 
+// Get profile by handle
+export const getProfileByHandleWithoutLoading = handle => dispatch => {
+	axios
+		.get(`/api/users/${handle}`)
+		.then(res =>{
+			dispatch(clearErrors());
+			dispatch({
+				type: GET_PROFILE,
+				payload: res.data
+			});
+		}
+		)
+		.catch(err => {
+			dispatch(setProfileLoadingFalse());
+			dispatch({
+				type: GET_ERRORS,
+				payload: err.response.data
+			});
+		}
+		);
+};
+
 // Get all profiles
 export const getAllProfiles = handle => dispatch => {
 	dispatch(setProfileLoading());

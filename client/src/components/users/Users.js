@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import _ from 'lodash';
 import moment from 'moment';
 import Loading from '../common/Loading';
@@ -76,15 +79,22 @@ class Users extends Component {
 
 							<div className="col-12">
 
-								<div className="row">
+
+								<ReactCSSTransitionGroup
+									className="row"
+									transitionName="fade"
+									transitionEnterTimeout={500}
+									transitionLeaveTimeout={300}>
 									{usersContent}
-									{profiles !== null & _.isEmpty(profiles) ? (
-										<div className="mt-3 text-center info-no-user">
-											<h1>Ooops.. we don't have any user with name or nickname including : <strong>{this.state.findUser}</strong> .</h1>
-										</div>
+								</ReactCSSTransitionGroup>
+
+								{profiles !== null & _.isEmpty(profiles) ? (
+									<div className="mt-3 text-center info-no-user">
+										<h3>Ooops.. we don't have any user with name or nickname including : <strong>{this.state.findUser}</strong> .</h3>
+									</div>
 										
-									)  : null}
-								</div>	
+								)  : null}
+								
 							</div>
 
 						</div>

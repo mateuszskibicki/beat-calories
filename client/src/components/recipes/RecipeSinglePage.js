@@ -13,6 +13,9 @@ import RecipeCommentsContainer from './RecipeCommentsContainer';
 import Moment from 'moment';
 import _ from 'lodash';
 
+import sadFace from '../../images/sad-face.png';
+
+
 class RecipeSinglePage extends Component {
 	constructor(props) {
 		super(props);
@@ -46,7 +49,7 @@ class RecipeSinglePage extends Component {
 		let componentRecipe;
 		if(_.isEmpty(recipe) || loading) {
 			componentRecipe = <Loading />;
-		} else {
+		} else if (!_.isEmpty(recipe._id) && !loading) {
 
 		 //recipe jumbotron bg
 			let jumboBgClass;
@@ -196,6 +199,25 @@ class RecipeSinglePage extends Component {
 							</div>
 						</div>
 					) : null}
+				</div>
+			);
+		} else {
+			componentRecipe = (
+				<div className="mt-5 fade-in-left">
+					<div className="container">
+						<div className="row">			
+
+							<div className="col-12 mb-3">
+								<Link to='/recipes' className="btn btn-outline-secondary">Go back</Link>
+							</div>
+							<div className="col-12 text-center alert alert-danger box-shadow">
+								<img src={sadFace} alt="Sad face, 404 erorr." className="mt-2 mb-2"/>
+								<h5>Ups... we can't find recipe with ID : {this.props.match.params.id}</h5>
+									Go back and try again.
+							</div>
+						
+						</div>
+					</div>
 				</div>
 			);
 		}

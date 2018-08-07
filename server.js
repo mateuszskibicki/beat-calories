@@ -10,6 +10,7 @@ const profile = require('./routes/api/profile');
 // const posts = require('./routes/api/posts');
 const diets = require('./routes/api/diets');
 const recipes = require('./routes/api/recipes');
+const maps = require('./routes/api/maps');
 
 
 const app = express();
@@ -44,6 +45,7 @@ app.use('/api/profile', profile);
 // app.use('/api/posts', posts);
 app.use('/api/diets', diets);
 app.use('/api/recipes', recipes);
+app.use('/api/maps', maps);
 
 // server static assets if in production
 if (process.env.NODE_ENV === 'production') {

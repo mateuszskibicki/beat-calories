@@ -17,19 +17,22 @@ $bg-img-recipe: url('./../images/recipe-card.jpg');
     background-image: $bg-img-recipe;
   }
   .button-add-modal {
-    font-size: 1.2rem;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    width: 150px;
-    height: 150px;
+    font-size: 1rem;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 120px;
+    height: 120px;
     border-radius: 100%;
     box-shadow: $shadow-small;
     i {
       font-size: 2rem;
     }
-    @media screen and (min-width: 1500px) {
-      width: 220px;
-      height: 220px;
+    @include media-xl {
+      font-size: 1rem;
+      margin-top: 80px;
+      margin-bottom: 80px;
+      width: 150px;
+      height: 150px;
     }
   }
 }

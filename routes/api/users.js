@@ -231,7 +231,7 @@ router.post(
 		}
 	
 		if(social.linkedin) {
-			!validator.isURL(social.linkedin) ? errors.linkedin = 'Facebook URL is not valid.' : null; 
+			!validator.isURL(social.linkedin) ? errors.linkedin = 'LinkedIn URL is not valid.' : null; 
 		}
 	
 		if(social.website) {

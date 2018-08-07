@@ -20,13 +20,14 @@ import About from './components/about/About';
 import Profile from './components/profile/Profile';
 import Users from './components/users/Users';
 import Posts from './components/posts/Posts';
-import Trainings from './components/trainings/Trainings';
 import Diets from './components/diets/Diets';
 import DietSinglePage from './components/diets/DietSinglePage';
 import Recipes from './components/recipes/Recipes';
 import RecipeSinglePage from './components/recipes/RecipeSinglePage';
-
+import Trainings from './components/trainings/Trainings';
+import BurnCalories from './components/burncalories/BurnCalories';
 import Calculators from './components/calculators/Calculators';
+import FindGym from './components/findgym/FindGym';
 
 
 //Check for token
@@ -142,6 +143,20 @@ class App extends Component {
 										<PrivateRoute exact path="/calculators" component={Calculators} />
 									</Switch>
 
+									{
+										// BURN CALORIES
+									}
+									<Switch>
+										<PrivateRoute exact path="/burncalories" component={BurnCalories} />
+									</Switch>
+
+									{
+										// FIND GYM
+									}
+									<Switch>
+										<PrivateRoute exact path="/findgym" component={FindGym} />
+									</Switch>
+
 								</div>
 							</div>
 
@@ -154,39 +169,3 @@ class App extends Component {
 }
 
 export default App;
-
-const component = () => (
-	<div>
-		<Navbar />
-		<Route exact path="/" component={Landing} />
-		<div className="container">
-			<Route exact path="/register" component={Register} />
-			<Route exact path="/login" component={Login} />
-			<Route exact path="/profiles" component={Profiles} />
-			<Route exact path="/profile/:handle" component={Profile} />
-			<Switch>
-				<PrivateRoute exact path="/dashboard" component={Dashboard} />
-			</Switch>
-			<Switch>
-				<PrivateRoute exact path="/create-profile" component={CreateProfile} />
-			</Switch>
-			<Switch>
-				<PrivateRoute exact path="/edit-profile" component={EditProfile} />
-			</Switch>
-			<Switch>
-				<PrivateRoute exact path="/add-experience" component={AddExperience} />
-			</Switch>
-			<Switch>
-				<PrivateRoute exact path="/add-education" component={AddEducation} />
-			</Switch>
-			<Switch>
-				<PrivateRoute exact path="/post/:id" component={Post} />
-			</Switch>
-			<Switch>
-				<PrivateRoute exact path="/feed" component={Posts} />
-			</Switch>
-			<Route exact path="/not-found" component={NotFound} />
-		</div>
-		<Footer />
-	</div>
-);

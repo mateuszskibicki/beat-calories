@@ -72,6 +72,12 @@ class leftSide extends Component {
 					name="Burn calories"
 				/>
 
+				<LeftNavbarNavLink 
+					to="/findgym"
+					icon="fas fa-map-marker-alt"
+					name="Find gym"
+				/>
+
 				<h5 className="nav-heading">About project</h5>
 				<hr />
 

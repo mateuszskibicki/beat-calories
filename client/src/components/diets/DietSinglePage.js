@@ -13,6 +13,8 @@ import DietCommentsContainer from './DietCommentsContainer';
 import Moment from 'moment';
 import _ from 'lodash';
 
+import sadFace from '../../images/sad-face.png';
+
 class DietSinglePage extends Component {
 	constructor(props) {
 		super(props);
@@ -46,7 +48,7 @@ class DietSinglePage extends Component {
 		let componentDiet;
 		if(_.isEmpty(diet) || loading) {
 			componentDiet = <Loading />;
-		} else {
+		} else if (!_.isEmpty(diet._id) && !loading ) {
 
 		 //diet jumbotron bg
 			let jumboBgClass;
@@ -136,6 +138,25 @@ class DietSinglePage extends Component {
 							</div>
 						</div>
 					) : null}
+				</div>
+			);
+		} else {
+			componentDiet = (
+				<div className="mt-5 fade-in-left">
+					<div className="container">
+						<div className="row">			
+
+							<div className="col-12 mb-3">
+								<Link to='/diets' className="btn btn-outline-secondary">Go back</Link>
+							</div>
+							<div className="col-12 text-center alert alert-danger box-shadow">
+								<img src={sadFace} alt="Sad face, 404 erorr." className="mt-2 mb-2"/>
+								<h5>Ups... we can't find diet with ID : {this.props.match.params.id}</h5>
+									Go back and try again.
+							</div>
+						
+						</div>
+					</div>
 				</div>
 			);
 		}

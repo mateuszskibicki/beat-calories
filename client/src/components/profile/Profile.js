@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import {getProfileByHandle} from '../../actions/profileActions';
+
 import _ from 'lodash';
 
 import Loading from '../common/Loading';
 import ProfileContent from './ProfileContent';
 
+import sadFace from '../../images/sad-face.png';
 
 class Profile extends Component {
 
@@ -33,10 +36,21 @@ class Profile extends Component {
 
 		} else if (_.isEmpty(profile) && !loading && !this.props.errors.success) {
 			profileContent = (
-				<div>
-					<p className="display-4 text-muted">Ups.. something went wrong!</p>
-					<p className="lead text-muted">User <strong className="text-dark">{this.props.match.params.nickname}</strong> does not exist or account has been deleted.</p>								
-					<Link to='/' className="btn btn-outline-secondary m-0">Go back to dashboard</Link>
+				<div className="mt-5 fade-in-left">
+					<div className="container">
+						<div className="row">			
+
+							<div className="col-12 mb-3">
+								<Link to='/users' className="btn btn-outline-secondary">Go back</Link>
+							</div>
+							<div className="col-12 text-center alert alert-danger box-shadow">
+								<img src={sadFace} alt="Sad face, 404 erorr." className="mt-2 mb-2"/>
+								<h5>Ups... we can't find user with nickname : {this.props.match.params.nickname}</h5>
+									Go back and try again.
+							</div>
+						
+						</div>
+					</div>
 				</div>
 			);
 		} else {

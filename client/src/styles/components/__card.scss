@@ -9,6 +9,10 @@
 .card-diet,
 .card-recipe {
   margin: 40px 0px;
+  font-size: 90%;
+  @include media-xl {
+    font-size: 100%;
+  }
   .buttons-update-remove-card {
     margin: 0;
     padding: 0;

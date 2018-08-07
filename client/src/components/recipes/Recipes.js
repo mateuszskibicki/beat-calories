@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {getRecipes} from '../../actions/recipeActions';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import _ from 'lodash';
 import moment from 'moment';
 
@@ -200,7 +202,7 @@ class Recipes extends Component {
 			null;
 
 		this.state.sortByPrice === 'Show all' ? 
-			recipes = this.props.recipe.recipes :
+			recipes = recipes.filter(recipe => recipe) :
 			null;
 
 		//Sort by likes/comments/date
@@ -215,16 +217,38 @@ class Recipes extends Component {
 		}
 
 		//Sort by kcal
-		this.state.sortByKcal === 'Show all' || _.isEmpty(this.state.sortByKcal) ?
-			recipes = this.props.recipe.recipes :
+		this.state.sortByKcal === '0-300' ? 
+			recipes = recipes.filter(recipe => recipe.kcal === 'Cheap $') :
+			null;
+	
+		this.state.sortByKcal === '300-600' ? 
+			recipes = recipes.filter(recipe => recipe.kcal === '300-600') :
+			null;
+	
+		this.state.sortByKcal === '600-1000' ? 
+			recipes = recipes.filter(recipe => recipe.kcal === '600-1000') :
+			null;
+
+		this.state.sortByKcal === '1000+' ? 
+			recipes = recipes.filter(recipe => recipe.kcal === '1000+') :
+			null;
+	
+		this.state.sortByKcal === 'Show all' ? 
+			recipes = recipes.filter(recipe => recipe) :
 			null;
 
 		return (
 			<div id="recipes">
-				<div className="mt-5 mb-5 fade-in-left">
+				<div className="mt-5 mb-5">
 
 					<div className="container">
-						<div className="row">
+						<ReactCSSTransitionGroup
+							className="row"
+							transitionName="fade"
+							transitionEnterTimeout={500}
+							transitionLeaveTimeout={10000}
+							transitionAppear={true}
+							transitionAppearTimeout={500}>
 
 							<div className="col-12 col-xl-4">
 								<div className="add-container add-container-recipe">
@@ -250,7 +274,7 @@ class Recipes extends Component {
 								}
 							</div>
 
-						</div>
+						</ReactCSSTransitionGroup>
 					</div>
 
 					<div className="container">
@@ -309,11 +333,18 @@ class Recipes extends Component {
 
 							</div>
 
-							<div className="col-12 mb-4">
-								<div className="row">
-									{recipes.map(recipe => <RecipeCard recipe={recipe} key={recipe._id}/>)}
-								</div>
-							</div>
+							
+
+							<ReactCSSTransitionGroup
+								className="row container ml-0 mr-0 pr-0 pl-0 mb-4"
+								transitionName="fade"
+								transitionEnterTimeout={500}
+								transitionLeaveTimeout={300}>
+								{recipes.map(recipe => <RecipeCard recipe={recipe} key={recipe._id}/>)}
+							</ReactCSSTransitionGroup>
+									
+								
+						
 						</div>
 					</div>
 

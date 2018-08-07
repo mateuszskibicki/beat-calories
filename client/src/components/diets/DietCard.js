@@ -96,7 +96,7 @@ class DietCard extends Component {
 
     
   	return (
-  		<div className="col-12 col-md-6 col-xl-4 fade-in-left">
+  		<div className="col-12 col-md-6 col-xl-4">
   			<div className="card card-diet">
   				{buttonsUpdateDelete}
   				<div className={imgTopClass}>
