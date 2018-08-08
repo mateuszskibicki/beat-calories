@@ -183,3 +183,10 @@
     outline: none;
   }
 }
+
+.btn-facebook {
+  transition: .2s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}

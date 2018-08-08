@@ -43,6 +43,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.3.1",
+    "react-facebook-login": "^4.0.1",
     "react-google-maps": "^9.4.5",
     "react-modal": "^3.4.5",
     "react-moment": "^0.7.0",

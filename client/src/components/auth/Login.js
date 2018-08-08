@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { loginUser } from '../../actions/authActions';
 
 import InputForm from '../common/InputForm';
+import FacebookLogin from 'react-facebook-login';
 
 class Login extends Component {
 	constructor() {
@@ -53,18 +54,14 @@ class Login extends Component {
 	 }
 
 	 componentClicked = () => {
-		 //console.log('clicked');
+		 console.log('clicked');
 	 }
 
-	 responseFacebook = (response) => {
-		 let userInfo = {
-	 		id: response.userID,
-	 		email: response.email,
-	 		name: response.name,
-	 		avatar: `https://graph.facebook.com/v3.0/${response.userID}/picture?type=large`
-		 };
-		 this.props.registerUserWithFacebook(userInfo);
-	 }
+
+
+	  responseFacebook = (response) => {
+	  	console.log(response);
+	  }
 
 	 render() {
 	 	const { errors } = this.state;
@@ -102,7 +99,17 @@ class Login extends Component {
 									Something went wrong, check your details.
 	 							</div>
 	 						) : null}
-	 						<button className="button-green">login</button>
+							 <button className="button-green">login</button>
+							 <hr/>
+
+							 <FacebookLogin
+	 							appId="433735363773317"
+	 							autoLoad={false}
+	 							fields="name,email,picture"
+	 							onClick={this.componentClicked}
+	 							callback={this.responseFacebook}
+							 />
+
 	 						<p className="message">Not registered? <Link to="/register">Create an account</Link></p>
 	 					</form>
 	 				</div>
