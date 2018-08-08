@@ -75,6 +75,7 @@ class Register extends Component {
 							autoComplete="off"
 						>
 							<h4 className="display-3">Register</h4>
+							<p className="lead">Beat Calories | Mateusz Skibicki</p>
 							<p className="lead">* - required</p>
 							<hr />
 							<InputForm

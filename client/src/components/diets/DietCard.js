@@ -131,7 +131,7 @@ class DietCard extends Component {
   					<button type="button" className="button-update-diet-modal" hidden data-toggle="modal" data-target="#dietUpdateModal">
 					Launch update
   					</button>
-  					<div className="modal fade p-0" id="dietUpdateModal" tabIndex={-1} role="dialog" aria-labelledby="dietUpdateModal" aria-hidden="true">
+  					<div className="modal fade p-0" onClick={this.hideModalClickModal} id="dietUpdateModal" tabIndex={-1} role="dialog" aria-labelledby="dietUpdateModal" aria-hidden="true">
   					<div className="modal-dialog modal-lg" role="document">
   						<div className="modal-content modal-form">
   							<DietFormUpdate singleDiet={diet} showUpdateForm={this.showUpdateForm} />

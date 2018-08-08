@@ -6,6 +6,7 @@ import postReducer from './postReducer';
 import dietReducer from './dietReducer';
 import recipeReducer from './recipeReducer';
 import mapReducer from './mapReducer';
+import contactReducer from './contactReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
 	post: postReducer,
 	diet : dietReducer,
 	recipe: recipeReducer,
-	map: mapReducer
+	map: mapReducer,
+	contact: contactReducer
 });

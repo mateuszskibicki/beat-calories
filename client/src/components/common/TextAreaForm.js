@@ -20,6 +20,7 @@ const TextAreaForm = ({
 				name={name} 
 				value={value} 
 				onChange={onChange}
+				rows='5'
 			/>
 			{_.isEmpty(error) ? null : (
 				<small className="form-text alert-danger">{error}</small>

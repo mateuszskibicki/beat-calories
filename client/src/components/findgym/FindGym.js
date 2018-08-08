@@ -23,6 +23,10 @@ class FindGym extends Component {
 		};
 	}
 
+	componentDidMount() {
+		window.scrollTo(0,0);
+	}
+
 	onChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
 	}
@@ -69,7 +73,7 @@ class FindGym extends Component {
 
   					<div className="add-container add-container-calories mb-5">
   						<div className="jumbotron mt-3 mb-3">
-  							<div className="display-4">Find perfect gym</div>
+  							<div className="display-4">Find perfect gym <i class="fas fa-map-marker-alt"></i></div>
   						</div>
   					</div>
 

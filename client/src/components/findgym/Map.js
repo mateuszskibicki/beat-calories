@@ -12,7 +12,7 @@ const MyMapComponent = compose(
 	withProps({
 		googleMapURL: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCMjMCyAPNM6trm8QEeG5xryC6URUTO98U&v=3.exp&libraries=geometry,drawing,places',
 		loadingElement: <div style={{ height: '100%' }} />,
-		containerElement: <div style={{ height: '500px' }} />,
+		containerElement: <div className="box-shadow" style={{ height: '500px' }} />,
 		mapElement: <div style={{ height: '100%' }} />,
 	}),
 	withScriptjs,
@@ -30,7 +30,11 @@ const MyMapComponent = compose(
 				position={{ lat: marker.geometry.location.lat, lng: marker.geometry.location.lng }}
 				labelAnchor={new google.maps.Point(0, 0)}
 			>
-				<div className="label-map">{marker.name}</div>
+				<div >
+					<div className="label-map">{marker.name} {marker.rating ? <small> | Rating: {marker.rating}</small> : null}</div>
+					
+				</div>
+				
 			</MarkerWithLabel>
 		))}
 

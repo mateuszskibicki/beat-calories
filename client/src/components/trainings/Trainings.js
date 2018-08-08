@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 
 class Trainings extends Component {
 
+	componentDidMount() {
+		window.scrollTo(0,0);
+	}
+
 	render() {
 		const { user } = this.props.auth;
 
@@ -33,6 +37,21 @@ class Trainings extends Component {
 						<div>
 							<Link to='/users'>
 								<button className="btn btn-green-medium">FIND USERS <i className="far fa-hand-point-left"></i></button>
+							</Link>
+						</div>
+						<div>
+							<Link to='/calculators'>
+								<button className="btn btn-green-medium">CALCULATORS <i className="far fa-hand-point-left"></i></button>
+							</Link>
+						</div>
+						<div>
+							<Link to='/burncalories'>
+								<button className="btn btn-green-medium">BURN CALORIES <i className="far fa-hand-point-left"></i></button>
+							</Link>
+						</div>
+						<div>
+							<Link to='/findgym'>
+								<button className="btn btn-green-medium">FIND GYM <i className="far fa-hand-point-left"></i></button>
 							</Link>
 						</div>
 					</div>

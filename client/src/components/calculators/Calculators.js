@@ -12,6 +12,9 @@ import CalculatorKgCm from './CalculatorKgCm';
 
 
 class Calculators extends Component {
+	componentDidMount() {
+		window.scrollTo(0,0);
+	}
 
 	render() {
 		const { user } = this.props.auth;
@@ -24,7 +27,7 @@ class Calculators extends Component {
 
 						<div className="add-container add-container-calculators mb-5">
 							<div className="jumbotron mt-3 mb-3">
-								<div className="display-4">Calculators</div>
+								<div className="display-4">Calculators <i class="fas fa-calculator"></i></div>
 							</div>
 						</div>
 

@@ -41,7 +41,10 @@ export const ADD_RECIPE = 'ADD_RECIPE';
 export const LIKE_RECIPE = 'LIKE_RECIPE';
 
 
-
 export const GET_MAPS = 'GET_MAPS';
 export const MAP_LOADING = 'MAP_LOADING';
+
+
+export const SEND_EMAIL = 'SEND_EMAIL';
+export const EMAIL_LOADING = 'EMAIL_LOADING';
 

@@ -87,19 +87,25 @@ class leftSide extends Component {
 					name="About"
 				/>
 
+				<LeftNavbarNavLink 
+					to="/contact"
+					icon="far fa-envelope"
+					name="Contact"
+				/>
+
 				<hr />
 
 				<div className="nav-footer pt-2 pb-4">
-					<p>2018 BeatCalories &copy; Mateusz Skibicki </p>
-					<p>Icons made by Freepik from <a href="https://www.flaticon.com" target="_blank" className="small-link">www.flaticon.com</a></p>
-					<button 
+					<p>2018 BeatCalories &copy; Mateusz Skibicki <br/> <a href="http://papuk.co.uk/" target="_blank" className="small-link">www.papuk.co.uk</a></p>
+					<p>Icons made by Freepik from: <br/> <a href="https://www.flaticon.com" target="_blank" className="small-link">www.flaticon.com</a></p>
+					<p>All photos from: <br/> <a href="https://www.pexels.com" target="_blank" className="small-link">www.pexels.com</a></p>
+					<button
 						className="btn-outline-success btn btn-sm"
 						onClick={this.logoutClick}
 					>
 						Logout <i className="fas fa-sign-out-alt"></i>
 					</button>
 				</div>
-
 
 			</nav>
 		);

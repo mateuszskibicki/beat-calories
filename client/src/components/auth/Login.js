@@ -75,7 +75,8 @@ class Login extends Component {
 	 			<div className="login-page mb-5">
 	 				<div className="form fade-in-left">
 	 					<form className="login-form" onSubmit={this.onSubmit} autoComplete="off">
-	 						<h4 className="display-3">Login</h4>
+							 <h4 className="display-3">Login</h4>
+							 <p className="lead">Beat Calories | Mateusz Skibicki</p>
 	 						<p className="lead">* - required</p>
 							 <hr />
 

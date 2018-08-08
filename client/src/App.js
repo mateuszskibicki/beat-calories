@@ -28,6 +28,7 @@ import Trainings from './components/trainings/Trainings';
 import BurnCalories from './components/burncalories/BurnCalories';
 import Calculators from './components/calculators/Calculators';
 import FindGym from './components/findgym/FindGym';
+import Contact from './components/contact/Contact';
 
 
 //Check for token
@@ -155,6 +156,13 @@ class App extends Component {
 									}
 									<Switch>
 										<PrivateRoute exact path="/findgym" component={FindGym} />
+									</Switch>
+
+									{
+										// FIND GYM
+									}
+									<Switch>
+										<PrivateRoute exact path="/contact" component={Contact} />
 									</Switch>
 
 								</div>

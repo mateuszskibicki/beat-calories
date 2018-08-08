@@ -21,6 +21,10 @@ class BurnCalories extends Component {
 		};
 	}
 
+	componentDidMount() {
+		window.scrollTo(0,0);
+	}
+
 	onChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
 	}
@@ -130,6 +134,90 @@ class BurnCalories extends Component {
 				['Heavy Tools, not power',	240,	298	,355],
 				['Steel Mill: general',	240,	298,	355],
 				['Firefighting',	360,	446,	533]
+			],
+
+			trainingAndSportActivities: [			
+				['Billiards',	75,	93,	111],
+				['Bowling',	90,	112,	133],
+				['Dancing: slow, waltz, foxtrot',	90,	112,	133],
+				['Frisbee',	90,	112,	133],
+				['Volleyball: non-competitive, general play',	90,	112	,133],
+				['Water Volleyball',	90,	112	,133],
+				['Archery: non-hunting',	105,	130	,155],
+				['Golf: using cart'	,105,	130,	155],
+				['Hang Gliding',	105,	130,	155],
+				['Curling',	120,	149,	178],
+				['Gymnastics: general',	120,	149,	178],
+				['Horseback Riding: general',	120,	149,	178],
+				['Tai Chi',	120,	149,	178],
+				['Volleyball: competitive, gymnasium play',	120,	149,	178],
+				['Walking: 3.5 mph (17 min/mi)',	120,	149,	178],
+				['Badminton: general', 135,	167,	200],
+				['Walking: 4 mph (15 min/mi)',	135,	167,	200],
+				['Kayaking',	150,	186,	222],
+				['Skateboarding',	150,	186,	222],
+				['Snorkeling',	150,	186,	222],
+				['Softball: general play',	150,	186,	222],
+				['Walking: 4.5 mph (13 min/mi)',	150,	186,	222],
+				['Whitewater: rafting, kayaking',	150,	186,	222],
+				['Dancing: disco, ballroom, square',	165,	205,	244],
+				['Golf: carrying clubs',	165,	205,	244],
+				['Dancing: Fast, ballet, twist',	180,	223,	266],
+				['Fencing',	180,	223,	266],
+				['Hiking: cross-country',	180,	223,	266],
+				['Skiing: downhill',	180,	223,	266],
+				['Swimming: general',	180,	223,	266],
+				['Walk/Jog: jog <10 min.',	180,	223,	266],
+				['Water Skiing',	180,	223,	266],
+				['Wrestling',	180,	223,	266],
+				['Basketball: wheelchair',	195,	242,	289],
+				['Race Walking',	195,	242,	289],
+				['Ice Skating: general',	210,	260,	311],
+				['Bicycling: > 20 mph',	495,	614,	733],
+				['Running: 10 mph (6 min/mile)',	495,	614,	733]
+			],
+
+			trainingAndSportActivitiesPart2: [
+				['Racquetball: casual, general',	210,	260,	311],
+				['Rollerblade Skating',	210,	260,	311],
+				['Scuba or skin diving',	210,	260,	311],
+				['Sledding, luge, toboggan',	210,	260,	311],
+				['Soccer: general',	210,	260,	311],
+				['Tennis: general',	210,	260,	311],
+				['Basketball: playing a game',	240,	298,	355],
+				['Bicycling: 12-13.9 mph',	240,	298,	355],
+				['Football: touch, flag, general',	240,	298,	355],
+				['Hockey: field & ice',	240,	298,	355],
+				['Rock Climbing: rappelling',	240,	298,	355],
+				['Running: 5 mph (12 min/mile)',	240,	298,	355],
+				['Running: pushing wheelchair, marathon wheeling',	240,	298,	355],
+				['Skiing: cross-country',	240,	298,	355],
+				['Snow Shoeing',	240,	298,	355],
+				['Swimming: backstroke',	240,	298,	355],
+				['Volleyball: beach',	240,	298,	355],
+				['Bicycling: BMX or mountain',	255,	316,	377],
+				['Boxing: sparring', 270,	335,	400],
+				['Football: competitive',	270,	335,	400],
+				['Orienteering',	270,	335,	400],
+				['Running: 5.2 mph (11.5 min/mile)',	270,	335,	400],
+				['Running: cross-country',	270,	335,	400],
+				['Bicycling: 14-15.9 mph',	300,	372,	444],
+				['Martial Arts: judo, karate, kickbox',	300,	372,	444],
+				['Racquetball: competitive', 300,	372,	444],
+				['Rope Jumping',	300,	372,	444],
+				['Running: 6 mph (10 min/mile)',	300,	372,	444],
+				['Swimming: breaststroke',	300,	372,	444],
+				['Swimming: laps, vigorous',	300,	372,	444],
+				['Swimming: treading, vigorous',	300,	372,	444],
+				['Water Polo',	300,	372,	444],
+				['Rock Climbing: ascending',	330,	409,	488],
+				['Running: 6.7 mph (9 min/mile)',	330,	409,	488],
+				['Swimming: butterfly',	330,	409,	488],
+				['Swimming: crawl',	330,  409,	488],
+				['Bicycling: 16-19 mph',	360,	446,	533],
+				['Handball: general',	360,	446,	533],
+				['Running: 7.5 mph (8 min/mile)',	375,	465,	555],
+				['Running: 8.6 mph (7 min/mile)',	435,	539,	644]
 			]
 		};
     
@@ -142,6 +230,28 @@ class BurnCalories extends Component {
 						<ul className="list-group max-500 mt-2">
 							<li className="list-group-item active">Gym activities (30min)</li>
 							{dataCalories.gymActivities.map(activity => (
+								<li className="list-group-item" key={activity}>
+									{activity[0]}: <span className="badge badge-info">{activity[weight]} kcal</span>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					<div className="col-12 col-md-6 col-xl-4">
+						<ul className="list-group max-500 mt-2">
+							<li className="list-group-item active">Training and sport activities (30 min)</li>
+							{dataCalories.trainingAndSportActivities.map(activity => (
+								<li className="list-group-item" key={activity}>
+									{activity[0]}: <span className="badge badge-info">{activity[weight]} kcal</span>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					<div className="col-12 col-md-6 col-xl-4">
+						<ul className="list-group max-500 mt-2">
+							<li className="list-group-item active">Training and sport activities part 2 (30 min)</li>
+							{dataCalories.trainingAndSportActivitiesPart2.map(activity => (
 								<li className="list-group-item" key={activity}>
 									{activity[0]}: <span className="badge badge-info">{activity[weight]} kcal</span>
 								</li>
@@ -207,7 +317,7 @@ class BurnCalories extends Component {
 
 						<div className="add-container add-container-calories mb-5">
 							<div className="jumbotron mt-3 mb-3">
-								<div className="display-4">Burn calories</div>
+								<div className="display-4">Burn calories <i class="fab fa-gripfire"></i></div>
 							</div>
 						</div>
             
