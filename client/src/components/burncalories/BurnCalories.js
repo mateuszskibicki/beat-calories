@@ -317,7 +317,7 @@ class BurnCalories extends Component {
 
 						<div className="add-container add-container-calories mb-5">
 							<div className="jumbotron mt-3 mb-3">
-								<div className="display-4">Burn calories <i class="fab fa-gripfire"></i></div>
+								<div className="display-4 text-center">Burn calories <i className="fab fa-gripfire"></i></div>
 							</div>
 						</div>
             

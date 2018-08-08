@@ -60,7 +60,7 @@ class Contact extends Component {
           
   					<div className="add-container add-container-contact mb-5">
   						<div className="jumbotron mt-3 mb-3">
-  							<div className="display-4">Conact me <i class="far fa-envelope"></i></div>
+  							<div className="display-4 text-center">Conact me <i className="far fa-envelope"></i></div>
   						</div>
   					</div>
             

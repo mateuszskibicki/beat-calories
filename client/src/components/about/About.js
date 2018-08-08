@@ -21,7 +21,7 @@ class About extends Component {
 				
 						<div className="add-container add-container-about mb-5">
 							<div className="jumbotron mt-3 mb-3">
-								<div className="display-4">About project <i class="fas fa-info-circle"></i></div>
+								<div className="display-4 text-center">About project <i className="fas fa-info-circle"></i></div>
 							</div>
 						</div>
 

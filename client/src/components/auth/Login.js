@@ -54,14 +54,12 @@ class Login extends Component {
 	 }
 
 	 componentClicked = () => {
-		 console.log('clicked');
+		 console.log('Login by facebook.');
 	 }
 
-
-
-	  responseFacebook = (response) => {
-	  	console.log(response);
-	  }
+		responseFacebook = (response) => {
+			console.log(response);
+		}
 
 	 render() {
 	 	const { errors } = this.state;
@@ -107,10 +105,14 @@ class Login extends Component {
 	 							autoLoad={false}
 	 							fields="name,email,picture"
 	 							onClick={this.componentClicked}
-	 							callback={this.responseFacebook}
+								 callback={this.responseFacebook}
+								 cssClass="btn-facebook"
 							 />
 
-	 						<p className="message">Not registered? <Link to="/register">Create an account</Link></p>
+							 {
+								 //https://graph.facebook.com/v3.1/1886319241435067/picture?type=large
+							 }
+	 						<p className="message">Not registered? Don't want to login via facebook? 	<Link to="/register">Create an account</Link></p>
 	 					</form>
 	 				</div>
 	 			</div>

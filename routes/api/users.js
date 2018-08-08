@@ -178,6 +178,21 @@ router.post('/register', (req, res) => {
 	}
 });
 
+// @route   POST api/users/register
+// @desc    Register user
+// @access  Public
+router.post('/register', (req, res) => {
+	let errors = {};
+
+	let newUser = {
+		name: '',
+		nickname: '',
+		email: '',
+		password: '',
+		password2: ''
+	};
+});
+
 // @route   POST api/users/update/:id
 // @desc    Update user by ID
 // @access  Private

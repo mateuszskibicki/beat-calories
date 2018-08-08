@@ -27,7 +27,7 @@ class Calculators extends Component {
 
 						<div className="add-container add-container-calculators mb-5">
 							<div className="jumbotron mt-3 mb-3">
-								<div className="display-4">Calculators <i class="fas fa-calculator"></i></div>
+								<div className="display-4 text-center">Calculators <i className="fas fa-calculator"></i></div>
 							</div>
 						</div>
 

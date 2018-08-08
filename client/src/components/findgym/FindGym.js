@@ -73,7 +73,7 @@ class FindGym extends Component {
 
   					<div className="add-container add-container-calories mb-5">
   						<div className="jumbotron mt-3 mb-3">
-  							<div className="display-4">Find perfect gym <i class="fas fa-map-marker-alt"></i></div>
+  							<div className="display-4 text-center">Find perfect gym <i className="fas fa-map-marker-alt"></i></div>
   						</div>
   					</div>
 

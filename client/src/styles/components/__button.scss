@@ -186,7 +186,10 @@
 
 .btn-facebook {
   transition: .2s;
+  background-color: #3B5998;
+  color: $white-smoke;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
+    background-color: darken( #3B5998, 10%);
   }
 }
