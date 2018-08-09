@@ -33,18 +33,9 @@ router.post(
 	'/',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		console.log(req.body);
 		//req.user => email, name, nickname, _id
 		//req.body.message.length > 50
 		//req.body.topic 
-		let errors = {};
-
-		_.isEmpty(req.body.topic) || req.body.topic.length < 5 ? errors.topic = 'Topic min 5 characters is required.' : null;
-		_.isEmpty(req.body.message) || req.body.message.length < 50 ? errors.message = 'Message min 50 characters is required.' : null;
-
-		if(!_.isEmpty(errors)) {
-			return res.status(404).json(errors);
-		}
     
 		let html = `
      <h3>User nickname: ${req.user.nickname}</h3>
