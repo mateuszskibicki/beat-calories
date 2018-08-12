@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loginUser } from '../../actions/authActions';
+import { loginUser, loginOrRegisterWithFacebook} from '../../actions/authActions';
 
 import InputForm from '../common/InputForm';
 import FacebookLogin from 'react-facebook-login';
@@ -58,7 +58,12 @@ class Login extends Component {
 	 }
 
 		responseFacebook = (response) => {
-			console.log(response);
+			const userData = {
+				email: response.email,
+				userID: response.userID,
+				name: response.name
+			};
+			this.props.loginOrRegisterWithFacebook(userData);
 		}
 
 	 render() {
@@ -109,9 +114,6 @@ class Login extends Component {
 								 cssClass="btn-facebook"
 							 />
 
-							 {
-								 //https://graph.facebook.com/v3.1/1886319241435067/picture?type=large
-							 }
 	 						<p className="message">Not registered? Don't want to login via facebook? 	<Link to="/register">Create an account</Link></p>
 	 					</form>
 	 				</div>
@@ -133,4 +135,4 @@ const mapStateToProps = state => ({
 	errors: state.errors
 });
 
-export default connect(mapStateToProps, {loginUser})(Login);
+export default connect(mapStateToProps, {loginUser, loginOrRegisterWithFacebook})(Login);

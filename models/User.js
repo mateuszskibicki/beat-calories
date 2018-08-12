@@ -23,6 +23,9 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
+	facebook: {
+		type: String
+	},
 	bio: {
 		type: String
 	},

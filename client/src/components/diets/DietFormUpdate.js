@@ -61,7 +61,7 @@ class DietFormUpdate extends Component {
 			this.setState({errors: {description: 'Description between 5 and 5000 characters'}});
 		}
   
-		if(_.isEmpty(errors)){
+		if(_.isEmpty(errors)) {
 			if (this.props.match.path === '/diets') {
 				this.props.updateDiet(this.props.singleDiet._id, this.state);
 			} else if (this.props.match.path === '/profile/:nickname') {
@@ -82,7 +82,7 @@ class DietFormUpdate extends Component {
 
 		return (
 			<div className="col-12 pl-0 pr-0">
-				<form className="form form-diet-update" onSubmit={this.onSubmit} autoComplete="off">
+				<form className="form form-diet-update" autoComplete="off">
 					<h1 className="display-4">Update diet</h1>
 
 					<InputForm
@@ -189,7 +189,8 @@ class DietFormUpdate extends Component {
 						</div>
 					) : null}
 					<button 
-						className="button-green button-diet-update" 
+						className="button-green button-diet-update"
+						onClick={this.onSubmit}
 					>
             UPDATE DIET
 					</button>

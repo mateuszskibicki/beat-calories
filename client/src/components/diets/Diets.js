@@ -167,7 +167,11 @@ class Diets extends Component {
 		let dietContent;
 
 		if(diets === null || loading) {
-			dietContent = <Loading />; //if loading true
+			dietContent = (
+				<div className="m-auto text-center">
+					<Loading />
+				</div>
+			); //if loading true
 		} else if(!_.isEmpty(this.state.sortByType)) { // if not empty
 
 			if(!_.isEmpty(this.state.sortByLikes)) {
@@ -196,6 +200,8 @@ class Diets extends Component {
 			}
 			dietContent = diets.map(diet => <DietCard key={diet._id} diet={diet}/>);
 		}
+
+		let dietsLength = dietContent.length;
 
 		dietContent = (
 			<ReactCSSTransitionGroup
@@ -248,7 +254,7 @@ class Diets extends Component {
 					<div className="row user-content">
 
 						<div className="col-12 mb-4 sort-by-buttons-container">
-							<button className='btn btn-green-small float-left'>Diets : {dietContent.length}</button>
+							<button className='btn btn-green-small float-left'>Diets : {dietsLength}</button>
 
 							<div className="dropdown float-left ml-3">
 								<button className="btn-green-small btn dropdown-toggle" type="button" id="dropdownSortByDiets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

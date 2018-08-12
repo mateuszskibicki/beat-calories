@@ -178,19 +178,58 @@ router.post('/register', (req, res) => {
 	}
 });
 
-// @route   POST api/users/register
-// @desc    Register user
+// @route   POST api/users/registerWithFacebook
+// @desc    Register user with facebook ID and use avatar
 // @access  Public
-router.post('/register', (req, res) => {
-	let errors = {};
-
-	let newUser = {
-		name: '',
-		nickname: '',
-		email: '',
-		password: '',
-		password2: ''
-	};
+router.post('/registerWithFacebook', (req, res) => {
+	User.findOne({facebook: req.body.userID})
+		.then(user => {
+			if(user) {
+				const payload = { id: user.id, name: user.name, avatar: user.avatar, nickname: user.nickname }; // Create JWT Payload
+				// Sign Token
+				jwt.sign(
+					payload,
+					keys.secretOrKey,
+					{ expiresIn: 36000 },
+					(err, token) => {
+						res.json({
+							success: true,
+							token: 'Bearer ' + token
+						});
+					}
+				);
+			} else {
+				let date = new Date();
+				let time = date.getTime();
+				const userData = new User({
+					name: req.body.name,
+					nickname: req.body.name.split(' '),
+					email: req.body.email,
+					password: String(time),
+					avatar: `https://graph.facebook.com/v3.1/${req.body.userID}/picture?type=large`,
+					facebook: req.body.userID
+				});
+				userData
+					.save()
+					.then(newUser => {
+						const payload = { id: newUser.id, name: newUser.name, avatar: newUser.avatar, nickname: newUser.nickname }; // Create JWT Payload
+						// Sign Token
+						jwt.sign(
+							payload,
+							keys.secretOrKey,
+							{ expiresIn: 36000 },
+							(err, token) => {
+								res.json({
+									success: true,
+									token: 'Bearer ' + token
+								});
+							}
+						);
+					})
+					.catch(err => res.status(404).json(err));
+			}
+		})
+		.catch(e => console.log(e));
 });
 
 // @route   POST api/users/update/:id
@@ -526,6 +565,7 @@ router.get(
 					_id : user._id,
 					name: user.name,
 					nickname: user.nickname,
+					facebook: user.facebook,
 					social: user.social,
 					avatar: user.avatar,
 					bio: user.bio,

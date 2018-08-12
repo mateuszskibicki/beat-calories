@@ -46,7 +46,7 @@ class ProfileContent extends Component {
 
 	render() {
   	const { profile } = this.props;
-  	let profileContent;
+		let profileContent;
 
   	//if this is user's account - info about gravatar
   	let updateInfo;
@@ -61,9 +61,15 @@ class ProfileContent extends Component {
   			{this.state.showFormUpdate ? <ProfileFormUpdate /> : null}
         
   			<small className="d-block text-muted">REMEMBER, after update you'll be redirected to login page.</small>
-  			<small className="d-block text-muted">Would you like to change your profile photo?</small>
-  			<small className="d-block text-muted">Your account is registed with email <strong>{profile.email}</strong></small>
-  			<small className="d-block text-muted">Change your global avatar here: <a href="https://en.gravatar.com/" target="_blank" className="small-link">GRAVATAR</a></small>
+				<small className="d-block text-muted">Would you like to change your profile photo?</small>
+				{profile.facebook ? (
+					<small className="d-block text-muted">Your account is registed with facebook account and your profile photo depends on it.</small>
+				) : (
+					<div>
+						<small className="d-block text-muted">Your account is registed with email <strong>{profile.email}</strong></small>
+						<small className="d-block text-muted">Change your global avatar here: <a href="https://en.gravatar.com/" target="_blank" className="small-link">GRAVATAR</a></small>
+					</div>
+				)}
   		</div>
   	) : updateInfo = '';}
     

@@ -56,7 +56,7 @@ router.post(
 		};
 		transporter.sendMail(mailOptions, function(error, info){
 			if(error){
-				//console.log(error);
+				console.log(error);
 				res.status(404).json({status: false});
 			}else{
 				//console.log('Message sent: ' + info.response);
