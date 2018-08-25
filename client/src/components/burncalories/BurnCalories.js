@@ -182,7 +182,7 @@ class BurnCalories extends Component {
 				['Rollerblade Skating',	210,	260,	311],
 				['Scuba or skin diving',	210,	260,	311],
 				['Sledding, luge, toboggan',	210,	260,	311],
-				['Soccer: general',	210,	260,	311],
+				['Football: general',	210,	260,	311],
 				['Tennis: general',	210,	260,	311],
 				['Basketball: playing a game',	240,	298,	355],
 				['Bicycling: 12-13.9 mph',	240,	298,	355],
@@ -321,8 +321,8 @@ class BurnCalories extends Component {
 							</div>
 						</div>
             
-						<h4 className="text-center mt-2">
-              Hello {this.props.auth.user.nickcname}! I prepared for you how much calories you will burn in couple of exercises for 3 diffrent weights in <strong>30min of activity</strong>. Choose these closest to your weight.
+						<h4 className="text-center mt-2 mb-2">
+						Hello! Choose a weight value that’s closest to yours. The page will display different kinds of activities with an information on how many calories you can burn in 30 minutes of each excercise.
 						</h4>
 
 						<div className="form col-12 col-md-6 m-auto">

@@ -54,7 +54,7 @@ class CalculatorBMI extends Component {
 			<div className="calculator-bmi">
 				<h1 className="display-3 text-center">BMI</h1>
 				<p className="lead text-center">
-						The body mass index (BMI) is a measure that uses your height and weight to work out if your weight is healthy.
+						The body mass index (BMI) is a measure that uses your height and weight to calculate if your weight is healthy.
 					<br />
 						The BMI calculation divides an adult's weight in kilograms by their height in metres squared. For example, A BMI of 25 means 25kg/m2.
 				</p>

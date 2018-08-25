@@ -31,7 +31,7 @@ class CalculatorDaily extends Component {
     
 		if(!_.isEmpty(errors)) {
 			this.setState({errors: errors});
-		} else if (this.state.action === 'Loose weight') {
+		} else if (this.state.action === 'Lose weight') {
 			this.setState({
 				errors: {},
 				daily: Number(this.state.benedict) - 300
@@ -60,13 +60,13 @@ class CalculatorDaily extends Component {
 
 		return (
 			<div className="calculator-bmi">
-				<h1 className="display-4 text-center">Daily calories to loose or gain weight</h1>
+				<h1 className="display-4 text-center">Daily calories to lose or gain weight</h1>
 
 				<div className="row">
         
 					<div className="col-12 col-xl-6 mt-3 mb-3">
 						<p className="lead text-center">
-       Remember, everyone is diffrent. This is just calculator and it gives you approximate value how many calories do you need. If you have your Harris Benedict Formula value you have to add 300 kcal to healthy gain weight or subtract 300 kcal to loose weight. Remember, process of gaining or loosing weight is time-consuming, you can't do it too fast. Better slower than destroy your health.
+       Remember, everyone is different. This is just a calculator and it gives you an approximate calorie value that you need. When you have already calculated your Harris Benedict Formula value, add 300 kcal to the number to gain weight in a healthy way or subtract 300 kcal to lose weight. Remember, the process of gaining or losing weight is time-consuming and you should'nt do it too fast.
 						</p>
 					</div>
 
@@ -86,7 +86,7 @@ class CalculatorDaily extends Component {
 								htmlForAndID='action'
 								label="Action"
 								name="action"
-								optionArray={['Loose weight', 'Gain weight']}
+								optionArray={['Lose weight', 'Gain weight']}
 								value = {this.state.action}
 								onChange = {this.onChange}
 								error = {errors.action}

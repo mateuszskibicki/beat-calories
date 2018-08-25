@@ -21,7 +21,7 @@ class About extends Component {
 				
 						<div className="add-container add-container-about mb-5">
 							<div className="jumbotron mt-3 mb-3">
-								<div className="display-4 text-center">About project <i className="fas fa-info-circle"></i></div>
+								<div className="display-4 text-center">About the project<i className="fas fa-info-circle"></i></div>
 							</div>
 						</div>
 
@@ -82,13 +82,13 @@ class About extends Component {
 							</div>
 
 							
-							<p className="lead mt-3">Why project like this? I think... creating projects about things you like is the best way to show programming skills and also have fun. I am intrested in healthy nutrion and I really like cooking so I hope you'll leave a recipe for delicious dish for me!</p>
-							<p className="lead">Feel free to create and like diets and recipes (posts and trainings aren't complete at this moment).</p>
-							<p className="lead">I've made couple calculators for you and gym finder.</p>
-							<p className="lead">Navigation for mobile devices: on top of each page you have menu button.</p>
-							<p className="lead">Navigation for big devices: on your left you have menu.</p>
-							<p className="lead">Your profile page: on top-right corner you have your profile photo, click on it and than click 'My profile'.</p>
-							<p className="lead">HAVE FUN!!!</p>
+							<p className="lead mt-3">Why a project like this one? I think... creating projects about things you like is the best way to show programming skills and have fun along the way. I am interested in healthy nutrition and really enjoy cooking myself so I hope you'll leave a recipe for some delicious dish for me!</p>
+							<p className="lead">Feel free to create and like diets and recipes (posts and trainings aren't complete at the moment).</p>
+							<p className="lead">I've made a couple of calculators and a Gym Finder for you.</p>
+							<p className="lead">Navigation for mobile devices: on top of each page there’s a “Menu” button.</p>
+							<p className="lead">Navigation for bigger devices: Menu is on the left side.</p>
+							<p className="lead">Your profile page: on top-right corner you can find your profile photo, click on it and then click “My profile”</p>
+							<p className="lead">HAVE FUN!</p>
 						</div>
 
 

@@ -13,7 +13,7 @@ class CalculatorKgCm extends Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			foots: '',
+			foot: '',
 			pounds : '',
 			errors: {}
 		};
@@ -44,7 +44,7 @@ class CalculatorKgCm extends Component {
 			<div className="calculator-bmi">
 				<h1 className="display-4 text-center">Kilograms and centimetres</h1>
 				<p className="lead text-center">
-						Hello {this.props.auth.user.nickname}! I am working with kilograms and centimetres so feel free to change pounds and feets to my values.
+						Hello {this.props.auth.user.nickname}! I am working with kilograms and centimetres so feel free to change pounds and feet to my values.
 				</p>
 
 				<div className="row">
@@ -55,17 +55,17 @@ class CalculatorKgCm extends Component {
             				
 							<InputForm
 								type="number"
-								placeholder="Foots *"
-								name = "foots"
-								value = {this.state.foots}
+								placeholder="Feet *"
+								name = "foot"
+								value = {this.state.foot}
 								onChange = {this.onChange}
-								error = {errors.foots}
+								error = {errors.foot}
 							/>
               
-							{!_.isEmpty(this.state.foots) ? (
+							{!_.isEmpty(this.state.foot) ? (
 								<div>
 									<h3>
-										{this.state.foots} foots = {Math.round((this.state.foots * 30.48)*100)/100}	cm		
+										{this.state.foot} feet = {Math.round((this.state.foot * 30.48)*100)/100}	cm		
 									</h3>
 								</div>
 							) : null}

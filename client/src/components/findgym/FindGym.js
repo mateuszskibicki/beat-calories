@@ -62,7 +62,7 @@ class FindGym extends Component {
   		);
   	} else if (_.isEmpty(maps) && !_.isNull(maps) & !loading) {
   		mapContent = (
-  			<h4 className="text-center text-muted mt-4">Ups, sorry... we couldn't find any gym. Try again with diffrent area.</h4>
+  			<h4 className="text-center text-muted mt-4">Ups, sorry... we couldn't find any gym. Try again with a diffrent area.</h4>
   		);
   	}
 
@@ -78,7 +78,7 @@ class FindGym extends Component {
   					</div>
 
   					<div className="form col-12 col-xl-6 m-auto">
-  						<p className="lead text-mute">Put your address here.Format: Burnley, Blackburn King Street or postcode: BB11 4JE, M6 5QP.</p>
+  						<p className="lead text-mute">Put your city, street or postcode here.</p>
   						<InputForm
   							placeholder="Your address :"
   							name="address"
